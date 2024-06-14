@@ -1,0 +1,258 @@
+{
+  "ChooseCountry": "اختر بلدك",
+  "@ChooseCountry": {
+    "description": "Text in the country selection page"
+  },
+  "Morocco": "المغرب",
+  "@Morocco": {
+    "description": "Morocco in the country selection page"
+  },
+  "Algeria": "الجزائر",
+  "@Algeria": {
+    "description": "Algeria in the country selection page"
+  },
+  "Egypt": "مصر",
+  "@Egypt": {
+    "description": "Egypt in the country selection page"
+  },
+  "SplashScreenText": "تعزيز مشاركة الموارد المحلية",
+  "@SplashScreenText": {
+    "description": "Text in the SplashScreen page"
+  },
+  "Home": "الرئيسية",
+  "@Home": {
+    "description": "Text for navigation bottom bar and header"
+  },
+  "Search": "البحث",
+  "@Search": {
+    "description": "Text for navigation bottom bar and header"
+  },
+  "Publish": "نشر",
+  "@Publish": {
+    "description": "Text for navigation bottom bar and header"
+  },
+  "News": "الأخبار",
+  "@News": {
+    "description": "Text for navigation bottom bar and header"
+  },
+  "Account": "الحساب",
+  "@Account": {
+    "description": "Text for navigation bottom bar and header"
+  },
+  "HomeBookmarkConnected": "حسابات الأخبار المحفوظة",
+  "@HomeBookmarkConnected": {
+    "description": "Text for Home page"
+  },
+  "HomeBookmark": "آخر حسابات الأخبار",
+  "@HomeBookmark": {
+    "description": "Text for Home page"
+  },
+  "HomeSuggestedConnected": "العروض المقترحة",
+  "@HomeSuggestedConnected": {
+    "description": "Text for Home page"
+  },
+  "HomeLastOffer": "آخر العروض",
+  "@HomeLastOffer": {
+    "description": "Text for Home page"
+  },
+  "SearchFirstTitle": "ماذا تبحث عن؟",
+  "@SearchFirstTitle": {
+    "description": "Text for Search page"
+  },
+  "SearchFirstSubText": "هناك طريقتان للبحث، استخدم واحدة منهما.",
+  "@SearchFirstSubText": {
+    "description": "Text for Search page"
+  },
+  "HinderTextRequest": "اكتب طلبك",
+  "@HinderTextRequest": {
+    "description": "Text for Search page"
+  },
+  "SearchOr": "أو",
+  "@SearchOr": {
+    "description": "Text for Search page"
+  },
+  "SearchSecondTitle": "أين تبحث",
+  "@SearchSecondTitle": {
+    "description": "Text for Search page"
+  },
+  "HinderTextLocalisation": "اكتب مكانًا أو استخدم الموقع الجغرافي",
+  "@HinderTextLocalisation": {
+    "description": "Text for Search page"
+  },
+  "SearchSecondSubText": "ضمن دائرة نصف قطرها",
+  "@SearchSecondSubText": {
+    "description": "Text for Search page"
+  },
+  "PublishFirstTitle": "لنبدأ....",
+  "@PublishFirstTitle": {
+    "description": "Title in the Publish page"
+  },
+  "PublishFirstText": "انشر عرضك بسرعة في 4 خطوات سهلة",
+  "@PublishFirstText": {
+    "description": "Subtitle in the Publish page"
+  },
+  "PublishLabelChooseTransaction": "اختر معاملتك",
+  "@PublishLabelChooseTransaction": {
+    "description": "Dropdown label in the Publish page"
+  },
+  "FirstTypeTransaction": "بيع/شراء",
+  "@PublishFirstTypeTransaction": {
+    "description": "Option in the ChooseTransaction dropdown"
+  },
+  "SecondTypeTransaction": "إيجار",
+  "@PublishSecondTypeTransaction": {
+    "description": "Option in the ChooseTransaction dropdown"
+  },
+  "PublishLabelTitle": "ما هو عنوان عرضك",
+  "@TitleOfOffer": {
+    "description": "Label for title input field in the Publish page"
+  },
+  "PublishHinderLabelTitle": "اكتب عنوانًا",
+  "@TypeTitle": {
+    "description": "Placeholder for title input field in the Publish page"
+  },
+  "PublishLabelLocalisation": "أين هو منتجك",
+  "@PlaceOrGeolocation": {
+    "description": "Placeholder for location input field in the Publish page"
+  },
+  "PublishContactInformation": "معلومات الاتصال",
+  "@ContactInformation": {
+    "description": "Expandable section title for contact information in the Publish page"
+  },
+  "PublishMoreDetails": "مزيد من التفاصيل (اختياري)",
+  "@MoreDetails": {
+    "description": "Expandable section title for additional details in the Publish page"
+  },
+  "PublishLabelContactName": "اسم جهة الاتصال",
+  "@PublishLabelContactName": {
+    "description": "Label in the Publish page"
+  },
+  "PublishLabelFarmName": "اسم المزرعة",
+  "@PublishLabelFarmName": {
+    "description": "Label in the Publish page"
+  },
+  "LabelPhoneNumber": "رقم الهاتف",
+  "@LabelPhoneNumber": {
+    "description": "Label in the Publish page & Account Page"
+  },
+  "LabelEmail": "البريد الإلكتروني",
+  "@LabelEmail": {
+    "description": "Label in the Publish page & Account Page"
+  },
+  "PublishLabelDuration": "مدة منتجك",
+  "@PublishLabelDuration": {
+    "description": "Label in the Publish page"
+  },
+  "FirstTypeDuration": "يوم",
+  "@FirstTypeDuration": {
+    "description": "Option in the Duration dropdown in the Publish page"
+  },
+  "SecondTypeDuration": "أسبوع",
+  "@SecondTypeDuration": {
+    "description": "Option in the Duration dropdown in the Publish page"
+  },
+  "ThirdTypeDuration": "شهر",
+  "@ThirdTypeDuration": {
+    "description": "Option in the Duration dropdown in the Publish page"
+  },
+  "PublishLabelPrice": "سعر البيع أو الإيجار",
+  "@PublishLabelPrice": {
+    "description": "Label in the Publish page"
+  },
+  "PublishLabelQuantity": "كمية منتجاتك",
+  "@PublishLabelQuantity": {
+    "description": "Label in the Publish page"
+  },
+  "PublishLabelDetails": "التفاصيل",
+  "@PublishLabelDetails": {
+    "description": "Label in the Publish page"
+  },
+  "PublishHinderDetails": "أضف مزيدًا من التفاصيل عن عرضك هنا",
+  "@PublishHinderDetails": {
+    "description": "hinder of Details in the Publish page"
+  },
+  "PublishLabelImages": "أضف الصور",
+  "@PublishLabelImages": {
+    "description": "Label in the Publish page"
+  },
+  "PublishImagesText": "أضف صورة",
+  "@PublishImagesText": {
+    "description": "Text in Images container in the Publish page"
+  },
+  "NewsTitle": "قائمة مصادر الأخبار",
+  "@NewsTitle": {
+    "description": "Title in the News page"
+  },
+  "AccountProfileTitle": "الملف الشخصي",
+  "@AccountProfileTitle": {
+    "description": "Title in the Account page"
+  },
+  "AccountLabelFirstname": "الاسم الأول",
+  "@AccountLabelFirstname": {
+    "description": "Label in the Account page"
+  },
+  "AccountLabelLastname": "اسم العائلة",
+  "@AccountLabelLastname": {
+    "description": "Label in the Account page"
+  },
+  "AccountLabelUsername": "اسم المستخدم",
+  "@AccountLabelUsername": {
+    "description": "Label in the Account page"
+  },
+  "AccountLabelLocation": "الموقع",
+  "@AccountLabelLocation": {
+    "description": "Label in the Account page"
+  },
+  "AccountLabelJob": "الوظيفة",
+  "@AccountLabelJob": {
+    "description": "Label in the Account page"
+  },
+  "AccountPurchasesTitle": "عمليات الشراء الجارية",
+  "@AccountPurchasesTitle": {
+    "description": "Title in the Account page"
+  },
+  "AccountTitlePublish": "العروض المنشورة",
+  "@AccountTitlePublish": {
+    "description": "Title in the Account page"
+  },
+  "AccountTitleParameters": "الإعدادات",
+  "@AccountTitleParameters": {
+    "description": "Title in the Account page"
+  },
+  "AccountSubTitleLanguage": "تغيير اللغة",
+  "@AccountSubTitleLanguage": {
+    "description": "First parameter in the Account page"
+  },
+  "AccountSubTitleLocalization": "تغيير الموقع",
+  "@AccountSubTitleLocalization": {
+    "description": "Second parameter in the Account page"
+  },
+  "ButtonClose": "إغلاق",
+  "@ButtonClose": {
+    "description": "Label for Button"
+  },
+  "ButtonSearch": "بحث",
+  "@ButtonSearch": {
+    "description": "Label for Button"
+  },
+  "ButtonPublish": "نشر",
+  "@ButtonPublish": {
+    "description": "Label for Button"
+  },
+  "ButtonModify": "تعديل",
+  "@ButtonModify": {
+    "description": "Label for Button"
+  },
+  "ButtonDelete": "حذف",
+  "@ButtonDelete": {
+    "description": "Label for Button"
+  },
+  "ButtonContact": "اتصل",
+  "@ButtonContact": {
+    "description": "Label for Button"
+  },
+  "ButtonPurchase": "شراء",
+  "@ButtonPurchase": {
+    "description": "Label for Button"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "signUp": "Inscription!",
+  "@signUp": {
+    "description": "Text description from button in sign_up page"
+  },
+  "signIn": "Connexion!",
+  "@signIn": {
+    "description": "Text description from button in sign_in page"
+  },
+  "shop": "Achat",
+  "@shop": {
+    "description": "Text description from drawer listTile Buy"
+  },
+  "profile": "Profil",
+  "@profile": {
+    "description": "Text description from drawer listTile ProfilePage"
+  },
+  "parameters": "Parametres",
+  "@parameters": {
+    "description": "Text description from drawer listTile Parameters"
+  }
+}
