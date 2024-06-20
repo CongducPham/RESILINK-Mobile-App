@@ -21,6 +21,7 @@ class DefaultPopUp {
             height: dialogHeight,
             width: dialogWidth,
             child: Column(
+              textDirection: TextDirection.ltr,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
@@ -37,6 +38,7 @@ class DefaultPopUp {
                     style: TextStyle(
                       fontSize: 13.0,
                     ),
+                    textDirection: TextDirection.ltr,
                   ),
                 ),
                 if (buttonText != null)

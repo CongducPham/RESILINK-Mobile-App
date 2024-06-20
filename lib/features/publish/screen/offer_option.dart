@@ -6,6 +6,7 @@ import 'package:resilink_design/constants/global_variables.dart';
 import 'package:resilink_design/features/home_navigation/provider/home_navigation_provider.dart';
 import 'package:resilink_design/features/publish/provider/publish_provider.dart';
 import 'package:resilink_design/features/publish/screen/offerImages.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OfferOption extends StatefulWidget {
   OfferOption({super.key, required this.publishProvider});
@@ -27,7 +28,7 @@ class OfferOptionState extends State<OfferOption> {
       children: [
         SizedBox(height: 10),
         Text(
-          "Duration of your good",
+          AppLocalizations.of(context)!.publishLabelDuration,
           style: TextStyle(
               fontSize: 15
           ),
@@ -74,7 +75,7 @@ class OfferOptionState extends State<OfferOption> {
             SizedBox(width: 15),
             Container(
               height: MediaQuery.of(context).size.height * 0.06,
-              width: MediaQuery.of(context).size.width * 0.15,
+              width: MediaQuery.of(context).size.width * 0.16,
               padding: EdgeInsets.only(left: 3),
               decoration: BoxDecoration(
                 border: Border.all(color: GlobalVariables.unFocusBorderColor, width: 1),
@@ -88,18 +89,18 @@ class OfferOptionState extends State<OfferOption> {
                   onChanged: (String? newValue) {
                     widget.publishProvider.setOfferDurationRange(newValue!);
                   },
-                  items: const [
+                  items: [
                     DropdownMenuItem(
                       value: 'week',
-                      child: Text('week', style: TextStyle(fontSize: 12)),
+                      child: Text(AppLocalizations.of(context)!.secondTypeDuration, style: const TextStyle(fontSize: 12)),
                     ),
                     DropdownMenuItem(
                       value: 'day',
-                      child: Text('day', style: TextStyle(fontSize: 12)),
+                      child: Text(AppLocalizations.of(context)!.firstTypeDuration, style: TextStyle(fontSize: 12)),
                     ),
                     DropdownMenuItem(
                       value: 'month',
-                      child: Text('month', style: TextStyle(fontSize: 12)),
+                      child: Text(AppLocalizations.of(context)!.thirdTypeDuration, style: TextStyle(fontSize: 12)),
                     ),
                   ],
                 ),
@@ -108,13 +109,13 @@ class OfferOptionState extends State<OfferOption> {
           ],
         ),
         SizedBox(height: 10),
-        TextFieldInfo(textController: widget.publishProvider.offerPrice, label: "Your sale or rental price", parentContext: context),
+        TextFieldInfo(textController: widget.publishProvider.offerPrice, label: AppLocalizations.of(context)!.publishLabelPrice, parentContext: context),
         SizedBox(height: 10),
         if (context.read<HomeNavigationProvider>().allAssetType[widget.publishProvider.assetType]!.nature == "immaterial" ||
             context.read<HomeNavigationProvider>().allAssetType[widget.publishProvider.assetType]!.nature == "immaterialNotQuantified")
           Column(
             children: [
-              TextFieldInfo(textController: widget.publishProvider.offerLocalisation , label: "The quantity of your goods", parentContext: context),
+              TextFieldInfo(textController: widget.publishProvider.offerQuantity , label: AppLocalizations.of(context)!.publishLabelQuantity, parentContext: context),
               SizedBox(height: 20),
             ],
           ),
@@ -128,7 +129,7 @@ class OfferOptionState extends State<OfferOption> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Details",
+                AppLocalizations.of(context)!.publishLabelDetails,
                 style: TextStyle(
                   fontSize: 18,
                 ),
@@ -140,8 +141,8 @@ class OfferOptionState extends State<OfferOption> {
                   overflow: TextOverflow.ellipsis,
                   fontSize: 14
                 ),
-                decoration: const InputDecoration(
-                  hintText: 'Give more details of your offer here',
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)!.publishHinderDetails,
                   border: InputBorder.none,
                 ),
                 onChanged: (String value) {},
@@ -153,7 +154,7 @@ class OfferOptionState extends State<OfferOption> {
         ),
         SizedBox(height: 15,),
         Text(
-          "Add pictures",
+          AppLocalizations.of(context)!.publishLabelImages,
           style: TextStyle(
               fontSize: 15
           ),

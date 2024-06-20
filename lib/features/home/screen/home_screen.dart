@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:resilink_design/constants/global_variables.dart';
 import 'package:resilink_design/features/home/provider/home_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:resilink_design/features/news_page/widget/news_account_tile.dart';
 import 'package:resilink_design/providers/user_provider.dart';
 
@@ -27,8 +29,8 @@ class HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: (MediaQuery.of(context).size.height * 0.01)),
-              Text(context.watch<UserProvider>().connected == true ? "Your bookmarked news accounts" : "Last news accounts", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+              SizedBox(height: (MediaQuery.of(context).size.height * 0.02)),
+              Text(context.watch<UserProvider>().connected == true ? AppLocalizations.of(context)!.homeBookmarkConnected : AppLocalizations.of(context)!.homeBookmark, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
               SizedBox(height: 10),
               SizedBox(
                 height: (MediaQuery.of(context).size.height * 0.15),
@@ -55,7 +57,7 @@ class HomeScreenState extends State<HomeScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Suggested offers", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                    Text(AppLocalizations.of(context)!.homeSuggestedConnected, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                     SizedBox(height: 10),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.13 * context.read<HomeProvider>().listLastOffer.length,
@@ -79,10 +81,10 @@ class HomeScreenState extends State<HomeScreen> {
                     SizedBox(height: 10),
                   ],
                 ),
-              Text("Last offers", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+              Text(AppLocalizations.of(context)!.homeLastOffer, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
               SizedBox(height: 10),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.13 * context.read<HomeProvider>().listLastOffer.length,
+                height: MediaQuery.of(context).size.height * 0.115 * context.read<HomeProvider>().listLastOffer.length,
                 child: ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: context.read<HomeProvider>().listLastOffer.length,
@@ -97,6 +99,21 @@ class HomeScreenState extends State<HomeScreen> {
                     }
                 ),
               ),
+              /*GestureDetector(
+                onTap: () {},
+                child: Container(
+                  margin: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.03),
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: Text(
+                    AppLocalizations.of(context)!.seeMoreText,
+                    style: TextStyle(
+                      color: GlobalVariables.unFocusBorderColor,
+                      fontSize: 14
+                    ),
+                  ),
+                ),
+              )
+               */
             ],
           ),
         );

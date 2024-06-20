@@ -1,259 +1,354 @@
 {
-
-  "ChooseCountry": "Select your country",
-  "@ChooseCountry": {
+  "chooseCountry": "select your country",
+  "@chooseCountry": {
     "description": "Text in the country selection page"
   },
-  "Morocco": "Morocco",
-  "@Morocco": {
-    "description": "Morocco in the country selection page"
+  "morocco": "morocco",
+  "@morocco": {
+    "description": "morocco in the country selection page"
   },
-  "Algeria": "Algeria",
-  "@Algeria": {
-    "description": "Algeria in the country selection page"
+  "algeria": "algeria",
+  "@algeria": {
+    "description": "algeria in the country selection page"
   },
-  "Egypt": "Egypt",
-  "@Egypt": {
-    "description": "Egypt in the country selection page"
+  "egypt": "egypt",
+  "@egypt": {
+    "description": "egypt in the country selection page"
   },
-  "SplashScreenText": "Promote local resources sharing",
-  "@SplashScreenText": {
-    "description": "Text in the SplashScreen page"
+  "splashscreenText": "promote local resources sharing",
+  "@splashscreenText": {
+    "description": "Text in the splashscreen page"
   },
-  "Home": "Home",
-  "@Home": {
+  "home": "home",
+  "@home": {
     "description": "Text for navigation bottom bar and header "
   },
-  "Search": "Search",
-  "@Search": {
+  "search": "search",
+  "@search": {
     "description": "Text for navigation bottom bar and header "
   },
-  "Publish": "Publish",
-  "@Publish": {
+  "publish": "publish",
+  "@publish": {
     "description": "Text for navigation bottom bar and header "
   },
-  "News": "News",
-  "@News": {
+  "news": "news",
+  "@news": {
     "description": "Text for navigation bottom bar and header "
   },
-  "Account": "Account",
-  "@Account": {
+  "account": "account",
+  "@account": {
     "description": "Text for navigation bottom bar and header "
   },
-  "HomeBookmarkConnected": "Your bookmarked news accounts",
-  "@HomeBookmarkConnected": {
-    "description": "Text for Home page "
+  "homeBookmarkConnected": "Your bookmarked news accounts",
+  "@homeBookmarkConnected": {
+    "description": "Text for home page "
   },
-  "HomeBookmark": "Last news accounts",
-  "@HomeBookmark": {
-    "description": "Text for Home page "
+  "homeBookmark": "Last news accounts",
+  "@homeBookmark": {
+    "description": "Text for home page "
   },
-  "HomeSuggestedConnected": "Suggested offers",
-  "@HomeSuggestedConnected": {
-    "description": "Text for Home page "
+  "homeSuggestedConnected": "suggested offers",
+  "@homeSuggestedConnected": {
+    "description": "Text for home page "
   },
-  "HomeLastOffer": "Last Offers",
-  "@HomeLastOffer": {
-    "description": "Text for Home page "
+  "homeLastOffer": "Last Offers",
+  "@homeLastOffer": {
+    "description": "Text for home page "
   },
-  "SearchFirstTitle": "What are you looking for ?",
-  "@SearchFirstTitle": {
-    "description": "Text for Search page "
+  "searchFirstTitle": "What are you looking for ?",
+  "@searchFirstTitle": {
+    "description": "Text for search page "
   },
-  "SearchFirstSubText": "There are 2 ways to search, use one of them.",
-  "@SearchFirstSubText": {
-    "description": "Text for Search page "
+  "searchFirstSubText": "There are 2 ways to search, use one of them.",
+  "@searchFirstSubText": {
+    "description": "Text for search page "
   },
-  "HinderTextRequest": "Write your request",
-  "@HinderTextRequest": {
-    "description": "Text for Search page "
+  "hinderTextRequest": "Write your request",
+  "@hinderTextRequest": {
+    "description": "Text for search page "
   },
-  "SearchOr": "or",
-  "@SearchOr": {
-    "description": "Text for Search page "
+  "searchOr": "or",
+  "@searchOr": {
+    "description": "Text for search page "
   },
-  "SearchSecondTitle": "Where do you search",
-  "@SearchSecondTitle": {
-    "description": "Text for Search page "
+  "searchSecondTitle": "Where do you search",
+  "@searchSecondTitle": {
+    "description": "Text for search page "
   },
-  "HinderTextLocalisation": "Type a place or use the geolocalisation",
-  "@HinderTextLocalisation": {
-    "description": "Text for Search page "
+  "hinderTextLocalisation": "Type a place or use the geolocalisation",
+  "@hinderTextLocalisation": {
+    "description": "Text for search page "
   },
-  "SearchSecondSubText": "within a radius of",
-  "@SearchSecondSubText": {
-    "description": "Text for Search page "
+  "searchSecondSubText": "within a radius of",
+  "@searchSecondSubText": {
+    "description": "Text for search page "
   },
-  "PublishFirstTitle": "Let's start....",
-  "@PublishFirstTitle": {
-    "description": "Title in the Publish page"
+  "publishFirstTitle": "Let's start....",
+  "@publishFirstTitle": {
+    "description": "Title in the publish page"
   },
-  "PublishFirstText": "Publish your offer quickly in 4 easy steps",
-  "@PublishFirstText": {
-    "description": "Subtitle in the Publish page"
+  "publishFirstText": "publish your offer quickly in 4 easy steps",
+  "@publishFirstText": {
+    "description": "subtitle in the publish page"
   },
-  "PublishLabelChooseTransaction": "Choose your transaction",
-  "@PublishLabelChooseTransaction": {
-    "description": "Dropdown label in the Publish page"
+  "publishLabelChooseTransaction": "choose your transaction",
+  "@publishLabelChooseTransaction": {
+    "description": "Dropdown label in the publish page"
   },
-  "FirstTypeTransaction": "sale/purchase",
-  "@PublishFirstTypeTransaction": {
-    "description": "Option in the ChooseTransaction dropdown"
+  "firstTypeTransaction": "sale/purchase",
+  "@firstTypeTransaction": {
+    "description": "Option in the chooseTransaction dropdown"
   },
-  "SecondTypeTransaction": "rent",
-  "@PublishSecondTypeTransaction": {
-    "description": "Option in the ChooseTransaction dropdown"
+  "secondTypeTransaction": "rent",
+  "@secondTypeTransaction": {
+    "description": "Option in the chooseTransaction dropdown"
   },
-  "PublishLabelTitle": "What's the title of your offer",
-  "@TitleOfOffer": {
-    "description": "Label for title input field in the Publish page"
+  "publishLabelTitle": "What's the title of your offer",
+  "@publishLabelTitle": {
+    "description": "Label for title input field in the publish page"
   },
-  "PublishHinderLabelTitle": "Type a title",
-  "@TypeTitle": {
-    "description": "Placeholder for title input field in the Publish page"
+  "publishHinderLabelTitle": "Type a title",
+  "@publishHinderLabelTitle": {
+    "description": "placeholder for title input field in the publish page"
   },
-  "PublishLabelLocalisation": "where is your good",
-  "@PlaceOrGeolocation": {
-    "description": "Placeholder for location input field in the Publish page"
+  "publishLabelLocalisation": "where is your good",
+  "@publishLabelLocalisation": {
+    "description": "placeholder for location input field in the publish page"
   },
-  "PublishContactInformation": "Contact Information",
-  "@ContactInformation": {
-    "description": "Expandable section title for contact information in the Publish page"
+  "publishContactInformation": "contact Information",
+  "@publishContactInformation": {
+    "description": "expandable section title for contact information in the publish page"
   },
-  "PublishMoreDetails": "More details (optional)",
-  "@MoreDetails": {
-    "description": "Expandable section title for additional details in the Publish page"
+  "publishMoreDetails": "more details (optional)",
+  "@publishMoreDetails": {
+    "description": "expandable section title for additional details in the publish page"
   },
-  "PublishLabelContactName": "Contact name",
-  "@PublishLabelContactName": {
-    "description": "Label in the Publish page"
+  "publishLabelContactName": "contact name",
+  "@publishLabelContactName": {
+    "description": "Label in the publish page"
   },
-  "PublishLabelFarmName": "Farm name",
-  "@PublishLabelFarmName": {
-    "description": "Label in the Publish page"
+  "publishLabelFarmName": "Farm name",
+  "@publishLabelFarmName": {
+    "description": "Label in the publish page"
   },
-  "LabelPhoneNumber": "Phone number",
-  "@LabelPhoneNumber": {
-    "description": "Label in the Publish page & Account Page"
+  "labelPhoneNumber": "phone number",
+  "@labelPhoneNumber": {
+    "description": "Label in the publish page & account page"
   },
-  "LabelEmail": "Email",
-  "@LabelEmail": {
-    "description": "Label in the Publish page & Account Page"
+  "labelEmail": "email",
+  "@labelEmail": {
+    "description": "Label in the publish page & account page"
   },
-  "PublishLabelDuration": "Duration of your good",
-  "@PublishLabelDuration": {
-    "description": "Label in the Publish page"
+  "publishLabelDuration": "Duration of your good",
+  "@publishLabelDuration": {
+    "description": "Label in the publish page"
   },
-  "FirstTypeDuration": "day",
-  "@FirstTypeDuration": {
-    "description": "Option in the Duration dropdown in the Publish page"
+  "firstTypeDuration": "day",
+  "@firstTypeDuration": {
+    "description": "Option in the Duration dropdown in the publish page"
   },
-  "SecondTypeDuration": "week",
-  "@SecondTypeDuration": {
-    "description": "Option in the Duration dropdown in the Publish page"
+  "secondTypeDuration": "week",
+  "@secondTypeDuration": {
+    "description": "Option in the Duration dropdown in the publish page"
   },
-  "ThirdTypeDuration": "month",
-  "@ThirdTypeDuration": {
-    "description": "Option in the Duration dropdown in the Publish page"
+  "thirdTypeDuration": "month",
+  "@thirdTypeDuration": {
+    "description": "Option in the Duration dropdown in the publish page"
   },
-  "PublishLabelPrice": "Your sale or rental price",
-  "@PublishLabelPrice": {
-    "description": "Label in the Publish page"
+  "publishLabelPrice": "Your sale or rental price",
+  "@publishLabelPrice": {
+    "description": "Label in the publish page"
   },
-  "PublishLabelQuantity": "The quantity of your goods",
-  "@PublishLabelQuantity": {
-    "description": "Label in the Publish page"
+  "publishLabelQuantity": "The quantity of your goods",
+  "@publishLabelQuantity": {
+    "description": "Label in the publish page"
   },
-  "PublishLabelDetails": "Details",
-  "@PublishLabelDetails": {
-    "description": "Label in the Publish page"
+  "publishLabelDetails": "Details",
+  "@publishLabelDetails": {
+    "description": "Label in the publish page"
   },
-  "PublishHinderDetails": "Give more details of your offer here",
-  "@PublishHinderDetails": {
-    "description": "hinder of Details in the Publish page"
+  "publishHinderDetails": "Give more details of your offer here",
+  "@publishHinderDetails": {
+    "description": "hinder of Details in the publish page"
   },
-  "PublishLabelImages": "Add pictures",
-  "@PublishLabelImages": {
-    "description": "Label in the Publish page"
+  "publishLabelImages": "Add pictures",
+  "@publishLabelImages": {
+    "description": "Label in the publish page"
   },
-  "PublishImagesText": "Add a picture",
-  "@PublishImagesText": {
-    "description": "Text in Images container in the Publish page"
+  "publishImagesText": "add a picture",
+  "@publishImagesText": {
+    "description": "Text in Images container in the publish page"
   },
-  "NewsTitle": "List of News Source",
-  "@NewsTitle": {
-    "description": "Title in the News page"
+  "newsTitle": "List of news source",
+  "@newsTitle": {
+    "description": "Title in the news page"
   },
-  "AccountProfileTitle": "Profile",
-  "@AccountProfileTitle": {
-    "description": "Title in the Account page"
+  "newsNotFound": "no news available",
+  "@newsNotFound": {
+    "description": "Title in the news page"
   },
-  "AccountLabelFirstname": "First name",
-  "@AccountLabelFirstname": {
-    "description": "Label in the Account page"
+  "accountProfileTitle": "Profile",
+  "@accountProfileTitle": {
+    "description": "Title in the account page"
   },
-  "AccountLabelLastname": "Last name",
-  "@AccountLabelLastname": {
-    "description": "Label in the Account page"
+  "accountLabelFirstname": "First name",
+  "@accountLabelFirstname": {
+    "description": "Label in the account page"
   },
-  "AccountLabelUsername": "Username",
-  "@AccountLabelUsername": {
-    "description": "Label in the Account page"
+  "accountLabelLastname": "Last name",
+  "@accountLabelLastname": {
+    "description": "Label in the account page"
   },
-  "AccountLabelLocation": "Location",
-  "@AccountLabelLocation": {
-    "description": "Label in the Account page"
+  "accountLabelUsername": "Username",
+  "@accountLabelUsername": {
+    "description": "Label in the account page"
   },
-  "AccountLabelJob": "job",
-  "@AccountLabelJob": {
-    "description": "Label in the Account page"
+  "accountLabelLocation": "Location",
+  "@accountLabelLocation": {
+    "description": "Label in the account page"
   },
-  "AccountPurchasesTitle": "Ongoing purchases",
-  "@AccountPurchasesTitle": {
-    "description": "Title in the Account page"
+  "accountLabelJob": "job",
+  "@accountLabelJob": {
+    "description": "Label in the account page"
   },
-  "AccountTitlePublish": "Offers published",
-  "@AccountTitlePublish": {
-    "description": "Title in the Account page"
+  "accountPurchasesTitle": "Ongoing purchases",
+  "@accountPurchasesTitle": {
+    "description": "Title in the account page"
   },
-  "AccountTitleParameters": "Parameters",
-  "@AccountTitleParameters": {
-    "description": "Title in the Account page"
+  "accountTitlePublish": "Offers published",
+  "@accountTitlePublish": {
+    "description": "Title in the account page"
   },
-  "AccountSubTitleLanguage": "Change Language",
-  "@AccountSubTitleLanguage": {
-    "description": "First parameter in the Account page"
+  "accountTitleParameters": "Parameters",
+  "@accountTitleParameters": {
+    "description": "Title in the account page"
   },
-  "AccountSubTitleLocalization": "Change Localization",
-  "@AccountSubTitleLocalization": {
-    "description": "Second parameter in the Account page"
+  "accountSubTitleLanguage": "change Language",
+  "@accountSubTitleLanguage": {
+    "description": "First parameter in the account page"
   },
-  "ButtonClose": "Close",
-  "@ButtonClose": {
-    "description": "Label for Button"
+  "accountSubTitleLocalization": "change Localization",
+  "@accountSubTitleLocalization": {
+    "description": "second parameter in the account page"
   },
-  "ButtonSearch": "Search",
-  "@ButtonSearch": {
-    "description": "Label for Button"
+  "buttonClose": "close",
+  "@buttonClose": {
+    "description": "Label for button"
   },
-  "ButtonPublish": "Publish",
-  "@ButtonPublish": {
-    "description": "Label for Button"
+  "buttonSearch": "search",
+  "@buttonSearch": {
+    "description": "Label for button"
   },
-  "ButtonModify": "Modify",
-  "@ButtonModify": {
-    "description": "Label for Button"
+  "buttonPublish": "publish",
+  "@buttonPublish": {
+    "description": "Label for button"
   },
-  "ButtonDelete": "Delete",
-  "@ButtonDelete": {
-    "description": "Label for Button"
+  "buttonModify": "modify",
+  "@buttonModify": {
+    "description": "Label for button"
   },
-  "ButtonContact": "Contact",
-  "@ButtonContact": {
-    "description": "Label for Button"
+  "buttonDelete": "Delete",
+  "@buttonDelete": {
+    "description": "Label for button"
   },
-  "ButtonPurchase": "Purchase",
-  "@ButtonPurchase": {
-    "description": "Label for Button"
+  "buttonContact": "contact",
+  "@buttonContact": {
+    "description": "Label for button"
+  },
+  "buttonPurchase": "purchase",
+  "@buttonPurchase": {
+    "description": "Label for button"
+  },
+  "buttonStart": "Let's start",
+  "@buttonStart": {
+    "description": "Label for button"
+  },
+  "buttonModifySearch": "Modify search",
+  "@buttonModifySearch": {
+    "description": "Label for button"
+  },
+  "buttonSave": "Save",
+  "@buttonSave": {
+    "description": "Label for button"
+  },
+  "seeMoreText": "See more",
+  "@seeMoreText": {
+    "description": "Text for TextButton"
+  },
+  "offerDetailsPublisher": "Publish by : ",
+  "@offerDetailsPublisher": {
+    "description": "Text in offer details page"
+  },
+  "offerDetailsPeriod": "Publish by : ",
+  "@offerDetailsPeriod": {
+    "description": "Text in offer details page"
+  },
+  "offerDetailsNoPrice": "No price / Negotiation",
+  "@offerDetailsNoPrice": {
+    "description": "Text in offer details page"
+  },
+  "resultsTitle": "Results",
+  "@resultsTitle": {
+    "description": "Title in result_search page"
+  },
+  "popupTitleExpired": "Expired offer",
+  "@popupTitleExpired": {
+    "description": "Title in the pop-up for expired offer"
+  },
+  "popupTextExpired": "The validity date of your offer is expired. You can update the offer and republish it.",
+  "@popupTextExpired": {
+    "description": "Text in the pop-up for expired offer"
+  },
+  "popupTitlePublishSuccess":"Offer published",
+  "@popupTitlePublishSuccess": {
+  "description": "Title in the pop-up for successful published offer"
+  },
+  "popupTextPublishSuccess":"Your offer will be published within an hour",
+  "@popupTextPublishSuccess": {
+    "description": "Text in the pop-up for successful published offer"
+  },
+  "popupTitleChooseOptionImage":"Choose your option",
+  "@popupTitleChooseOptionImage": {
+    "description": "Title in the pop-up to choose an option"
+  },
+  "popupFirstChooseOptionImage":"Open the default images",
+  "@popupFirstChooseOptionImage": {
+    "description": "Title in the pop-up to select a asset's image"
+  },
+  "popupFirstOptionImageTitle":"Default images",
+  "@popupFirstOptionImageTitle": {
+    "description": "Option 1 to select an image"
+  },
+  "popupSecondChooseOptionImage":"Take a photo",
+  "@popupSecondChooseOptionImage": {
+    "description": "Option 2 to select an image"
+  },
+  "popupThirdChooseOptionImage":"Open the gallery",
+  "@popupThirdChooseOptionImage": {
+    "description": "Option 3 to select an image"
+  },
+  "languagePageTitle":"Language",
+  "@languagePageTitle": {
+    "description": "Title for language page"
+  },
+  "languagePageFirstChoice":"Arabic",
+  "@languagePageFirstChoice": {
+    "description": "Choice n°1 for language page"
+  },
+  "languagePageSecondChoice":"English",
+  "@languagePageSecondChoice": {
+    "description": "Choice n°2 for language page"
+  },
+  "accountShiftToParameters": "Parameters >>>",
+  "@accountShiftToParameters": {
+    "description": "Text to shift in the page"
+  },
+  "accountShiftToOffer": "Offers >>>",
+  "@accountShiftToOffer": {
+    "description": "Text to shift in the page"
+  },
+  "accountShiftToProfile": "Profile >>>",
+  "@accountShiftToProfile": {
+    "description": "Text to shift in the page"
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resilink_design/common/widget/default_button.dart';
 import 'package:resilink_design/features/search/provider/search_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../common/widget/offer_tile.dart';
 
@@ -21,8 +22,9 @@ class ResultSearchState extends State<ResultSearch> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: (MediaQuery.of(context).size.height * 0.02)),
         Text(
-          "Results",
+          AppLocalizations.of(context)!.resultsTitle,
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold
@@ -50,12 +52,13 @@ class ResultSearchState extends State<ResultSearch> {
         ),
         Align(
           alignment: AlignmentDirectional.centerEnd,
-          child: DefaultButton(label: "Modify search", parentContext: context, function: null, futureFunction: null)
+          child: DefaultButton(label: AppLocalizations.of(context)!.buttonModifySearch, parentContext: context, function: null, futureFunction: null)
         ),
-        Align(
+        /*Align(
           alignment: AlignmentDirectional.centerEnd,
-          child: DefaultButton(label: "Save", parentContext: context, function: null, futureFunction: null)
+          child: DefaultButton(label: AppLocalizations.of(context)!.buttonSave, parentContext: context, function: null, futureFunction: null)
         ),
+         */
       ],
     );
   }

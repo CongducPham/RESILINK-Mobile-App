@@ -15,6 +15,11 @@ class AccountProvider with ChangeNotifier {
   TextEditingController _phoneNumber = TextEditingController(text: "");
   TextEditingController _location = TextEditingController(text: "");
 
+  ScrollController _scrollController = ScrollController();
+  GlobalKey _profileKey = GlobalKey();
+  GlobalKey _offerKey = GlobalKey();
+  GlobalKey _parametersKey = GlobalKey();
+
   List<Offer> _lastOfferPublish = [
     Offer(offerId: 0, offerer: "acazaux", assetId: 0, beginTimeSlot: "4/06/2024", endTimeSlot: "05/06/2024", validityLimit: "05/06/2024", publicationDate: "4/06/2024", offeredQuantity: 10, remainingQuantity: 10, price: 0, deposit: 0, cancellationFee: 0, rentInformation: null),
     Offer(offerId: 4, offerer: "acazaux", assetId: 4, beginTimeSlot: "4/06/2024", endTimeSlot: "05/06/2024", validityLimit: "05/06/2024", publicationDate: "4/06/2024", offeredQuantity: 10, remainingQuantity: 10, price: 0, deposit: 0, cancellationFee: 0, rentInformation: SpecificRent(delayMargin: 0, lateRestitutionPenality: 0, deteriorationPenality: 0, nonRestitutionPenality: 0)),
@@ -35,6 +40,11 @@ class AccountProvider with ChangeNotifier {
   TextEditingController get phoneNumber => _phoneNumber;
   TextEditingController get location => _location;
 
+  ScrollController get scrollController => _scrollController;
+  GlobalKey get profileKey => _profileKey;
+  GlobalKey get offerKey => _offerKey;
+  GlobalKey get parametersKey => _parametersKey;
+
   bool get error => _error;
 
   List<Offer> get lastOfferPublish => _lastOfferPublish;
@@ -47,5 +57,16 @@ class AccountProvider with ChangeNotifier {
     Timer(const Duration(seconds: 5), () {
       _error = newValue;
     });
+  }
+
+  // Function to scroll to the section
+  void scrollToSection(GlobalKey key) {
+    final context = key.currentContext;
+    if (context != null) {
+      Scrollable.ensureVisible(
+          context,
+          duration: Duration(seconds: 1), curve: Curves.easeInOut
+      );
+    }
   }
 }

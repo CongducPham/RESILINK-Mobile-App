@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resilink_design/common/widget/default_button.dart';
 import 'package:resilink_design/features/home_navigation/screen/home_navigation_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../constants/global_variables.dart';
 import '../widget/splash_screen_clippath.dart';
@@ -12,7 +13,6 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     void navigateToNextScreen() {
-      print("in");
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeNavigation()));
     }
 
@@ -60,14 +60,14 @@ class SplashScreen extends StatelessWidget {
                         ),
                         SizedBox(height: constraints.maxHeight * 0.035),
                         Text(
-                          'Promote local resources sharing',
+                            AppLocalizations.of(context)!.splashscreenText,
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.green,
                           )
                         ),
                         SizedBox(height: constraints.maxHeight * 0.035),
-                        DefaultButton(label: "ee", parentContext: context, function: navigateToNextScreen, futureFunction: null)
+                        DefaultButton(label: AppLocalizations.of(context)!.buttonStart, parentContext: context, function: navigateToNextScreen, futureFunction: null)
                       ],
                     ),
                   )

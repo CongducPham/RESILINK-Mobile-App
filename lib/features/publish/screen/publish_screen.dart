@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resilink_design/common/widget/default_button.dart';
 import 'package:resilink_design/common/widget/default_pop_up.dart';
-import 'package:resilink_design/common/widget/textfield_info.dart';
 import 'package:resilink_design/constants/global_variables.dart';
 import 'package:resilink_design/features/publish/provider/publish_provider.dart';
 import 'package:resilink_design/features/publish/screen/contact_info.dart';
 import 'package:resilink_design/features/publish/screen/offer_option.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../home_navigation/provider/home_navigation_provider.dart';
 import '../../search/widget/assetType_ card.dart';
@@ -26,7 +26,7 @@ class PublishScreenState extends State<PublishScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => PublishProvider(TextEditingController(text: ""), TextEditingController(text: ""), TextEditingController(text: ""), TextEditingController(text: "")),
+      create: (_) => PublishProvider(TextEditingController(text: ""), TextEditingController(text: ""), TextEditingController(text: ""), TextEditingController(text: ""), AppLocalizations.of(context)!.firstTypeTransaction, [AppLocalizations.of(context)!.firstTypeTransaction, AppLocalizations.of(context)!.secondTypeTransaction]),
       builder: (context, child) {
           return SingleChildScrollView(
             child: Consumer<PublishProvider>(
@@ -34,8 +34,9 @@ class PublishScreenState extends State<PublishScreen> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: (MediaQuery.of(context).size.height * 0.02)),
                     Text(
-                      "Let's start....",
+                      AppLocalizations.of(context)!.publishFirstTitle,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 19
@@ -43,7 +44,7 @@ class PublishScreenState extends State<PublishScreen> {
                     ),
                     SizedBox(height: 15),
                     Text(
-                      "Publish your offer quickly in 4 easy steps",
+                      AppLocalizations.of(context)!.publishFirstText,
                       style: TextStyle(
                           fontSize: 15
                       ),
@@ -84,7 +85,7 @@ class PublishScreenState extends State<PublishScreen> {
                                 style: TextStyle(fontSize: 13, color: Colors.black),
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
-                                  labelText: "Choose your transaction",
+                                  labelText: AppLocalizations.of(context)!.publishLabelChooseTransaction,
                                   labelStyle: const TextStyle(
                                     color: GlobalVariables.tersiaryColor,
                                     fontSize: 16.0,
@@ -127,8 +128,8 @@ class PublishScreenState extends State<PublishScreen> {
                                 fontSize: 13
                             ),
                             decoration: InputDecoration(
-                              hintText: "Type a title",
-                              labelText: "What's the title of your offer",
+                              hintText: AppLocalizations.of(context)!.publishHinderLabelTitle,
+                              labelText: AppLocalizations.of(context)!.publishLabelTitle,
                               labelStyle: const TextStyle(
                                 color: GlobalVariables.tersiaryColor,
                                 fontSize: 16.0,
@@ -162,7 +163,7 @@ class PublishScreenState extends State<PublishScreen> {
                                 fontSize: 13
                             ),
                             decoration: InputDecoration(
-                              hintText: "Type a place or use the geolocalisation",
+                              hintText: AppLocalizations.of(context)!.hinderTextLocalisation,
                               prefixIcon: IconButton(
                                 icon: Icon(
                                     Icons.near_me_outlined, size: constraints.maxHeight * 0.5
@@ -172,7 +173,7 @@ class PublishScreenState extends State<PublishScreen> {
                                   publishProvider.checkFormValidity();
                                 },
                               ),
-                              labelText: "Type a place or use the geolocalisation",
+                              labelText: AppLocalizations.of(context)!.hinderTextLocalisation,
                               labelStyle: const TextStyle(
                                 color: GlobalVariables.tersiaryColor,
                                 fontSize: 16.0,
@@ -206,7 +207,7 @@ class PublishScreenState extends State<PublishScreen> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      "Contact Information",
+                                      AppLocalizations.of(context)!.publishContactInformation,
                                       style: TextStyle(
                                           color: GlobalVariables.tersiaryColor
                                       ),
@@ -236,7 +237,7 @@ class PublishScreenState extends State<PublishScreen> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Text(
-                                        "More details (optional)",
+                                        AppLocalizations.of(context)!.publishMoreDetails,
                                         style: TextStyle(
                                             color: GlobalVariables.tersiaryColor
                                         ),
@@ -260,7 +261,7 @@ class PublishScreenState extends State<PublishScreen> {
                                   opacity: !publishProvider.isFormValid ? 0.3 : 1,
                                   child: IgnorePointer(
                                       ignoring: !publishProvider.isFormValid,
-                                      child: DefaultButton(label: "Publish", parentContext: context, function: () {DefaultPopUp.show(this.context, "Offer Published", "Your offer will be published within an hour", "close");} , futureFunction: null)
+                                      child: DefaultButton(label: AppLocalizations.of(context)!.buttonPublish, parentContext: context, function: () {DefaultPopUp.show(this.context, "Offer Published", "Your offer will be published within an hour", "close");} , futureFunction: null)
                                   )
                               ),
                             )

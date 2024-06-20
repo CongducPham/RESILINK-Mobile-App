@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:resilink_design/features/select_country/service/select_country_services.dart';
 import 'package:resilink_design/features/splash_screen/screen/splash_screen.dart';
 
 import '../../../constants/global_variables.dart';
 
 class FlagTouch {
 
- Widget flagTouchNavigator(String text, String imageKey, double maxWidth, double maxHeight, BuildContext context) {
+ Widget flagTouchNavigator(String text, String imageKey, double maxWidth, double maxHeight, BuildContext context, String country) {
    return GestureDetector(
      onTap: () {
+       SelectCountryService().setCountry(country);
        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SplashScreen()));
      },
      child: Column(

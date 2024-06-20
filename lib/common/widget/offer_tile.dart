@@ -22,24 +22,27 @@ class OfferTile extends StatelessWidget {
         color: GlobalVariables.navigationBarColor,
         borderRadius: BorderRadius.circular(15.0),
       ),
-      child: ListTile(
-          title: Text(asset.name, style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),maxLines: 1, overflow: TextOverflow.ellipsis),
-          subtitle: Text(offer.beginTimeSlot, style: TextStyle(fontSize: 11),maxLines: 1, overflow: TextOverflow.ellipsis),
-          onTap: () {
-            parentContext.read<UserProvider>().setOfferAndAssetViewDetails(offer, asset);
-            parentContext.read<HomeNavigationProvider>().setIndexAndUpdateHeader(1);
-          },
-          trailing: Container(
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(15),
-                    bottomRight: Radius.circular(15)
-                )
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: ListTile(
+            title: Text(asset.name, style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),maxLines: 1, overflow: TextOverflow.ellipsis),
+            subtitle: Text(offer.beginTimeSlot, style: TextStyle(fontSize: 11),maxLines: 1, overflow: TextOverflow.ellipsis),
+            onTap: () {
+              parentContext.read<UserProvider>().setOfferAndAssetViewDetails(offer, asset);
+              parentContext.read<HomeNavigationProvider>().setIndexAndUpdateHeader(1);
+            },
+            trailing: Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(15),
+                      bottomRight: Radius.circular(15)
+                  )
+              ),
+              child: Image(
+                image: AssetImage(GlobalVariables.assetTypeImages[asset.assetType.toLowerCase()] ?? GlobalVariables.assetTypeImages['noimage']!),
+              )
             ),
-            child: Image(
-              image: AssetImage(GlobalVariables.assetTypeImages[asset.assetType.toLowerCase()] ?? GlobalVariables.assetTypeImages['noimage']!),
-            )
-          ),
+        ),
       ),
     );
   }

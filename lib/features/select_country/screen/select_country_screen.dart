@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:resilink_design/features/select_country/widget/FlagTouch.dart';
 
 import '../../../constants/global_variables.dart';
 
 class SelectCountryScreen extends StatelessWidget {
-  SelectCountryScreen({super.key});
+  SelectCountryScreen({super.key  });
 
   FlagTouch selectCountryService = FlagTouch();
 
@@ -40,9 +41,9 @@ class SelectCountryScreen extends StatelessWidget {
                           children: [
                             SizedBox(
                                 height: constraints.maxHeight * 0.07,
-                                child: const Text(
-                                  "Select your country :",
-                                  style: TextStyle(
+                                child: Text(
+                                  AppLocalizations.of(context)!.chooseCountry,
+                                  style: const TextStyle(
                                       fontSize: 20
                                   ),
                                 )
@@ -54,11 +55,11 @@ class SelectCountryScreen extends StatelessWidget {
                               child: Column(
                                 children: [
                                   SizedBox(height: constraints.maxHeight * 0.05),
-                                  selectCountryService.flagTouchNavigator("Algeria", 'apple', constraints.maxWidth, constraints.maxHeight, context),
+                                  selectCountryService.flagTouchNavigator(AppLocalizations.of(context)!.algeria, 'apple', constraints.maxWidth, constraints.maxHeight, context, "Algeria"),
                                   SizedBox(height: constraints.maxHeight * 0.05),
-                                  selectCountryService.flagTouchNavigator("Egypt", 'eggplant', constraints.maxWidth, constraints.maxHeight, context),
+                                  selectCountryService.flagTouchNavigator(AppLocalizations.of(context)!.egypt, 'eggplant', constraints.maxWidth, constraints.maxHeight, context, "Egypt"),
                                   SizedBox(height: constraints.maxHeight * 0.05),
-                                  selectCountryService.flagTouchNavigator("Morocco", 'tomato', constraints.maxWidth, constraints.maxHeight, context),
+                                  selectCountryService.flagTouchNavigator(AppLocalizations.of(context)!.morocco, 'tomato', constraints.maxWidth, constraints.maxHeight, context, "Morocco"),
                                 ],
                               ),
                             ),

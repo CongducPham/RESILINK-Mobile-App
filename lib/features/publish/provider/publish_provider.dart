@@ -3,7 +3,7 @@ import 'package:resilink_design/common/widget/default_pop_up.dart';
 
 class PublishProvider extends ChangeNotifier {
 
-  PublishProvider(this._contactEmail, this._contactName, this._contactFarm, this._contactNumber);
+  PublishProvider(this._contactEmail, this._contactName, this._contactFarm, this._contactNumber, this._offerTransactionType, this._offerTransactionTypeList);
 
   // Variables for data in the mandatory part of the offer
   TextEditingController _offerName = TextEditingController(text: "");

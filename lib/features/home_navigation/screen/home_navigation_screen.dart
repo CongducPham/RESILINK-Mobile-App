@@ -6,7 +6,7 @@ import 'package:resilink_design/features/home/screen/home_screen.dart';
 import 'package:resilink_design/features/publish/screen/publish_screen.dart';
 import 'package:resilink_design/features/registration/screen/login_screen.dart';
 import 'package:resilink_design/features/news_page/screen/news_page_screen.dart';
-import 'package:resilink_design/features/search/screen/offer_details.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:resilink_design/features/search/screen/search_screen.dart';
 
 import '../../../providers/user_provider.dart';
@@ -23,27 +23,16 @@ class HomeNavigation extends StatefulWidget {
 }
 
 class HomeNavigationState extends State<HomeNavigation> {
-  List<Widget> _pages = [];
-
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _pages.clear();
-
-    // initialize pages after iniState ends
-    _pages.add(HomeScreen());
-    _pages.add(SearchScreen());
-    _pages.add(context.watch<UserProvider>().connected == true ? PublishScreen() : LoginScreen());
-    _pages.add(NewsScreen());
-    _pages.add(context.watch<UserProvider>().connected == true ? AccountScreen() : LoginScreen());
   }
 
   @override
   void initState() {
     super.initState();
     // initialize pages
-
   }
 
   @override
@@ -52,85 +41,107 @@ class HomeNavigationState extends State<HomeNavigation> {
       create: (_) => HomeNavigationProvider(),
       builder: (context, child) {
         return SafeArea(
-          child: Scaffold(
-            appBar: AppBar(
-              title: Center(
-                  child: Text(
-                      context.watch<HomeNavigationProvider>().headerText,
-                      style: const TextStyle(
-                          color: GlobalVariables.textHeaderColor
+          child: Consumer2<UserProvider, HomeNavigationProvider>(
+            builder: (context, userProvider, homeNavigationProvider, child) {
+
+              // Needed to put it un local to update the header because the parameters page is out of HomeNavigatorProvider reach
+              // Need to put the list in UserProvider or put HomeNavigatorProvider as global provider if not using local variable
+              List<String> _headerListValue = [
+                AppLocalizations.of(context)!.home,
+                AppLocalizations.of(context)!.search,
+                AppLocalizations.of(context)!.publish,
+                AppLocalizations.of(context)!.news,
+                AppLocalizations.of(context)!.account
+              ];
+
+              return Scaffold(
+                appBar: AppBar(
+                  centerTitle: true,
+                  title: Center(
+                      child: Text(
+                          _headerListValue[homeNavigationProvider.selectedIndex],
+                          style: const TextStyle(
+                              color: GlobalVariables.textHeaderColor
+                          )
                       )
+                  ),
+                  backgroundColor: GlobalVariables.navigationBarColor,
+                  leading: homeNavigationProvider.selectedIndex != 0 ? IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.black54),
+                    onPressed: () {
+                      if(context.read<HomeNavigationProvider>().hasResultSearch) {
+                        if (context.read<UserProvider>().offerDetails != null){
+                          context.read<UserProvider>().clearOfferAndAssetViewDetails();
+                          context.read<HomeNavigationProvider>().setIndexAndUpdateHeader(1);
+                        }
+                      } else {
+                        context.read<HomeNavigationProvider>().setIndexAndUpdateHeader(0);
+                        if (context.read<UserProvider>().offerDetails != null){
+                          context.read<UserProvider>().clearOfferAndAssetViewDetails();
+                        }
+                      }
+                    },
                   )
-              ),
-              backgroundColor: GlobalVariables.navigationBarColor,
-              leading: context.watch<HomeNavigationProvider>().selectedIndex != 0 ? IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.black54),
-                onPressed: () {
-                  if(context.read<HomeNavigationProvider>().hasResultSearch) {
-                    if (context.read<UserProvider>().offerDetails != null){
-                      context.read<UserProvider>().clearOfferAndAssetViewDetails();
-                      context.read<HomeNavigationProvider>().setIndexAndUpdateHeader(1);
-                    }
-                  } else {
-                    context.read<HomeNavigationProvider>().setIndexAndUpdateHeader(0);
-                    if (context.read<UserProvider>().offerDetails != null){
-                      context.read<UserProvider>().clearOfferAndAssetViewDetails();
-                    }
-                  }
-                },
-              )
-                  : Container(),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.notifications_none_outlined, color: Colors.black54),
-                  onPressed: () {
-                    //TODO to complete if notification page/features is implemented
+                      : Container(),
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.notifications_none_outlined, color: Colors.black54),
+                      onPressed: () {
+                        //TODO to complete if notification page/features is implemented
+                      },
+                    ),
+                  ],
+                ),
+                bottomNavigationBar: BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  elevation: 10,
+                  currentIndex: homeNavigationProvider.selectedIndex,
+                  onTap: (index) => {
+                    context.read<HomeNavigationProvider>().setIndexAndUpdateHeader(index),
+                    if (context.read<UserProvider>().offerDetails != null && index != 1){
+                      context.read<UserProvider>().clearOfferAndAssetViewDetails()
+                    },
                   },
+                  items: <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                        icon: const Icon(Icons.home),
+                        label: AppLocalizations.of(context)!.home
+                    ),
+                    BottomNavigationBarItem(
+                        icon: const Icon(Icons.search),
+                        label: AppLocalizations.of(context)!.search
+                    ),
+                    BottomNavigationBarItem(
+                        icon: const Icon(Icons.add),
+                        label: AppLocalizations.of(context)!.publish
+                    ),
+                    BottomNavigationBarItem(
+                        icon: const Icon(Icons.newspaper),
+                        label: AppLocalizations.of(context)!.news
+                    ),
+                    BottomNavigationBarItem(
+                        icon: const Icon(Icons.person_2_rounded),
+                        label: AppLocalizations.of(context)!.account
+                    )
+                  ],
                 ),
-              ],
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              elevation: 10,
-              currentIndex: context.watch<HomeNavigationProvider>().selectedIndex,
-              onTap: (index) => {
-                context.read<HomeNavigationProvider>().setActualPageOnItemTapped(index),
-                if (context.read<UserProvider>().offerDetails != null && index != 1){
-                  context.read<UserProvider>().clearOfferAndAssetViewDetails()
-                },
-              },
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: "Home"
+                body: Container(
+                  margin: const EdgeInsets.only(left: 20, right: 20),
+                  child: PageView(
+                    physics: NeverScrollableScrollPhysics(),
+                    controller: homeNavigationProvider.pageController,
+                    onPageChanged: (index) {},
+                    children: <Widget>[
+                      HomeScreen(),
+                      SearchScreen(),
+                      context.watch<UserProvider>().connected == true ? PublishScreen() : LoginScreen(),
+                      NewsScreen(),
+                      context.watch<UserProvider>().connected == true ? AccountScreen(homeNavigationProvider: homeNavigationProvider) : LoginScreen(),
+                    ],
+                  ),//_buildAnimatedSwitcher()
                 ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.search),
-                    label: "Search"
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.add),
-                    label: "Publish"
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.newspaper),
-                    label: "News"
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.person_2_rounded),
-                    label: "Account"
-                )
-              ],
-            ),
-            body: Container(
-              margin: const EdgeInsets.only(left: 20, top: 15, right: 20, bottom: 15),
-              child: PageView(
-                physics: NeverScrollableScrollPhysics(),
-                controller: context.watch<HomeNavigationProvider>().pageController,
-                onPageChanged: (index) {},
-                children: _pages,
-              ),//_buildAnimatedSwitcher()
-            ),
+              );
+            },
           ),
         );
       }

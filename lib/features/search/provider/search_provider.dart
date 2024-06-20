@@ -29,6 +29,7 @@ class SearchProvider extends ChangeNotifier {
   bool _selected = false;
   bool _isFormValid = false;
   bool _isSearchDone = false;
+  double _distance = 10;
   TextEditingController _localisationController;
   TextEditingController _searchController;
   final FocusNode _searchControllerFocusNode;
@@ -52,6 +53,7 @@ class SearchProvider extends ChangeNotifier {
   bool get selected => _selected;
   bool get isFormValid => _isFormValid;
   bool get isSearchDone => _isSearchDone;
+  double get distance => _distance;
   TextEditingController get localisationController => _localisationController;
   TextEditingController get searchController => _searchController;
   FocusNode get searchControllerFocusNode => _searchControllerFocusNode;
@@ -81,6 +83,11 @@ class SearchProvider extends ChangeNotifier {
 
   void setSearchDone(bool value) {
     _isSearchDone = value;
+    notifyListeners();
+  }
+
+  void setDistance(double value) {
+    _distance = value;
     notifyListeners();
   }
 

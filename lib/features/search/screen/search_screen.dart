@@ -8,8 +8,9 @@ import 'package:resilink_design/features/search/widget/assetType_%20card.dart';
 import 'package:resilink_design/features/search/widget/slider_bar_custom.dart';
 import 'package:resilink_design/features/search/provider/search_provider.dart';
 import 'package:resilink_design/providers/user_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../models/Offer.dart';
+
 import '../../home_navigation/provider/home_navigation_provider.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -32,10 +33,10 @@ class SearchScreenState extends State<SearchScreen> {
         builder: (context, child) {
           return SingleChildScrollView(
 
-            // Utilisation de Consummer2 avec SearchProvider et UserPovider en watch (permet le setState si les variable écoutées changent),
-            // utilisation du provider parent pour ne plus accéder au contenue de recherche d'offre mais directement au contenue d'une liste d'offre
-            // et UserProvider pour avoir les details de l'offre selectionné s'il existe.
-            // Utilisation en plus du provider HomeNavigationProvider pour savoir si on est dans le cas d'une recherche d'offre au préalable
+            // Use of Consummer2 with SearchProvider and UserPovider on watch (allows setState if the variables listened to change),
+            // use the parent provider to access the contents of an offer list instead of the offer search content
+            // and UserProvider to get the details of the selected offer if it exists.
+            // Use of the HomeNavigationProvider to find out whether an offer is being searched for beforehand.
               child: Consumer2<SearchProvider, UserProvider>(
                 builder: (context, searchProvider, userProvider, child) {
                   if (context.read<UserProvider>().offerDetails != null) {
@@ -47,16 +48,17 @@ class SearchScreenState extends State<SearchScreen> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "What are you looking for ?",
-                          style: TextStyle(
+                        SizedBox(height: (MediaQuery.of(context).size.height * 0.02)),
+                        Text(
+                          AppLocalizations.of(context)!.searchFirstTitle,
+                          style: const TextStyle(
                               fontSize: 21,
                               fontWeight: FontWeight.bold
                           ),
                         ),
                         const SizedBox(height: 8),
-                        const Text(
-                            "There are 2 ways to search, use one of them."
+                        Text(
+                          AppLocalizations.of(context)!.searchFirstSubText,
                         ),
                         const SizedBox(height: 15),
                         Opacity(
@@ -70,6 +72,7 @@ class SearchScreenState extends State<SearchScreen> {
                                   child: LayoutBuilder(
                                     builder: (context, constraints) {
                                       return TextField(
+                                        textAlign: TextAlign.left,
                                         controller: searchProvider.searchController,
                                         textAlignVertical: TextAlignVertical.center,
                                         focusNode: searchProvider.searchControllerFocusNode,
@@ -81,7 +84,7 @@ class SearchScreenState extends State<SearchScreen> {
                                           searchProvider.filter.setName(value);
                                         },
                                         decoration: InputDecoration(
-                                          hintText: "Write your request",
+                                          hintText: AppLocalizations.of(context)!.hinderTextRequest,
                                           border: OutlineInputBorder(),
                                           suffixIcon: searchProvider.searchController.text.isNotEmpty
                                               ? IconButton(
@@ -122,7 +125,7 @@ class SearchScreenState extends State<SearchScreen> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        const Text("or"),
+                        Text(AppLocalizations.of(context)!.searchOr),
                         const SizedBox(height: 8),
                         SizedBox(
                           height: MediaQuery.of(context).size.width * 0.2,
@@ -139,9 +142,9 @@ class SearchScreenState extends State<SearchScreen> {
                           ),
                         ),
                         const SizedBox(height: 15),
-                        const Text(
-                          "Where do you search ?",
-                          style: TextStyle(
+                        Text(
+                          AppLocalizations.of(context)!.searchSecondTitle,
+                          style: const TextStyle(
                               fontSize: 21,
                               fontWeight: FontWeight.bold
                           ),
@@ -161,7 +164,7 @@ class SearchScreenState extends State<SearchScreen> {
                                   searchProvider.checkFormValidity();
                                 },
                                 decoration: InputDecoration(
-                                  hintText: "Type a place or use the geolocalisation",
+                                  hintText: AppLocalizations.of(context)!.hinderTextLocalisation,
                                   border: const OutlineInputBorder(
                                       borderSide: BorderSide(color: GlobalVariables.tersiaryColor)
                                   ),
@@ -175,9 +178,9 @@ class SearchScreenState extends State<SearchScreen> {
                           ),
                         ),
                         const SizedBox(height: 15),
-                        const Text("Within a radius of"),
+                        Text(AppLocalizations.of(context)!.searchSecondSubText),
                         const SizedBox(height: 20),
-                        SliderBarCustom(currentValue: 0),
+                        SliderBarCustom(searchProvider: searchProvider),
                         const SizedBox(height: 8),
                         Align(
                           alignment: AlignmentDirectional.centerEnd,
@@ -185,7 +188,7 @@ class SearchScreenState extends State<SearchScreen> {
                               opacity: !searchProvider.isFormValid ? 0.3: 1,
                               child: IgnorePointer(
                                   ignoring: !searchProvider.isFormValid,
-                                  child: DefaultButton(label: "Search", parentContext: context, function: () {
+                                  child: DefaultButton(label: AppLocalizations.of(context)!.buttonSearch, parentContext: context, function: () {
                                     context.read<HomeNavigationProvider>().setHasResultSearch(true);
                                     searchProvider.setSearchDone(true);
                                     }, futureFunction: null)

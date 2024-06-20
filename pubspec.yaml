@@ -38,10 +38,37 @@ dependencies:
   # solution in Flutter for managing and sharing state efficiently between widgets.
   provider: ^6.1.2
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+
+  # The following library enables localization support in Flutter applications,
+  # allowing for the translation of strings into multiple languages.
+  flutter_localizations:
+    sdk: flutter
+  # The following library provides internationalization and localization support,
+  # including message formatting and date/time formatting, necessary for managing
+  # localized messages in a Flutter application.
+  intl: any
+
+  # The following adds the Image Picker library to your application.
+  # Use the ImagePicker class to pick images from the gallery or the camera.
+  image_picker: ^0.8.4+4
+
+  # The following adds the HTTP library to your application.
+  # Use the http package to make HTTP requests to web services.
+  http: ^0.13.5
+
+  # The following adds the permission_handler library to your application.
+  # Use the permission_handler package to manage permissions in your app.
+  # Specifically, it allows you to request and check permissions for various features, such as location.
+  permission_handler: ^11.0.1
+
+  # The following adds the logger library to your application.
+  # Use the logger package to log messages for debugging and monitoring your app.
+  logger: ^2.0.2
+
+  flutter_svg: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -59,6 +86,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+
+  # This section configures the Flutter tool to generate localization files.
+  generate: true
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

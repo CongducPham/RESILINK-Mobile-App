@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:resilink_design/common/widget/default_button.dart';
 import 'package:resilink_design/constants/global_variables.dart';
 import 'package:resilink_design/providers/user_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OfferDetails extends StatelessWidget {
   const OfferDetails({super.key});
@@ -11,6 +12,7 @@ class OfferDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
+        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
         height: MediaQuery.of(context).size.height * 0.55,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
@@ -52,7 +54,7 @@ class OfferDetails extends StatelessWidget {
                                 Expanded(
                                     flex: 1,
                                     child: Text(
-                                        context.read<UserProvider>().offerDetails!.price != 0 ? context.read<UserProvider>().offerDetails!.price.toString() : "No price",
+                                        context.read<UserProvider>().offerDetails!.price != 0 ? context.read<UserProvider>().offerDetails!.price.toString() : AppLocalizations.of(context)!.offerDetailsNoPrice,
                                         style: TextStyle(
                                             fontSize: 12
                                         )
@@ -86,17 +88,18 @@ class OfferDetails extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                              "Publish by : ${context.read<UserProvider>().offerDetails!.offerer}",
+                              "${AppLocalizations.of(context)!.offerDetailsPublisher} ${context.read<UserProvider>().offerDetails!.offerer}",
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 14
-                              )
+                              ),
                           ),
                           Text(
-                              "Period : ${context.read<UserProvider>().offerDetails!.beginTimeSlot}",
+                              "${AppLocalizations.of(context)!.offerDetailsPeriod} ${context.read<UserProvider>().offerDetails!.beginTimeSlot} - ${context.read<UserProvider>().offerDetails!.validityLimit}",
                               style: TextStyle(
                                   fontSize: 12
-                              )
+                              ),
+                            textDirection: TextDirection.ltr,
                           ),
                           SizedBox(height: constraints.maxHeight * 0.05),
                           Text(
@@ -113,9 +116,9 @@ class OfferDetails extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            DefaultButton(label: "Contact", parentContext: context, function: null, futureFunction: null),
+                            DefaultButton(label: AppLocalizations.of(context)!.buttonContact, parentContext: context, function: null, futureFunction: null),
                             SizedBox(width: 8),
-                            DefaultButton(label: "Purchase", parentContext: context, function: null, futureFunction: null)
+                            DefaultButton(label: AppLocalizations.of(context)!.buttonPurchase, parentContext: context, function: null, futureFunction: null)
                           ],
                         )
                     )

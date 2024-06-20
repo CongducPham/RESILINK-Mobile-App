@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resilink_design/features/news_page/provider/news_page_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'list_news_account_screen.dart';
 
@@ -19,11 +20,11 @@ class NewsScreenState extends State<NewsScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(height: 10),
-          const Center(
+          SizedBox(height: (MediaQuery.of(context).size.height * 0.02)),
+          Center(
             child: Text(
-              "List of News Source",
-              style: TextStyle(
+              AppLocalizations.of(context)!.newsTitle,
+              style: const TextStyle(
                 fontSize: 24,
               ),
             )
@@ -56,7 +57,7 @@ class NewsScreenState extends State<NewsScreen> {
                           .of(this.context)
                           .size
                           .height / 1.5,
-                      child: const Center(child: Text("no news available"))
+                      child: Center(child: Text(AppLocalizations.of(context)!.newsNotFound))
                   );
                 }
 

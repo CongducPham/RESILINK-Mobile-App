@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:resilink_design/features/search/provider/search_provider.dart';
 
 class SliderBarCustom extends StatefulWidget {
-  SliderBarCustom({super.key, required this.currentValue});
+  SliderBarCustom({super.key, required this.searchProvider});
 
-  double currentValue;
+  SearchProvider searchProvider;
 
   @override
   _SliderBarCustomState createState() => _SliderBarCustomState();
 }
 
 class _SliderBarCustomState extends State<SliderBarCustom> {
-
-  late double actualValue;
-
-  @override
-  void initState() {
-    actualValue = widget.currentValue;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +26,11 @@ class _SliderBarCustomState extends State<SliderBarCustom> {
           children: [
             Slider(
               max: 100,
-              value: actualValue,
-              divisions: 100,
-              label: actualValue.round().toString(),
+              value: widget.searchProvider.distance,
+              divisions: 20,
+              label: widget.searchProvider.distance.round().toString(),
               onChanged: (double newValue) {
-                setState(() {
-                  actualValue = newValue;
-                });
+                widget.searchProvider.setDistance(newValue);
               },
               activeColor: Colors.purple,
               thumbColor: Colors.purple,
