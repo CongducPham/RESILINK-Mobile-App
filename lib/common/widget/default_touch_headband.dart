@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:Resilink/features/account/provider/account_provider.dart';
 
 import '../../constants/global_variables.dart';
-import 'default_pop_up.dart';
+import '../../models/Asset.dart';
+import '../../models/Offer.dart';
 
+/*
+ * A customizable widget representing a touch-sensitive headband-like UI component.
+ * The `DefaultTouchHeadband` widget displays the name of an `Asset` and an edit icon, with an optional warning icon if the associated `Offer` has expired.
+ * The UI adapts based on the expiration status of the offer.
+ */
 class DefaultTouchHeadband extends StatelessWidget {
-  DefaultTouchHeadband({super.key, required this.delete, required this.update, required this.parentContext});
+  DefaultTouchHeadband({super.key, required this.offer, required this.asset, required this.accountProvider});
 
-  bool delete;
-  bool update;
-  BuildContext parentContext;
+  // inherited variables
+  Offer offer;
+  Asset asset;
+  AccountProvider accountProvider;
 
   @override
   Widget build(BuildContext context) {
+    bool expired = DateTime.parse(offer.validityLimit).isBefore(DateTime.now().toUtc().add(Duration(hours: 1)));
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.06,
       decoration: BoxDecoration(
@@ -19,35 +29,29 @@ class DefaultTouchHeadband extends StatelessWidget {
       ),
       child: Row(
         children: [
-          delete ? const Expanded(
+           Expanded(
               flex: 2,
               child: Center(
-                child: Icon(
+                child: expired ? const Icon(
                   Icons.warning_amber,
                   color: Colors.red,
-                ),
-              )
-          )
-          : Container(),
-          Expanded(
-              flex: delete ? 8 : 9,
-              child: Container(
-                child: Text("Test"),
+                ) : Container(),
               )
           ),
           Expanded(
-              flex: delete ? 2 : 1,
+              flex: expired ? 8 : 9,
+              child: Container(
+                child: Text(
+                  asset.name,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )
+          ),
+          Expanded(
+              flex: 2,
               child: Center(
-                child: IconButton(
-                  onPressed: () {
-                    if (update) {
-                      DefaultPopUp.show(context, "Expired offer", "The validity date of your offer is expired. You can update the offer and republish it.", "Close");
-                    } else {
-
-                    }
-                  },
-                  icon: update ? Icon(Icons.mode_edit_outlined)
-                  : Icon(Icons.cancel_outlined),
+                child: Icon(
+                  Icons.mode_edit_outlined
                 ),
               )
           ),

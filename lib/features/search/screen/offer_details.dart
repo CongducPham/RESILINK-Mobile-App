@@ -1,132 +1,356 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:resilink_design/common/widget/default_button.dart';
-import 'package:resilink_design/constants/global_variables.dart';
-import 'package:resilink_design/providers/user_provider.dart';
+import 'package:Resilink/common/widget/default_button.dart';
+import 'package:Resilink/constants/global_variables.dart';
+import 'package:Resilink/features/home_navigation/provider/home_navigation_provider.dart';
+import 'package:Resilink/providers/main_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../common/service/Launch_in_external_app.dart';
+import '../provider/search_provider.dart';
+import '../provider/update_contract.dart';
+
+// The OfferDetails widget displays offer details, enables contact and purchase actions, and allows contract management.
 class OfferDetails extends StatelessWidget {
   const OfferDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Container(
-        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
-        height: MediaQuery.of(context).size.height * 0.55,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          border: Border.all(width: 1, color: GlobalVariables.unFocusBorderColor),
-          color: GlobalVariables.navigationBarColor,
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        constraints: const BoxConstraints(
-          minHeight: 350
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: LayoutBuilder(
-              builder: (context, constraints) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: constraints.maxHeight * 0.15,
-                      width: constraints.maxWidth,
-                      child: Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(left: 10),
-                            width: constraints.maxWidth * 0.8,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                    flex: 1,
-                                    child: Text(
-                                      context.read<UserProvider>().assetDetails!.name,
-                                      style: TextStyle(
+      child: Consumer2<SearchProvider, HomeNavigationProvider>( // Listening to Search, HomeNavigation provider to access their data and manage them
+        builder: (context, searchProvider, homeNavigationProvider, child) {
+          return Column(
+            children: [
+              // Container displaying offer details
+              Container(
+                margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
+                height: MediaQuery.of(context).size.height * 0.6,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1, color: GlobalVariables.unFocusBorderColor),
+                  color: GlobalVariables.navigationBarColor,
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                constraints: const BoxConstraints(
+                    minHeight: 350
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Section displaying asset name, price, and quantity
+                            SizedBox(
+                              height: constraints.maxHeight * 0.13,
+                              width: constraints.maxWidth,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(left: 10),
+                                    width: constraints.maxWidth * 0.8,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: Text(
+                                                context.read<MainProvider>().assetDetails!.name,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14
+                                                )
+                                            )
+                                        ),
+                                        Expanded(
+                                            flex: 1,
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                    AppLocalizations.of(context)!.offerDetailsPrice,
+                                                    style: const TextStyle(
+                                                        fontSize: 12
+                                                    )
+                                                ),
+                                                Text(
+                                                    context.read<MainProvider>().offerDetails!.price != 0 ? context.read<MainProvider>().offerDetails!.price.toString() : AppLocalizations.of(context)!.offerDetailsNoPrice,
+                                                    style: const TextStyle(
+                                                        fontSize: 12
+                                                    )
+                                                ),
+                                              ],
+                                            )
+                                        ),
+                                        Expanded(
+                                            flex: 1,
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                    AppLocalizations.of(context)!.offerDetailsQuantity,
+                                                    style: const TextStyle(
+                                                        fontSize: 12
+                                                    )
+                                                ),
+                                                Text(
+                                                    context.read<MainProvider>().assetDetails!.totalQuantity != 0 ? context.read<MainProvider>().assetDetails!.totalQuantity.toString() : AppLocalizations.of(context)!.offerDetailsMaterial,
+                                                    style: const TextStyle(
+                                                        fontSize: 12
+                                                    )
+                                                ),
+                                              ],
+                                            )
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // Bookmark icon button (no functionality defined here)
+                                  Expanded(
+                                      child: IconButton(
+                                        onPressed: () {  },
+                                        icon: const Icon(Icons.bookmark_add_outlined),
+                                      )
+                                  )
+                                ],
+                              ),
+                            ),
+                            // Section displaying the asset image
+                            Container(
+                                height: constraints.maxHeight * 0.35,
+                                color: GlobalVariables.navigationBarColor,
+                                child: Center(
+                                  child: context.read<MainProvider>().assetDetails!.images!.isEmpty ?
+                                    Image(
+                                      image:
+                                        AssetImage(GlobalVariables.assetTypeImages[ context.read<MainProvider>().assetDetails?.assetType.toLowerCase().replaceAll(RegExp(r'\d+'), '') ?? 'noimage']!),
+                                    ) : Center(
+                                    child: SizedBox(
+                                      width: constraints.maxWidth * 0.9, // Adjust width as needed
+                                      child: ListView.builder(
+                                        padding: const EdgeInsets.all(4),
+                                        scrollDirection: Axis.horizontal, // Scroll horizontally for multiple images
+                                        itemCount: context.read<MainProvider>().assetDetails!.images!.length,
+                                        itemBuilder: (context, index) {
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 8.0), // Space between images
+                                            child: Image.memory(
+                                              context.read<MainProvider>().convertBase64ToImg(
+                                                  context.read<MainProvider>().assetDetails!.images![index]
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                )
+                            ),
+                            SizedBox(height: constraints.maxHeight * 0.02),
+                            // Section displaying additional offer details
+                            Container(
+                              height: constraints.maxHeight * 0.40,
+                              margin: const EdgeInsets.only(left: 8, right: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${AppLocalizations.of(context)!.offerDetailsPublisher} ${context.read<MainProvider>().offerDetails!.offerer}",
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 14
-                                      )
-                                    )
-                                ),
-                                Expanded(
-                                    flex: 1,
-                                    child: Text(
-                                        context.read<UserProvider>().offerDetails!.price != 0 ? context.read<UserProvider>().offerDetails!.price.toString() : AppLocalizations.of(context)!.offerDetailsNoPrice,
-                                        style: TextStyle(
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        AppLocalizations.of(context)!.offerDetailsPeriod,
+                                        style: const TextStyle(
                                             fontSize: 12
-                                        )
-                                    )
-                                ),
-                              ],
+                                        ),
+                                      ),
+                                      Text(
+                                        context.read<MainProvider>().offerDetails!.beginTimeSlot,
+                                        style: const TextStyle(
+                                            fontSize: 12
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        AppLocalizations.of(context)!.offerDetailsPeriodEnd,
+                                        style: const TextStyle(
+                                            fontSize: 12
+                                        ),
+                                      ),
+                                      Text(
+                                        context.read<MainProvider>().offerDetails!.validityLimit,
+                                        style: const TextStyle(
+                                            fontSize: 12
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: constraints.maxHeight * 0.02),
+                                  // Scrollable text section for asset description
+                                  Expanded(
+                                    child: Scrollbar(
+                                      controller: searchProvider.scrollController,
+                                      thumbVisibility: true,
+                                      child: SingleChildScrollView(
+                                        controller: searchProvider.scrollController,
+                                        child: Text(
+                                            context.read<MainProvider>().assetDetails!.description,
+                                            style: const TextStyle(
+                                                fontSize: 12
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: constraints.maxHeight * 0.01),
+                                ],
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: IconButton(
-                              onPressed: () {  },
-                              icon: Icon(Icons.bookmark_add_outlined),
-                            )
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: constraints.maxHeight * 0.40,
-                      color: GlobalVariables.navigationBarColor,
-                      child: Center(
-                        child: Image(
-                          image: AssetImage(GlobalVariables.assetTypeImages['noimage']!),
-                        ),
-                      )
-                    ),
-                    Container(
-                      height: constraints.maxHeight * 0.35,
-                      margin: EdgeInsets.only(left: 8, right: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                              "${AppLocalizations.of(context)!.offerDetailsPublisher} ${context.read<UserProvider>().offerDetails!.offerer}",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14
-                              ),
-                          ),
-                          Text(
-                              "${AppLocalizations.of(context)!.offerDetailsPeriod} ${context.read<UserProvider>().offerDetails!.beginTimeSlot} - ${context.read<UserProvider>().offerDetails!.validityLimit}",
-                              style: TextStyle(
-                                  fontSize: 12
-                              ),
-                            textDirection: TextDirection.ltr,
-                          ),
-                          SizedBox(height: constraints.maxHeight * 0.05),
-                          Text(
-                              context.read<UserProvider>().assetDetails!.description,
-                              style: TextStyle(
-                                  fontSize: 12
-                              )
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            DefaultButton(label: AppLocalizations.of(context)!.buttonContact, parentContext: context, function: null, futureFunction: null),
-                            SizedBox(width: 8),
-                            DefaultButton(label: AppLocalizations.of(context)!.buttonPurchase, parentContext: context, function: null, futureFunction: null)
+                            // Buttons for contacting and purchasing
+                            Expanded(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    DefaultButton(label: AppLocalizations.of(context)!.buttonContact, parentContext: context, function: () => context.read<MainProvider>().offerDetails!.ownerPhoneNumber != "" ? launchInBrowser(Uri.parse("https://wa.me/${context.read<MainProvider>().offerDetails!.ownerPhoneNumber}")) : null, futureFunction: null),
+                                    const SizedBox(width: 8),
+                                    IgnorePointer(
+                                      ignoring: !context.read<MainProvider>().forPurchase,
+                                      child: Opacity(
+                                          opacity: !context.read<MainProvider>().forPurchase ? 0.3 : 1,
+                                          child: DefaultButton(label: AppLocalizations.of(context)!.buttonPurchase, parentContext: context, function: null, futureFunction: () => searchProvider.buyingServices(context, context.read<MainProvider>().assetDetails!, context.read<MainProvider>().offerDetails!, homeNavigationProvider))
+                                      ),
+                                    )
+                                  ],
+                                )
+                            ),
                           ],
-                        )
-                    )
-                  ],
-                );
-              }
-          ),
-        ),
+                        );
+                      }
+                  ),
+                ),
+              ),
+              // Conditional display of contract management options if there is an actual contract
+              if (context.read<MainProvider>().actualContract != null)
+                ChangeNotifierProvider(
+                    // Creating the UpdateContract provider in the tree structure
+                    create: (_) => UpdateContractProvider(),
+                    builder: (context, child) {
+                      return Consumer<UpdateContractProvider>( // Listening to UpdateContract provider to access their data and manage
+                          builder: (context, updateContractProvider, child) {
+
+                            // Initialize data based on the current contract if it has not be already done
+                            if (updateContractProvider.deliveryState.isEmpty) {
+                              updateContractProvider.setInitialValue(
+                                  context.read<MainProvider>().actualContract!,
+                                  homeNavigationProvider.allAssetType[context.read<MainProvider>().assetDetails!.assetType]!.nature,
+                                  context
+                              );
+                            }
+
+                            return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children:
+                                [
+                                  const SizedBox(height: 15),
+                                  Center(
+                                      child: Text(
+                                          AppLocalizations.of(context)!.contractChangeStateText,
+                                          style: const TextStyle(fontSize: 18)
+                                      )
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Text(
+                                      AppLocalizations.of(context)!.contractActualStateText,
+                                      style: TextStyle(fontSize: 16)
+                                  ),
+                                  const SizedBox(height:10),
+                                  Center(
+                                      child: Text(
+                                          context.read<MainProvider>().actualContract!.state,
+                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)
+                                      )
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Text(
+                                      AppLocalizations.of(context)!.contractNewStateText,
+                                      style: TextStyle(fontSize: 16)),
+                                  const SizedBox(height:10),
+                                  // Button to call method to update the contract
+                                  Center(
+                                    child: DropdownButton(
+                                      value: updateContractProvider.deliveryValue,
+                                      items: updateContractProvider.deliveryState.map<DropdownMenuItem<String>>((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value, style: TextStyle(fontSize: 14),),
+                                        );
+                                      }).toList(),
+                                      onChanged: (String? value) {
+                                        updateContractProvider.setDeliveryValue(value!);
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      DefaultButton(label: AppLocalizations.of(context)!.buttonDelete, parentContext: context, function: null, futureFunction: () => updateContractProvider.deleteContract(context, context.read<MainProvider>().actualContract!, homeNavigationProvider)),
+                                      const SizedBox(width: 10),
+                                      DefaultButton(label: AppLocalizations.of(context)!.buttonModify, parentContext: context, function: null, futureFunction: () => updateContractProvider.updateContract(context, context.read<MainProvider>().actualContract!, homeNavigationProvider.allAssetType[context.read<MainProvider>().assetDetails!.assetType]!.nature, homeNavigationProvider)),
+                                    ],
+                                  ),
+                                  // Stepper widget showing the current status of the contract
+                                  Stepper(
+                                      controller: ScrollController(keepScrollOffset: false),
+                                      currentStep: updateContractProvider.currentStep,
+                                      controlsBuilder: (context, details) {
+                                        return const SizedBox();
+                                      },
+                                      steps: [
+                                        Step(
+                                            title: Text(AppLocalizations.of(context)!.contractStateProceeding,),
+                                            content: Text(updateContractProvider.stepperText, overflow: TextOverflow.ellipsis,),
+                                            isActive: updateContractProvider.currentStep >= 0,
+                                            state: updateContractProvider.currentStep >= 0 ? StepState.complete : StepState.disabled
+                                        ),
+                                        Step(
+                                            title: Text(AppLocalizations.of(context)!.contractActualStateText,),
+                                            content: Text(updateContractProvider.stepperText, overflow: TextOverflow.ellipsis,),
+                                            isActive: updateContractProvider.currentStep >= 1,
+                                            state: updateContractProvider.currentStep >= 1 ? StepState.complete : StepState.disabled
+                                        ),
+                                        Step(
+                                            title: Text(AppLocalizations.of(context)!.contractStateReceived),
+                                            content: Text(updateContractProvider.stepperText, overflow: TextOverflow.ellipsis,),
+                                            isActive: updateContractProvider.currentStep >= 2,
+                                            state: updateContractProvider.currentStep >= 2 ? StepState.complete : StepState.disabled
+                                        ),
+                                        Step(
+                                            title: Text(AppLocalizations.of(context)!.contractStateDelivered,),
+                                            content: Text(updateContractProvider.stepperText, overflow: TextOverflow.ellipsis,),
+                                            isActive: updateContractProvider.currentStep >= 3,
+                                            state: updateContractProvider.currentStep >= 3 ? StepState.complete : StepState.disabled
+                                        ),
+                                      ]
+                                  )
+                                ]
+                            );
+                          }
+                      );
+                    }
+                ),
+            ],
+          );
+        },
       ),
     );
   }

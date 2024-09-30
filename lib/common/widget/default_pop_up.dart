@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:resilink_design/common/widget/default_button.dart';
-import 'package:resilink_design/constants/global_variables.dart';
+import 'package:Resilink/common/widget/default_button.dart';
+import 'package:Resilink/constants/global_variables.dart';
 
+/*
+ * A utility class that displays a customizable popup dialog.
+ * The `DefaultPopUp` class provides a static method `show` that creates and displays ,an `AlertDialog` with a title,
+ * message, and an optional button. The popup adapts to the screen size and offers a consistent design across the app.
+ */
 class DefaultPopUp {
   static void show(BuildContext context, String title, String message, String? buttonText) {
     final double screenHeight = MediaQuery.of(context).size.height;

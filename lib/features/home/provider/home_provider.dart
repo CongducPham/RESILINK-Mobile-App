@@ -1,5 +1,11 @@
-import 'package:flutter/widgets.dart';
-import 'package:resilink_design/models/SpecificRent.dart';
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:Resilink/features/home/service/home_services.dart';
+import 'package:Resilink/models/SpecificRent.dart';
+import 'package:Resilink/providers/main_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../models/Asset.dart';
 import '../../../models/News.dart';
@@ -7,24 +13,60 @@ import '../../../models/Offer.dart';
 
 class HomeProvider extends ChangeNotifier {
 
-  //Pour le moment Page home n'a pas de fonction pure donc mise en place de fausse news
-  List<News> _listNews = [News(id: "0", country: "Egypt", institute: "Daily News Egypt", link: "https://www.dailynewsegypt.com/", img: "", platform: "web"),
-    News(id: "1", country: "Egypt", institute: "Ministry of Agriculture and Land Reclamation", link: "https://moa.gov.eg/", img: "", platform: "web"),];
+  // Variables and their initialization
+  HomeServices _homeServices = HomeServices();
 
-  //Pour le moment Page home n'a pas de fonction pure donc mise en place de fausse news
-  List<Offer> _lastOfferPublish = [Offer(offerId: 0, offerer: "acazaux", assetId: 0, beginTimeSlot: "4/06/2024", endTimeSlot: "25/06/2024", validityLimit: "25/06/2024", publicationDate: "4/06/2024", offeredQuantity: 10, remainingQuantity: 10, price: 0, deposit: 0, cancellationFee: 0, rentInformation: null),
-    Offer(offerId: 1, offerer: "Benguerir", assetId: 1, beginTimeSlot: "5/06/2024", endTimeSlot: "23/06/2024", validityLimit: "23/06/2024", publicationDate: "4/06/2024", offeredQuantity: 10, remainingQuantity: 10, price: 0, deposit: 0, cancellationFee: 0, rentInformation: null),
-    Offer(offerId: 2, offerer: "Karim", assetId: 2, beginTimeSlot: "5/06/2024", endTimeSlot: "23/06/2024", validityLimit: "23/06/2024", publicationDate: "4/06/2024", offeredQuantity: 10, remainingQuantity: 10, price: 0, deposit: 0, cancellationFee: 0, rentInformation: SpecificRent(delayMargin: 0, lateRestitutionPenality: 0, deteriorationPenality: 0, nonRestitutionPenality: 0)),
-  ];
+  bool _finishFetchOffer = false;
+  bool _finishFetchSuggestion = false;
+  bool _loadingFetchOffer = true;
+  bool _loadingFetchSuggestion = true;
 
-  Map<int, Asset> _offerAssets = {
-    0: Asset(id: 0, name: "Barley seed", description: "This late variety has good productivity with a high resistance to barley yellows. Negotiable offer, possibility of adding or removing stock.", assetType: "Crop", owner: "acazaux", transactionType: "sale/purchase", totalQuantity: 50, unit: "kg", availableQuantity: 40, regulatedId: "", regulator: "fales", image: "", specificAttributes: null),
-    1: Asset(id: 1, name: "Apple", description: "Negotiable offer, possibility of adding or removing stock.", assetType: "Fruit", owner: "Benguerir", transactionType: "sale/purchase", totalQuantity: 50, unit: "kg", availableQuantity: 40, regulatedId: "", regulator: "false", image: "", specificAttributes: null),
-    2: Asset(id: 2, name: "Warehouse", description: "Can store up to 50 tons of seeds or a few agricultural machines.", assetType: "Storage", owner: "Karim", transactionType: "rent", totalQuantity: null, unit: "kg", availableQuantity: 40, regulatedId: "", regulator: "false", image: "", specificAttributes: null),
-  };
+  List<News> _listNews = [];
+  List<Offer> _lastOfferPublish = [];
+  Map<int, Asset> _offerAssets = {};
 
+  // Getters
   List<News> get listNews => _listNews;
   List<Offer> get listLastOffer => _lastOfferPublish;
   Map<int, Asset> get listOfferAsset => _offerAssets;
+  bool get finishFetchOffer => _finishFetchOffer;
+  bool get finishFetchSuggestion => _finishFetchSuggestion;
+  bool get loadingFetchOffer => _loadingFetchOffer;
+  bool get loadingFetchSuggestion => _loadingFetchSuggestion;
 
+  /*
+   * Function to retrieve the latest job offers, displays a popup giving a timeout error if the server doesn't respond or an internal server error.
+   * WARNING for the moment, use this function to get suggested offers, once the suggestion function is done in the server, make a separate function
+   */
+  Future<void> setLastOfferPublish(BuildContext context) async {
+    try {
+
+      // Set _finishFetchOffer & _finishFetchSuggestion to true to notify the parent calling the function that the function has run
+      _finishFetchOffer = true;
+      _finishFetchSuggestion = true;
+      await _homeServices.fetchLastThreeOfferAsset(_lastOfferPublish, _offerAssets, context.read<MainProvider>().actualUser!.accessToken);
+      // Set _loadingFetchOffer & _loadingFetchSuggestion to false to notify the parent calling the function that the function has finished
+      _loadingFetchOffer = false;
+      _loadingFetchSuggestion = false;
+    } catch (e) {
+      _finishFetchOffer = true;
+      _finishFetchSuggestion = true;
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(AppLocalizations.of(context)!.problemRetrievingLastOffers),
+          content: Text(e is TimeoutException
+              ? AppLocalizations.of(context)!.popupFailConnexionTimeout
+              : AppLocalizations.of(context)!.popupFailConnexionNoServer),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(AppLocalizations.of(context)!.textOk),
+            ),
+          ],
+        ),
+      );
+    }
+    notifyListeners();
+  }
 }

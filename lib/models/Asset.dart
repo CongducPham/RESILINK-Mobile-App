@@ -13,7 +13,7 @@ class Asset {
   late double availableQuantity;
   late String? regulatedId;
   late String? regulator;
-  late String? image;
+  late List? images;
   late List<SpecificAttrAsset>? specificAttributes;
 
   Asset ({
@@ -28,7 +28,7 @@ class Asset {
     required this.availableQuantity,
     required this.regulatedId,
     required this.regulator,
-    required this.image,
+    required this.images,
     required this.specificAttributes
   });
 
@@ -51,7 +51,7 @@ class Asset {
       availableQuantity: json['availableQuantity'].toDouble(),
       regulatedId: json['regulatedId'],
       regulator: json['regulator'],
-      image: json['image'],
+      images: json['images'] ?? [],
       specificAttributes: spec
     );
   }

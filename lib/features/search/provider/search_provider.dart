@@ -1,21 +1,32 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:resilink_design/features/home_navigation/provider/home_navigation_provider.dart';
+import 'package:intl/intl.dart';
+import 'package:location/location.dart';
+import 'package:provider/provider.dart';
+import 'package:Resilink/features/home_navigation/provider/home_navigation_provider.dart';
+import 'package:Resilink/features/publish/services/publish_services.dart';
+import 'package:Resilink/features/search/service/search_services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../models/Asset.dart';
 import '../../../models/Filter.dart';
 import '../../../models/Offer.dart';
 import '../../../models/SpecificRent.dart';
+import '../../../providers/main_provider.dart';
 
 class SearchProvider extends ChangeNotifier {
+
+  // Constructor
   SearchProvider(HomeNavigationProvider provider)
       : _localisationController = TextEditingController(text: ""),
         _searchController = TextEditingController(text: ""),
         _assetTypeNames = provider.allAssetType.keys.toList(),
         _searchControllerFocusNode = FocusNode() {
-    _allSugestion = List.from(_assetTypeNames);
+    _allSuggestion = List.from(_assetTypeNames);
 
     _searchController.addListener(() {
-      _allSugestion = _assetTypeNames
+      _allSuggestion = _assetTypeNames
           .where((item) =>
           item.toLowerCase().contains(_searchController.text.toLowerCase()))
           .toList();
@@ -23,7 +34,8 @@ class SearchProvider extends ChangeNotifier {
     });
   }
 
-  List<String> _allSugestion = [];
+  // Variables and their initialization
+  List<String> _allSuggestion = [];
   List<String> _assetTypeNames;
 
   bool _selected = false;
@@ -33,23 +45,16 @@ class SearchProvider extends ChangeNotifier {
   TextEditingController _localisationController;
   TextEditingController _searchController;
   final FocusNode _searchControllerFocusNode;
+  ScrollController _scrollController = ScrollController();
 
-  Filter filter = Filter();
+  SearchServices _searchServices = SearchServices();
+  Filter _filter = Filter();
 
-  // TODO Make it dynamic with the call to get offers from API
-  //Pour le moment Page home n'a pas de fonction pure donc mise en place de fausse news
-  List<Offer> _searchedOffer = [Offer(offerId: 0, offerer: "acazaux", assetId: 0, beginTimeSlot: "4/06/2024", endTimeSlot: "25/06/2024", validityLimit: "25/06/2024", publicationDate: "4/06/2024", offeredQuantity: 10, remainingQuantity: 10, price: 0, deposit: 0, cancellationFee: 0, rentInformation: null),
-    Offer(offerId: 1, offerer: "Benguerir", assetId: 1, beginTimeSlot: "5/06/2024", endTimeSlot: "23/06/2024", validityLimit: "23/06/2024", publicationDate: "4/06/2024", offeredQuantity: 10, remainingQuantity: 10, price: 0, deposit: 0, cancellationFee: 0, rentInformation: null),
-    Offer(offerId: 2, offerer: "Karim", assetId: 2, beginTimeSlot: "5/06/2024", endTimeSlot: "23/06/2024", validityLimit: "23/06/2024", publicationDate: "4/06/2024", offeredQuantity: 10, remainingQuantity: 10, price: 0, deposit: 0, cancellationFee: 0, rentInformation: SpecificRent(delayMargin: 0, lateRestitutionPenality: 0, deteriorationPenality: 0, nonRestitutionPenality: 0)),
-  ];
+  List<Offer> _searchedOffer = [];
+  Map<int, Asset> _offerAssets = {};
 
-  Map<int, Asset> _offerAssets = {
-    0: Asset(id: 0, name: "Barley seed", description: "This late variety has good productivity with a high resistance to barley yellows. Negotiable offer, possibility of adding or removing stock.", assetType: "Crop", owner: "acazaux", transactionType: "sale/purchase", totalQuantity: 50, unit: "kg", availableQuantity: 40, regulatedId: "", regulator: "fales", image: "", specificAttributes: null),
-    1: Asset(id: 1, name: "Apple", description: "Negotiable offer, possibility of adding or removing stock.", assetType: "Fruit", owner: "Benguerir", transactionType: "sale/purchase", totalQuantity: 50, unit: "kg", availableQuantity: 40, regulatedId: "", regulator: "false", image: "", specificAttributes: null),
-    2: Asset(id: 2, name: "Warehouse", description: "Can store up to 50 tons of seeds or a few agricultural machines.", assetType: "Storage", owner: "Karim", transactionType: "rent", totalQuantity: null, unit: "kg", availableQuantity: 40, regulatedId: "", regulator: "false", image: "", specificAttributes: null),
-  };
-
-  List<String> get allSugestion => _allSugestion;
+  // Getters
+  List<String> get allSugestion => _allSuggestion;
   bool get selected => _selected;
   bool get isFormValid => _isFormValid;
   bool get isSearchDone => _isSearchDone;
@@ -57,28 +62,80 @@ class SearchProvider extends ChangeNotifier {
   TextEditingController get localisationController => _localisationController;
   TextEditingController get searchController => _searchController;
   FocusNode get searchControllerFocusNode => _searchControllerFocusNode;
+  ScrollController get scrollController => _scrollController;
+  Filter get filter => _filter;
   List<Offer> get searchedOffer => _searchedOffer;
   List<String> get assetTypeNames => _assetTypeNames;
   Map<int, Asset> get offerAssets => _offerAssets;
 
+  // Gets the translated asset type name
+  String getTradAssetType(String assetType, BuildContext context) {
 
-  // Importer la fonction de récupération des assetTypes après tests de la navigation
-  void setAllAssetType() {
+    String tradAssetType = "";
+
+    switch (assetType) {
+      case "Fruit" :
+        tradAssetType = AppLocalizations.of(context)!.assetTypeFruit;
+        break;
+      case "Vegetable" :
+        tradAssetType = AppLocalizations.of(context)!.assetTypeVegetable;
+        break;
+      case "Crop" :
+        tradAssetType = AppLocalizations.of(context)!.assetTypeCrop;
+        break;
+      case "Machinery" :
+        tradAssetType = AppLocalizations.of(context)!.assetTypeMachinery;
+        break;
+      case "Inputs" :
+        tradAssetType = AppLocalizations.of(context)!.assetTypeInputs;
+        break;
+      case "Labor" :
+        tradAssetType = AppLocalizations.of(context)!.assetTypeLabor;
+        break;
+      case "Other services" :
+        tradAssetType = AppLocalizations.of(context)!.assetTypeOtherServices;
+        break;
+      case "Storage" :
+        tradAssetType = AppLocalizations.of(context)!.assetTypeStorage;
+        break;
+      case "Transport" :
+        tradAssetType = AppLocalizations.of(context)!.assetTypeTransport;
+        break;
+    }
+    return tradAssetType;
   }
 
+  // Gets a unique list of asset types after conversion
+  List<String> getListAssetTypeResilink(List<String> listAssetType, BuildContext context) {
+    List<String> result = [];
+
+    PublishServices publishServices = PublishServices();
+
+    for (String assetType in listAssetType) {
+      String input = publishServices.getCorrectAssetTypeRegex(assetType);
+      result.add(input);
+    }
+
+    return result.toSet().toList(); // Convertir en ensemble pour éliminer les doublons, puis revenir à la liste
+  }
+
+  // Checks if the form is valid
+  void checkFormValidity() {
+    _isFormValid = (_searchController.text.isNotEmpty || _filter.assetType.isNotEmpty ) && _localisationController.text.isNotEmpty;
+    notifyListeners();
+  }
+
+  // Setters
+  // Sets selection and checks form validity
   void setSelected(bool newValue) {
     _selected = newValue;
     checkFormValidity();
   }
 
+  // Updates search controller text and selection status
   void setSearchControllerAndSelected(String newValue, bool selected) {
     newValue.isNotEmpty ? _searchController.text = newValue : _searchController.clear();
     setSelected(selected);
-  }
-
-  void checkFormValidity() {
-    _isFormValid = (_searchController.text.isNotEmpty || filter.assetType.isNotEmpty ) && _localisationController.text.isNotEmpty;
-    notifyListeners();
   }
 
   void setSearchDone(bool value) {
@@ -89,6 +146,139 @@ class SearchProvider extends ChangeNotifier {
   void setDistance(double value) {
     _distance = value;
     notifyListeners();
+  }
+
+  // Retrieves the user's location
+  Future<void> setLocalisation() async {
+    Location location = Location();
+    PermissionStatus permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+    }
+    if (permissionGranted == PermissionStatus.granted) {
+      LocationData locationData = await location.getLocation();
+      _localisationController.text = '<${locationData.latitude},${locationData.longitude}>';
+      filter.setCoordinate(locationData.latitude!, locationData.longitude!);
+    }
+  }
+
+  // Performs a filtered offer search and updates results
+  Future<void> setOfferFiltered(BuildContext context) async {
+
+    // Set a popup to wait for fetching offers
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircularProgressIndicator(),
+                const SizedBox(width: 20),
+                Text(AppLocalizations.of(context)!.titlePopUpLoadingSearch),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    try {
+
+      filter.setDistanceKilometer(_distance);
+      // Fetch list of filtered offers and all assets
+      await _searchServices.fetchOfferFiltered(_searchedOffer, _filter.getMapFilter(), context.read<MainProvider>().actualUser!.accessToken);
+      if (_searchedOffer.isNotEmpty) {
+        await _searchServices.fetchAsset(_offerAssets, context
+            .read<MainProvider>()
+            .actualUser!
+            .accessToken);
+      }
+      Navigator.of(context).pop();
+      context.read<HomeNavigationProvider>().setHasResultSearch(true);
+      setSearchDone(true);
+    } catch (e) {
+
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(AppLocalizations.of(context)!.problemLoadingOffer),
+          content: Text(e is TimeoutException
+              ? AppLocalizations.of(context)!.popupFailConnexionTimeout
+              : AppLocalizations.of(context)!.popupFailConnexionNoServer),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(AppLocalizations.of(context)!.textOk),
+            ),
+          ],
+        ),
+      );
+    }
+    notifyListeners();
+  }
+
+  // Handles the purchase of services by creating a request and a contract
+  Future<void> buyingServices(BuildContext context, Asset asset, Offer offer, HomeNavigationProvider homeNavigationProvider) async {
+
+    // Set a popup to wait for fetching offers
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircularProgressIndicator(),
+                const SizedBox(width: 20),
+                Text(AppLocalizations.of(context)!.titlePopUpBuyingOffer),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    try {
+      int requestId = await _searchServices.createRequestWithId(
+          {
+            'requestor': context.read<MainProvider>().actualUser!.username,
+            'beginTimeSlot': DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(DateTime.now()),
+            'endTimeSlot': (asset.transactionType == "rent" && homeNavigationProvider.allAssetType[asset.assetType]!.nature == "material" ) && context.read<HomeNavigationProvider>().allAssetType[asset.assetType]!.nature != "immaterial" ? offer.endTimeSlot : offer.validityLimit,
+            'validityLimit': offer.validityLimit,
+            'transactionType': asset.transactionType,
+            'offerIds': [offer.offerId],
+          },
+          context.read<MainProvider>().actualUser!.accessToken
+      );
+      print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+      await _searchServices.createContract(offer.offerId!, requestId, context.read<MainProvider>().actualUser!.accessToken);
+      Navigator.of(context).pop();
+      homeNavigationProvider.setIndexAndUpdateHeader(4);
+    } catch (e) {
+
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(AppLocalizations.of(context)!.problemBuyingOffer),
+          content: Text(e is TimeoutException
+              ? AppLocalizations.of(context)!.popupFailConnexionTimeout
+              : AppLocalizations.of(context)!.popupFailConnexionNoServer),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(AppLocalizations.of(context)!.textOk),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
 }
