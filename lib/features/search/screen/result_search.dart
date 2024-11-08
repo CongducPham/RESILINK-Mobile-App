@@ -39,11 +39,11 @@ class ResultSearchState extends State<ResultSearch> {
             SizedBox(height: 15),
             // Container displaying the list of found offers
             Container(
-              height: MediaQuery.of(context).size.height * 0.13 * context.read<SearchProvider>().searchedOffer.length,
+              height: context.read<SearchProvider>().searchedOffer.isNotEmpty ? MediaQuery.of(context).size.height * 0.14 * (context.read<SearchProvider>().searchedOffer.length > 4 ? 4 : context.read<SearchProvider>().searchedOffer.length) + 10 : 70,
               constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.39
+                  maxHeight: MediaQuery.of(context).size.height * 0.5
               ),
-              child: ListView.builder(
+              child: context.read<SearchProvider>().searchedOffer.isNotEmpty ? ListView.builder(
                   // Prevents the list from being scrollable if there is less than 3 offers
                   physics: context.read<SearchProvider>().searchedOffer.length > 2 ? AlwaysScrollableScrollPhysics() : NeverScrollableScrollPhysics(),
                   itemCount: context.read<SearchProvider>().searchedOffer.length,
@@ -57,8 +57,11 @@ class ResultSearchState extends State<ResultSearch> {
                       ],
                     );
                   }
+              ) : Center(
+                child: Text(AppLocalizations.of(context)!.textNoOffer),
               ),
             ),
+            SizedBox(height: 10),
             // Button to modify the search criteria
             Align(
                 alignment: AlignmentDirectional.centerEnd,

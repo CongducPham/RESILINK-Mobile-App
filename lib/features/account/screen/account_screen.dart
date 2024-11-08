@@ -39,7 +39,8 @@ class AccountScreenState extends State<AccountScreen> {
           job: context.read<MainProvider>()?.actualProsumer?.job ?? "",
           phoneNumber:
               context.read<MainProvider>()?.actualUser?.phoneNumber ?? "",
-          location: context.read<MainProvider>()?.actualProsumer?.location ?? ""
+          location: context.read<MainProvider>()?.actualProsumer?.location ?? "",
+          gps: context.read<MainProvider>()?.actualUser?.gps ?? ""
       ),
       builder: (context, child) {
         return Consumer3<MainProvider, AccountProvider, HomeNavigationProvider>( // Listening to Account, HomeNavigation and Main providers to access their data
@@ -115,8 +116,12 @@ class AccountScreenState extends State<AccountScreen> {
                            * Non-scrollable box displaying a list of offers purchased (3 maximum)
                            * height varies according to the number of items in the list, or if the function for retrieving purchased offers has been terminated
                            */
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.13 * (accountProvider.offerPurchased.isNotEmpty ? accountProvider.contractPurchased.length > 3 ? 3 : accountProvider.offerPurchased.length : 1),
+                          Container(
+                            constraints: BoxConstraints(
+                                minHeight: MediaQuery.of(context).size.height * 0.15,
+                                maxHeight: 260
+                            ),
+                            height: MediaQuery.of(context).size.height * 0.14 * (accountProvider.offerPurchased.isNotEmpty ? accountProvider.contractPurchased.length > 3 ? 3 : accountProvider.offerPurchased.length : 1) + 10,
                             child: accountProvider.finishFetchPurchase && !accountProvider.loadingFetchPurchase ? // if loadingFetchPurchase is true, the asynchronous function is not completed and a waiting icon is displayed
                             accountProvider.offerPurchased.isNotEmpty ? // if offerPurchased is empty, there is no offers in the list so a message is displayed
                               ListView.builder(
@@ -145,7 +150,6 @@ class AccountScreenState extends State<AccountScreen> {
                               child: CircularProgressIndicator(),
                             ),
                           ),
-                          const SizedBox(height: 15),
 
                           // clickable text for a complete list of current purchased offers in a new page
                           Align(
@@ -173,7 +177,10 @@ class AccountScreenState extends State<AccountScreen> {
                            * Non-scrollable box displaying a list of offers published (3 maximum)
                            * height varies according to the number of items in the list, or if the function for retrieving published offers has been terminated
                            */
-                          SizedBox(
+                          Container(
+                            constraints: BoxConstraints(
+                              maxHeight: 170
+                            ),
                             height: MediaQuery.of(context).size.height * 0.08 * (accountProvider.lastOfferPublish.isNotEmpty ? accountProvider.lastOfferPublish.length > 3 ? 3 : accountProvider.lastOfferPublish.length : 2),
                             child: accountProvider.finishFetchOffer && !accountProvider.loadingFetchOffer ? // if loadingFetchOffer is true, the asynchronous function is not completed and a waiting icon is displayed
                               accountProvider.lastOfferPublish.isNotEmpty ? // if lastOfferPublish is empty, there are no offers in the list and a message is displayed.
@@ -197,12 +204,35 @@ class AccountScreenState extends State<AccountScreen> {
                                                     borderRadius: BorderRadius.circular(12.0),
                                                   ),
                                                   contentPadding: EdgeInsets.all(25.0),
-                                                  title: Text(
-                                                    AppLocalizations.of(context)!.titlePopUpModifyOffer,
-                                                    style: TextStyle(
-                                                      fontSize: 20.0,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
+                                                  titlePadding: EdgeInsets.zero,  // Pour mieux contrôler le padding du titre
+                                                  title: Stack(
+                                                    children: [
+                                                      // Icône de retour (flèche ou croix) en haut à gauche
+                                                      Positioned(
+                                                        top: 0,
+                                                        left: 0,
+                                                        child: IconButton(
+                                                          icon: Icon(Icons.arrow_back),  // Utilise Icons.close si tu veux une croix
+                                                          onPressed: () {
+                                                            Navigator.of(context).pop();  // Ferme la popup
+                                                          },
+                                                        ),
+                                                      ),
+                                                      // Le titre du popup, centré
+                                                      Center(
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.only(top: 12.0),  // Ajuste le padding supérieur
+                                                          child: Text(
+                                                            AppLocalizations.of(context)!.titlePopUpModifyOffer,
+                                                            style: TextStyle(
+                                                              fontSize: 20.0,
+                                                              fontWeight: FontWeight.bold,
+                                                            ),
+                                                            textAlign: TextAlign.center,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                   content: Container(
                                                     height: MediaQuery.of(context).size.height * 0.25,
@@ -210,41 +240,54 @@ class AccountScreenState extends State<AccountScreen> {
                                                     child: Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: <Widget>[
-
-                                                        // Information in the popup body
+                                                        // Information dans le corps du popup
                                                         Expanded(
                                                           child: Text(
-                                                            DateTime.parse(accountProvider.lastOfferPublish[index].validityLimit).isBefore(DateTime.now().toUtc().add(Duration(hours: 1))) ?
-                                                            AppLocalizations.of(context)!.textPopUpModifyOfferBad
+                                                            DateTime.parse(accountProvider.lastOfferPublish[index].validityLimit)
+                                                                .isBefore(DateTime.now().toUtc().add(Duration(hours: 1)))
+                                                                ? AppLocalizations.of(context)!.textPopUpModifyOfferBad
                                                                 : AppLocalizations.of(context)!.textPopUpModifyOfferGood,
                                                             style: TextStyle(
                                                               fontSize: 13.0,
                                                             ),
                                                           ),
                                                         ),
-
-                                                        // Row to place the 2 edit and delete buttons
+                                                        // Rangée avec les boutons modifier et supprimer
                                                         Row(
                                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                           children: [
                                                             Align(
-                                                                alignment: Alignment.bottomRight,
-                                                                child: DefaultButton(
-                                                                    label: AppLocalizations.of(context)!.buttonModify,
-                                                                    parentContext: context,
-                                                                    function: () {accountProvider.toUpdateOffer(accountProvider.lastOfferPublish[index], accountProvider.listOfferAsset[accountProvider.lastOfferPublish[index].assetId]!, homeNavigationProvider, mainProvider, context);},
-                                                                    futureFunction: null)
+                                                              alignment: Alignment.bottomRight,
+                                                              child: DefaultButton(
+                                                                label: AppLocalizations.of(context)!.buttonModify,
+                                                                parentContext: context,
+                                                                function: () {
+                                                                  accountProvider.toUpdateOffer(
+                                                                    accountProvider.lastOfferPublish[index],
+                                                                    accountProvider.listOfferAsset[accountProvider.lastOfferPublish[index].assetId]!,
+                                                                    homeNavigationProvider,
+                                                                    mainProvider,
+                                                                    context,
+                                                                  );
+                                                                },
+                                                                futureFunction: null,
+                                                              ),
                                                             ),
                                                             Align(
-                                                                alignment: Alignment.bottomRight,
-                                                                child: DefaultButton(
-                                                                    label: AppLocalizations.of(context)!.buttonDelete,
-                                                                    parentContext: context,
-                                                                    function: null,
-                                                                    futureFunction: () => accountProvider.deleteOfferAsset(context, accountProvider.lastOfferPublish[index].offerId!, accountProvider.listOfferAsset[accountProvider.lastOfferPublish[index].assetId]!.id))
+                                                              alignment: Alignment.bottomRight,
+                                                              child: DefaultButton(
+                                                                label: AppLocalizations.of(context)!.buttonDelete,
+                                                                parentContext: context,
+                                                                function: null,
+                                                                futureFunction: () => accountProvider.deleteOfferAsset(
+                                                                  context,
+                                                                  accountProvider.lastOfferPublish[index].offerId!,
+                                                                  accountProvider.listOfferAsset[accountProvider.lastOfferPublish[index].assetId]!.id,
+                                                                ),
+                                                              ),
                                                             ),
                                                           ],
-                                                        )
+                                                        ),
                                                       ],
                                                     ),
                                                   ),

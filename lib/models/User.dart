@@ -13,6 +13,7 @@ class User {
    late String updateAt;
    late String accessToken;
    late String phoneNumber;
+   late String gps;
 
   User ({
     required this.id,
@@ -28,6 +29,7 @@ class User {
     required this.accessToken,
     required this.password,
     required this.phoneNumber,
+    required this.gps
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -45,6 +47,7 @@ class User {
       accessToken: json['accessToken'],
       password: json['passWord'],
       phoneNumber: json['phoneNumber'] ?? "",
+      gps: json['gps'] ?? ""
     );
   }
 
@@ -62,6 +65,7 @@ class User {
     'accessToken': accessToken,
     'passWord': password,
     'phoneNumber': phoneNumber ?? "",
+    'gps': gps
   };
 
 }

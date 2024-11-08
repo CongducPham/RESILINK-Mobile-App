@@ -32,7 +32,7 @@ class SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       // Creating the Search provider in the tree structure
-    create: (_) => SearchProvider(context.read<HomeNavigationProvider>()),
+    create: (_) => SearchProvider(context.read<HomeNavigationProvider>(), context.read<MainProvider>()),
       builder: (context, child) {
         return SingleChildScrollView(
           child: Consumer2<SearchProvider, MainProvider>( // Listening to Search and Main providers to access and manage their data
@@ -80,7 +80,7 @@ class SearchScreenState extends State<SearchScreen> {
                                   return TextField(
                                     textAlign: TextAlign.left,
                                     controller: searchProvider.searchController,
-                                    textAlignVertical: TextAlignVertical.center,
+                                    textAlignVertical: TextAlignVertical.bottom,
                                     focusNode: searchProvider.searchControllerFocusNode,
                                     style: const TextStyle(fontSize: 13),
                                     onChanged: (value) {
@@ -167,12 +167,31 @@ class SearchScreenState extends State<SearchScreen> {
                       ),
                     ),
                     const SizedBox(height: 15),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      child: TextField(
+                        controller: searchProvider.cityVillageController,
+                        textAlignVertical: TextAlignVertical.bottom,
+                        style: const TextStyle(fontSize: 13),
+                        onChanged: (value) {
+                          searchProvider.setCityVillage(value);
+                        },
+                        decoration: InputDecoration(
+                          hintText: AppLocalizations.of(context)!.publishLabelSpecLocalization,
+                          border: const OutlineInputBorder(
+                              borderSide: BorderSide(color: GlobalVariables.tertiaryColor)
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
                     // Localization input field with a prefix icon for auto-localization
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.06,
                       child: LayoutBuilder(
                         builder: (context, constraints) {
                           return TextField(
+                            readOnly: true,
                             controller: searchProvider.localisationController,
                             textAlignVertical: TextAlignVertical.bottom,
                             style: const TextStyle(fontSize: 13),

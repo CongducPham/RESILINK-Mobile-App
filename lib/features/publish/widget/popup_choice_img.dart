@@ -55,7 +55,6 @@ class PopupChoiceImg extends StatelessWidget {
                                 onTap: () async {
                                   offerImgProvider.setImgWithDefaultImg(GlobalVariables.othersImage[key]!);
                                   publishProvider.addElementImageList( await offerImgProvider.convertImgToBase64());
-                                  print(publishProvider.imageList.length);
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                 },
@@ -75,9 +74,10 @@ class PopupChoiceImg extends StatelessWidget {
               ElevatedButton(
                 child: Text(AppLocalizations.of(context)!.popupSecondChooseOptionImage),
                 onPressed: () async {
-                  offerImgProvider.setImgWithPhoto();
-                  publishProvider.addElementImageList( await offerImgProvider.convertImgToBase64());
-                  Navigator.of(context).pop;
+                  await offerImgProvider.setImgWithPhoto();
+                  String imgBase64 = await offerImgProvider.convertImgToBase64();
+                  publishProvider.addElementImageList(imgBase64);
+                  Navigator.pop(context);
                 },
               ),
 
@@ -87,9 +87,10 @@ class PopupChoiceImg extends StatelessWidget {
               ElevatedButton(
                 child: Text(AppLocalizations.of(context)!.popupThirdChooseOptionImage),
                 onPressed: () async {
-                  offerImgProvider.setImgWithGallery();
-                  publishProvider.addElementImageList( await offerImgProvider.convertImgToBase64());
-                  Navigator.of(context).pop;
+                  await offerImgProvider.setImgWithGallery();
+                  String imgBase64 = await offerImgProvider.convertImgToBase64();
+                  publishProvider.addElementImageList(imgBase64);
+                  Navigator.pop(context);
                 },
               ),
             ],

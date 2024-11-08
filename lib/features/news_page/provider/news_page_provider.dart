@@ -15,11 +15,13 @@ class NewsPageProvider with ChangeNotifier {
   NewsPageService _newsServices = NewsPageService();
 
   List<News> _listNews = [];
+  GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   bool _finishFetchNews = false;
   bool _waitingFetchNews = true;
 
   // Getters
   List<News> get listNews => _listNews;
+  GlobalKey<AnimatedListState> get listKey => _listKey;
   bool get finishFetchNews => _finishFetchNews;
   bool get waitingFetchNews => _waitingFetchNews;
 
@@ -124,7 +126,6 @@ class NewsPageProvider with ChangeNotifier {
         ),
       );
     }
-    notifyListeners();
   }
 
   // Delete a new from the user bookmarked list
@@ -132,11 +133,9 @@ class NewsPageProvider with ChangeNotifier {
 
     /*
      * Calls the deleting owner bookmarked news, if an error occurs, displays a popup giving a timeout error if the server doesn't respond or an internal server error.
-     * Deleting the news from _listNews
      */
     try {
       await _newsServices.deleteNewsBookmarkedList(news.id, context.read<MainProvider>().actualUser!.accessToken, context.read<MainProvider>().actualUser!.username);
-      _listNews.removeWhere((element) => element.id == news.id);
     } catch (e) {
       showDialog(
         context: context,
@@ -154,7 +153,6 @@ class NewsPageProvider with ChangeNotifier {
         ),
       );
     }
-    notifyListeners();
   }
 
 }

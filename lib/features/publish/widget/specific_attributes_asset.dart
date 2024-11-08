@@ -23,14 +23,17 @@ class SpecificAttributesAsset extends StatelessWidget {
         // Iterates over each specific attribute and creates a corresponding widget based on its type.
         for (var attr in publishProvider.specificAttributes) {
           String name = "";
+          String? hint;
 
           // Get localized labels.
           switch (attr.name) {
             case "Type":
               name = AppLocalizations.of(context)!.publishLabelSpecType;
+              hint = AppLocalizations.of(context)!.publishHinderOfferType;
               break;
             case "Variety":
               name = AppLocalizations.of(context)!.publishLabelSpecVariety;
+              hint = AppLocalizations.of(context)!.publishHinderOfferVariety;
               break;
             case "City/Village":
               name = AppLocalizations.of(context)!.publishLabelSpecLocalization;
@@ -63,14 +66,16 @@ class SpecificAttributesAsset extends StatelessWidget {
           // Creates the appropriate widget based on the attribute's type.
           switch (attr.type) {
             case "string":
-              widgets.add(
-                TextFieldInfo(
-                  textController: publishProvider.specificAttributeValue[attr.name],
-                  label: name,
-                  parentContext: context,
-                  isNumeric: false,
-                ),
-              );
+              if (attr.name != "City/Village")
+                widgets.add(
+                  TextFieldInfo(
+                    textController: publishProvider.specificAttributeValue[attr.name],
+                    label: name,
+                    parentContext: context,
+                    isNumeric: false,
+                    testHint: hint,
+                  ),
+                );
               widgets.add(SizedBox(height: 10));
               break;
             case "numeric":
@@ -104,7 +109,6 @@ class SpecificAttributesAsset extends StatelessWidget {
               break;
             case "listAsset":
               List<String> valuesList = attr.valueList!.split(',');
-              print(valuesList);
               widgets.add(SizedBox(height: 10));
               widgets.add(
                 // Creates a dropdown menu for attributes that have a predefined list of options.

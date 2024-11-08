@@ -18,9 +18,10 @@ import '../../../providers/main_provider.dart';
 class SearchProvider extends ChangeNotifier {
 
   // Constructor
-  SearchProvider(HomeNavigationProvider provider)
-      : _localisationController = TextEditingController(text: ""),
+  SearchProvider(HomeNavigationProvider provider, MainProvider mainProvider)
+      : _localisationController = TextEditingController(text: mainProvider?.actualUser?.gps ?? ""),
         _searchController = TextEditingController(text: ""),
+        _cityVillageController = TextEditingController(text: ""),
         _assetTypeNames = provider.allAssetType.keys.toList(),
         _searchControllerFocusNode = FocusNode() {
     _allSuggestion = List.from(_assetTypeNames);
@@ -44,8 +45,8 @@ class SearchProvider extends ChangeNotifier {
   double _distance = 10;
   TextEditingController _localisationController;
   TextEditingController _searchController;
+  TextEditingController _cityVillageController;
   final FocusNode _searchControllerFocusNode;
-  ScrollController _scrollController = ScrollController();
 
   SearchServices _searchServices = SearchServices();
   Filter _filter = Filter();
@@ -60,9 +61,9 @@ class SearchProvider extends ChangeNotifier {
   bool get isSearchDone => _isSearchDone;
   double get distance => _distance;
   TextEditingController get localisationController => _localisationController;
+  TextEditingController get cityVillageController => _cityVillageController;
   TextEditingController get searchController => _searchController;
   FocusNode get searchControllerFocusNode => _searchControllerFocusNode;
-  ScrollController get scrollController => _scrollController;
   Filter get filter => _filter;
   List<Offer> get searchedOffer => _searchedOffer;
   List<String> get assetTypeNames => _assetTypeNames;
@@ -162,6 +163,10 @@ class SearchProvider extends ChangeNotifier {
     }
   }
 
+  void setCityVillage(String cityVillage) async {
+    filter.setCityVillage(cityVillage);
+  }
+
   // Performs a filtered offer search and updates results
   Future<void> setOfferFiltered(BuildContext context) async {
 
@@ -257,7 +262,6 @@ class SearchProvider extends ChangeNotifier {
           },
           context.read<MainProvider>().actualUser!.accessToken
       );
-      print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
       await _searchServices.createContract(offer.offerId!, requestId, context.read<MainProvider>().actualUser!.accessToken);
       Navigator.of(context).pop();
       homeNavigationProvider.setIndexAndUpdateHeader(4);
@@ -267,6 +271,55 @@ class SearchProvider extends ChangeNotifier {
         context: context,
         builder: (context) => AlertDialog(
           title: Text(AppLocalizations.of(context)!.problemBuyingOffer),
+          content: Text(e is TimeoutException
+              ? AppLocalizations.of(context)!.popupFailConnexionTimeout
+              : AppLocalizations.of(context)!.popupFailConnexionNoServer),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(AppLocalizations.of(context)!.textOk),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  // Call function to add an offer id in the prosumer blockedOffers list
+  Future<void> addBlockedOffer (BuildContext context, Offer offer, HomeNavigationProvider homeNavigationProvider) async {
+
+    // Set a popup to wait for blocking an offer
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircularProgressIndicator(),
+                const SizedBox(width: 20),
+                Text(AppLocalizations.of(context)!.titlePopUpBlockingOffer),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    try {
+      await _searchServices.setOfferInBlockedOfferList(offer.offerId!, context.read<MainProvider>().actualUser!.username, context.read<MainProvider>().actualUser!.accessToken);
+      Navigator.of(context).pop();
+      homeNavigationProvider.setIndexAndUpdateHeader(0);
+    } catch (e) {
+      Navigator.of(context).pop();
+
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(AppLocalizations.of(context)!.problemBlockingOffer),
           content: Text(e is TimeoutException
               ? AppLocalizations.of(context)!.popupFailConnexionTimeout
               : AppLocalizations.of(context)!.popupFailConnexionNoServer),

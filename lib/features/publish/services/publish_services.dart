@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 
 import '../../../common/service/logger.dart';
 import '../../../constants/global_variables.dart';
@@ -95,6 +96,28 @@ class PublishServices {
             data: {"error": e});
       }
       rethrow;
+    }
+  }
+
+  /*
+   * Function to retrieve the image and convert it to base64
+   * An error is returned in the event of a problem
+   */
+  Future<String> convertImageToBase64(String img) async {
+
+    // Retrieve image from URL
+    final response = await http.get(Uri.parse(img));
+
+    if (response.statusCode == 200) {
+
+      // Conversion en Base64
+      Uint8List bytes = response.bodyBytes; // Récupérer les bytes de l'image
+      String base64String = base64Encode(bytes); // Encoder en Base64
+
+      return base64String;
+
+    } else {
+      throw Exception("Failed to convert image to base64");
     }
   }
 }

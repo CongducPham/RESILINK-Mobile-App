@@ -137,14 +137,6 @@ class OfferOptionState extends State<OfferOption> {
         SizedBox(height: 10),
         TextFieldInfo(textController: widget.publishProvider.offerPrice, label: AppLocalizations.of(context)!.publishLabelPrice, parentContext: context, isNumeric: true,),
         SizedBox(height: 10),
-        if (context.read<HomeNavigationProvider>().allAssetType[widget.publishProvider.assetType]!.nature == "immaterial" ||
-            context.read<HomeNavigationProvider>().allAssetType[widget.publishProvider.assetType]!.nature == "immaterialNotQuantified")
-          Column(
-            children: [
-              TextFieldInfo(textController: widget.publishProvider.offerQuantity , label: AppLocalizations.of(context)!.publishLabelQuantity, parentContext: context, isNumeric: true,),
-              SizedBox(height: 20),
-            ],
-          ),
         SpecificAttributesAsset(publishProvider: widget.publishProvider),
         SizedBox(height: 10),
         // Container to display/update offer description

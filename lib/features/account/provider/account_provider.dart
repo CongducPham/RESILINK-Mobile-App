@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:location/location.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class AccountProvider with ChangeNotifier {
   TextEditingController _job;
   TextEditingController _phoneNumber;
   TextEditingController _location;
+  TextEditingController _gps;
 
   // Constructor
   AccountProvider({
@@ -31,13 +33,15 @@ class AccountProvider with ChangeNotifier {
     String job = "",
     String phoneNumber = "",
     String location = "",
+    String gps = ""
   })  : _username = TextEditingController(text: username),
         _firstname = TextEditingController(text: firstname),
         _lastname = TextEditingController(text: lastname),
         _email = TextEditingController(text: email),
         _job = TextEditingController(text: job),
         _phoneNumber = TextEditingController(text: phoneNumber),
-        _location = TextEditingController(text: location);
+        _location = TextEditingController(text: location),
+        _gps = TextEditingController(text: gps);
 
   // Variables and their initialization
   ScrollController _scrollController = ScrollController();
@@ -67,6 +71,7 @@ class AccountProvider with ChangeNotifier {
   TextEditingController get job => _job;
   TextEditingController get phoneNumber => _phoneNumber;
   TextEditingController get location => _location;
+  TextEditingController get gps => _gps;
 
   ScrollController get scrollController => _scrollController;
   GlobalKey get profileKey => _profileKey;
@@ -100,6 +105,19 @@ class AccountProvider with ChangeNotifier {
           context,
           duration: Duration(seconds: 1), curve: Curves.easeInOut
       );
+    }
+  }
+
+  // Ask for permissions to get GPS coord.
+  Future<void> setLocalisation() async {
+    Location location = Location();
+    PermissionStatus permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+    }
+    if (permissionGranted == PermissionStatus.granted) {
+      LocationData locationData = await location.getLocation();
+      _gps.text = '<${locationData.latitude},${locationData.longitude}>';
     }
   }
 
@@ -220,6 +238,7 @@ class AccountProvider with ChangeNotifier {
           "email": _email.text,
           "password": context.read<MainProvider>().actualUser!.password!,
           "phoneNumber": _phoneNumber.text,
+          "gps": _gps.text,
         },
         "prosumer" : {
           "job": _job.text,

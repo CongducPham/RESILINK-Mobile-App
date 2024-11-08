@@ -8,6 +8,7 @@ import 'package:Resilink/features/publish/screen/offer_option.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:Resilink/providers/main_provider.dart';
 
+import '../../../common/widget/textfield_info.dart';
 import '../../home_navigation/provider/home_navigation_provider.dart';
 import '../../search/widget/assetType_ card.dart';
 
@@ -136,8 +137,9 @@ class PublishScreenState extends State<PublishScreen> {
                         child: LayoutBuilder(
                           builder: (context, constraints) {
                             return TextFormField(
+                              clipBehavior: Clip.none,
                               controller: publishProvider.offerName,
-                              textAlignVertical: TextAlignVertical.center,
+                              textAlignVertical: TextAlignVertical.bottom,
                               onChanged: (value) {
                                 publishProvider.checkFormValidity();
                               },
@@ -174,45 +176,56 @@ class PublishScreenState extends State<PublishScreen> {
                         height: MediaQuery.of(context).size.height * 0.07,
                         child: LayoutBuilder(
                           builder: (context, constraints) {
-                            return TextFormField(
-                              controller: publishProvider.offerLocalisation,
-                              textAlignVertical: TextAlignVertical.center,
-                              onChanged: (value) {
+                            return GestureDetector(
+                              onTap: () async {
+                                await publishProvider.setLocalisation();
                                 publishProvider.checkFormValidity();
                               },
-                              style: TextStyle(
-                                  fontSize: 13
-                              ),
-                              decoration: InputDecoration(
-                                isDense: true,
-                                hintText: AppLocalizations.of(context)!.hinderTextLocalisation,
-                                prefixIcon: IconButton(
-                                  icon: Icon(
-                                      Icons.near_me_outlined, size: constraints.maxHeight * 0.5
-                                  ),
-                                  onPressed: () async {
-                                    await publishProvider.setLocalisation();
+                              child: AbsorbPointer( // To prevent keyboard from showing up
+                                child: TextFormField(
+                                  readOnly: true, // Makes the TextFormField non-editable
+                                  controller: publishProvider.offerLocalisation,
+                                  textAlignVertical: TextAlignVertical.bottom,
+                                  onChanged: (value) {
                                     publishProvider.checkFormValidity();
                                   },
-                                ),
-                                labelText: "${AppLocalizations.of(context)!.hinderTextLocalisation} *",
-                                labelStyle: const TextStyle(
-                                  color: GlobalVariables.tertiaryColor,
-                                  fontSize: 16.0,
-                                ),
-                                floatingLabelBehavior: FloatingLabelBehavior.always,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(color: GlobalVariables.unFocusBorderColor, width: 2.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  borderSide: const BorderSide(color: GlobalVariables.tertiaryColor, width: 2.0),
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                  ),
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    hintText: AppLocalizations.of(context)!.hinderTextLocalisation,
+                                    prefixIcon: Icon(
+                                      Icons.near_me_outlined,
+                                      size: constraints.maxHeight * 0.5,
+                                    ),
+                                    labelText: AppLocalizations.of(context)!.publishLabelLocalisation,
+                                    labelStyle: const TextStyle(
+                                      color: GlobalVariables.tertiaryColor,
+                                      fontSize: 16.0,
+                                    ),
+                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                      borderSide: const BorderSide(color: GlobalVariables.unFocusBorderColor, width: 2.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                      borderSide: const BorderSide(color: GlobalVariables.tertiaryColor, width: 2.0),
+                                    ),
+                                  ),
                                 ),
                               ),
                             );
                           },
                         ),
+                      ),
+                      SizedBox(height: 10),
+                      TextFieldInfo(
+                        textController: publishProvider.offerCityVillage,
+                        label: AppLocalizations.of(context)!.publishLabelSpecLocalization,
+                        parentContext: context,
+                        isNumeric: false,
                       ),
                       SizedBox(height: 20),
                       // Clickable text to display the widget to manage all user information

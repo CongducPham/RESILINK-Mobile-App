@@ -34,7 +34,7 @@ class OfferImgProvider extends ChangeNotifier {
   }
 
   // Set an image with its path and XFile value within the camera
-  void setImgWithPhoto() async {
+  Future<void> setImgWithPhoto() async {
     _file = await _img.pickImage(source: ImageSource.camera);
     if (_file != null) {
       _fileImg = File(_file!.path);
@@ -45,7 +45,7 @@ class OfferImgProvider extends ChangeNotifier {
   }
 
   // Set an image with its path and XFile value within the phone gallery
-  void setImgWithGallery() async {
+  Future<void> setImgWithGallery() async {
     _file = await _img.pickImage(source: ImageSource.gallery);
     if (_file != null) {
       _fileImg = File(_file!.path);
@@ -72,6 +72,7 @@ class OfferImgProvider extends ChangeNotifier {
     if (_pathDefaultImg.contains("img/")) {
       imageBytes = await _imgBundleToByte(_pathDefaultImg);
     } else {
+      print(_fileImg);
       imageBytes = _fileImg!.readAsBytesSync();
     }
     return (base64Encode(imageBytes));

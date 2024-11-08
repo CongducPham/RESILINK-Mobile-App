@@ -39,6 +39,10 @@
   "@account": {
     "description": "Text for navigation bottom bar and header"
   },
+  "blockedOfferPageTitle":"العروض المحظورة",
+  "@blockedOfferPageTitle": {
+    "description": "Title for blocked offers page"
+  },
   "ownerOfferPurchased": "العرض الذي تم شراؤه",
   "@ownerOfferPurchased": {
     "description": "Text for navigation bottom bar and header "
@@ -83,7 +87,7 @@
   "@searchSecondTitle": {
     "description": "Text for search page"
   },
-  "hinderTextLocalisation": "اكتب مكانًا أو استخدم التحديد الجغرافي",
+  "hinderTextLocalisation": "أين أنت",
   "@hinderTextLocalisation": {
     "description": "Text for search page"
   },
@@ -119,7 +123,7 @@
   "@publishHinderLabelTitle": {
     "description": "placeholder for title input field in the publish page"
   },
-  "publishLabelLocalisation": "أين هو موقعك",
+  "publishLabelLocalisation": "إحداثيات GPS لتمكين البحث الدقيق",
   "@publishLabelLocalisation": {
     "description": "placeholder for location input field in the publish page"
   },
@@ -145,6 +149,10 @@
   },
   "labelEmail": "البريد الإلكتروني",
   "@labelEmail": {
+    "description": "Label in the publish page & account page"
+  },
+  "labelGps": "تنسيق GPS.",
+  "@labelGps": {
     "description": "Label in the publish page & account page"
   },
   "publishLabelDuration": "مدة العرض",
@@ -179,7 +187,7 @@
   "@publishLabelSpecVariety": {
     "description": "Label in the publish page"
   },
-  "publishLabelSpecLocalization": "أين ستتوفر سلعك/خدماتك",
+  "publishLabelSpecLocalization": "مزرعة/قرية/مدينة",
   "@publishLabelSpecLocalization": {
     "description": "Label in the publish page"
   },
@@ -218,6 +226,14 @@
   "publishHinderDetails": "قدم المزيد من التفاصيل حول عرضك هنا",
   "@publishHinderDetails": {
     "description": "hinder of Details in the publish page"
+  },
+  "publishHinderOfferType": "مثل التفاح الأخضر",
+  "@publishHinderOfferType": {
+    "description": "placeholder for offer type input field in the publish page"
+  },
+  "publishHinderOfferVariety": "على سبيل المثال حفل التفاح",
+  "@publishHinderOfferVariety": {
+    "description": "placeholder for offer variety input field in the publish page"
   },
   "publishLabelImages": "أضف صور",
   "@publishLabelImages": {
@@ -331,8 +347,16 @@
   "@buttonSignUp": {
     "description": "Label for button"
   },
+  "buttonConfirm": "تأكيد",
+  "@buttonConfirm": {
+    "description": "Label for button"
+  },
   "seeMoreText": "شاهد المزيد",
   "@seeMoreText": {
+    "description": "Text for TextButton"
+  },
+  "allBlockedOfferText": "شاهد جميع العروض المحظورة",
+  "@allBlockedOfferText": {
     "description": "Text for TextButton"
   },
   "offerDetailsPublisher": "النشر بواسطة :",
@@ -386,6 +410,10 @@
   "popupTitleChooseOptionImage":"اختر خيارك",
   "@popupTitleChooseOptionImage": {
     "description": "Title in the pop-up to choose an option"
+  },
+  "popupTitleConfirm":"هل أنت متأكد؟",
+  "@popupTitleConfirm": {
+    "description": "Title in the pop-up to confirm your action"
   },
   "popupFirstChooseOptionImage":"فتح الصور الافتراضية",
   "@popupFirstChooseOptionImage": {
@@ -531,6 +559,10 @@
   "@problemRetrievingAssetType": {
     "description": "Text for Problems in retrieving assetTypes"
   },
+  "problemBlockingOffer": "مشاكل حظر العرض",
+  "@problemBlockingOffer": {
+    "description": "Text for Problems in adding an offer in blockedOffers list"
+  },
   "titlePopUpUpdateUser": "تحديث بيانات المستخدم...",
   "@titlePopUpUpdateUser": {
     "description": "Text for title updating user data"
@@ -575,6 +607,14 @@
   "@titlePopUpCancelContract": {
     "description": "Text for title pop-up to cancel a contract"
   },
+  "titlePopUpBlockingOffer": "حظر عرض...",
+  "@titlePopUpBlockingOffer": {
+    "description": "Text for title pop-up to block an offer"
+  },
+  "titlePopUpUnblockingOffer": "إلغاء حظر عرض",
+  "@titlePopUpUnblockingOffer": {
+    "description": "Text for title pop-up to unblock an offer"
+  },
   "textPopUpModifyOfferGood": "لا توجد مشكلة في عرضك",
   "@textPopUpModifyOfferGood": {
     "description": "Text for body pop-up to manage an offer in case of no problems"
@@ -582,6 +622,14 @@
   "textPopUpModifyOfferBad": "عرضك منتهي الصلاحية، لن يظهر في المتجر حتى يتم تعديله",
   "@textPopUpModifyOfferBad": {
     "description": "Text for body pop-up to manage an offer in case of problems"
+  },
+  "textPopUpUnblockOffer": "هل ترغب في فتح هذا العرض؟",
+  "@textPopUpUnblockOffer": {
+    "description": "Text for body pop-up to unlock an offer"
+  },
+  "textNoBlockedOffer": "لا توجد عروض محجوبة",
+  "@textNoBlockedOffer": {
+    "description": "Text for page to show there is no blocked offers"
   },
   "textNoOfferPublish": "لم يتم نشر أي عروض",
   "@textNoOfferPublish": {

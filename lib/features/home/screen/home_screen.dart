@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:Resilink/features/home/screen/all_owner_blocked_offers.dart';
+import 'package:Resilink/features/home_navigation/provider/home_navigation_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:Resilink/constants/global_variables.dart';
@@ -8,6 +12,8 @@ import 'package:Resilink/features/news_page/widget/news_account_tile.dart';
 import 'package:Resilink/providers/main_provider.dart';
 
 import '../../../common/widget/offer_tile.dart';
+import '../../../models/News.dart';
+import '../../account/provider/account_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,20 +33,25 @@ class HomeScreenState extends State<HomeScreen> {
       // Creating the Home & NewsPage provider in the tree structure
       providers: [
         ChangeNotifierProvider(create: (_) => HomeProvider()),
-        ChangeNotifierProvider(create: (_) => NewsPageProvider())
+        ChangeNotifierProvider(create: (_) => NewsPageProvider()),
       ],
       builder: (context, child) {
         return SingleChildScrollView(
-          child: Consumer2<HomeProvider, NewsPageProvider>( // Listening to Home and NewsPage providers to access/update their data
-            builder: (context, homeProvider, newsProvider, child) {
+          child: Consumer3<HomeProvider, NewsPageProvider, HomeNavigationProvider>( // Listening to Home and NewsPage providers to access/update their data
+            builder: (context, homeProvider, newsProvider, homeNavigationProvider, child) {
 
               /*
                * Calls up functions to retrieve the latest published offers and, depending on whether the user is logged in or not,
                * to retrieve the latest news or news bookmarked by the user if the functions have not yet been started.
                */
-              if (!homeProvider.finishFetchOffer || !newsProvider.finishFetchNews) {
+              if (!homeProvider.finishFetchOffer || (context.read<MainProvider>().connected && !homeProvider.finishFetchSuggestion) || !newsProvider.finishFetchNews) {
                 homeProvider.setLastOfferPublish(context);
-                context.read<MainProvider>().connected ? newsProvider.setOwnerNews(context) : newsProvider.setLastNews(context);
+                if (context.read<MainProvider>().connected) {
+                  homeProvider.setLastSuggestedOffer(context);
+                  newsProvider.setOwnerNews(context);
+                } else {
+                  newsProvider.setLastNews(context);
+                }
               }
 
               return Column(
@@ -58,7 +69,60 @@ class HomeScreenState extends State<HomeScreen> {
                       newsProvider.listNews.isEmpty ? // if listNews is empty, there is no news in the list so a message is displayed
                       Center(
                         child: Text(AppLocalizations.of(context)!.newsNotFound),
-                      ) : ListView.builder(
+                      ) : AnimatedList(
+                        key: newsProvider.listKey,
+                        scrollDirection: Axis.horizontal,
+                        initialItemCount: newsProvider.listNews.length,
+                        itemBuilder: (context, index, animation) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: Container(
+                              width: (MediaQuery.of(context).size.width * 0.8),
+                              margin: EdgeInsets.only(right: 10),
+                              child: BookmarkTile(
+                                key: ValueKey(newsProvider.listNews[index].id),
+                                news: newsProvider.listNews[index],
+                                context: context,
+                                isFromProfil: false,
+                                isDeletion: context.read<MainProvider>().connected ? true : false,
+                                callBackAnimation: (index) {
+                                  // Supprimer l'élément avec animation
+                                  News deletedNews = newsProvider.listNews[index];
+                                  newsProvider.listNews.removeAt(index);
+                                  newsProvider.listKey.currentState!.removeItem(
+                                    index,
+                                    (_, animation) => FadeTransition(
+                                      opacity: animation,
+                                      child: Container(
+                                        width: (MediaQuery.of(context).size.width * 0.8),
+                                        margin: EdgeInsets.only(right: 10),
+                                        child: BookmarkTile(
+                                          news: deletedNews,
+                                          context: context,
+                                          isFromProfil: false,
+                                          isDeletion: true,
+                                          callBackAnimation: null,
+                                          index: index,
+                                          fromHomePage: true,
+                                          newsProvider: newsProvider,
+                                        )
+                                      ),
+                                    ),
+                                    duration: const Duration(milliseconds: 500),
+                                  );
+                                  Future.delayed(const Duration(milliseconds: 500), () {
+                                    newsProvider.notifyListeners();
+                                  });
+                                },
+                                index: index,
+                                fromHomePage: true,
+                                newsProvider: newsProvider,
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    /* ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: newsProvider.listNews.length,
                               itemBuilder: (context, index) {
@@ -66,18 +130,21 @@ class HomeScreenState extends State<HomeScreen> {
                                   width: (MediaQuery.of(context).size.width * 0.8),
                                   margin: EdgeInsets.only(right: 10),
                                   child: BookmarkTile(
+                                    key: ValueKey(newsProvider.listNews[index].id),  // Utilise une clé unique comme l'id de la news
                                     news: newsProvider.listNews[index],
                                     context: context,
                                     isFromProfil: false,
                                     isDeletion: context.read<MainProvider>().connected ? true : false,
-                                    callBackAnimation: null,
+                                    callBackAnimation: (i) {
+                                      print(newsProvider.listNews.length);
+                                    },
                                     index: index,
                                     fromHomePage: true,
                                     newsProvider: newsProvider,
                                   ),
                                 );
                               },
-                            ) : const Center(
+                            ) */ : const Center(
                                   child: CircularProgressIndicator(),
                                 ),
                   ),
@@ -94,22 +161,28 @@ class HomeScreenState extends State<HomeScreen> {
                         const SizedBox(height: 10),
                         Container(
                           constraints: BoxConstraints(
-                            minHeight: MediaQuery.of(context).size.height * 0.14
+                            minHeight: MediaQuery.of(context).size.height * 0.14,
+                            maxHeight: 260
                           ),
-                          height: MediaQuery.of(context).size.height * 0.14 * homeProvider.listLastOffer.length + homeProvider.listLastOffer.length * 10 ,
+                          height: MediaQuery.of(context).size.height * 0.14 * (homeProvider.listSuggestedOffer.length > 3 ? 3 : homeProvider.listSuggestedOffer.length) + 10 ,
                           child: homeProvider.finishFetchSuggestion && !homeProvider.loadingFetchSuggestion ? // if loadingFetchSuggestion is true, the asynchronous function is not completed and a waiting icon is displayed
-                            homeProvider.listLastOffer.isEmpty ? // if listLastOffer is empty, there is no news in the list so a message is displayed
+                            homeProvider.listSuggestedOffer.isEmpty ? // if listLastOffer is empty, there is no news in the list so a message is displayed
                             Center(
                               child: Text(AppLocalizations.of(context)!.textNoOffer),
                             ) :
                             ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: homeProvider.listLastOffer.length > 3 ? 3 : homeProvider.listLastOffer.length,
+                              itemCount: homeProvider.listSuggestedOffer.length > 3 ? 3 : homeProvider.listSuggestedOffer.length,
                               itemBuilder: (_, int index) {
                                 return Column(
                                   children: [
-                                    OfferTile(parentContext: context, offer: homeProvider.listLastOffer[index], asset: homeProvider.listOfferAsset[homeProvider.listLastOffer[index].assetId]!, forPurchase: true),
-                                    if (index != homeProvider.listLastOffer.length)
+                                    OfferTile(
+                                        parentContext: context,
+                                        offer: homeProvider.listSuggestedOffer[index],
+                                        asset: homeProvider.listSuggestedOfferAsset[homeProvider.listSuggestedOffer[index].assetId]!,
+                                        forPurchase: homeProvider.listSuggestedOffer[index].offerer != context.read<MainProvider>().userName
+                                    ),
+                                    if (index != homeProvider.listSuggestedOffer.length)
                                       SizedBox(height: 10)
                                   ],
                                 );
@@ -117,6 +190,21 @@ class HomeScreenState extends State<HomeScreen> {
                             ) :
                           const Center(
                             child: CircularProgressIndicator(),
+                          ),
+                        ),
+
+                        // clickable text for a complete list of all published offers in a new page
+                        Align(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AllOwnerBlockedOffers(homeProvider: homeProvider, homeNavigationProvider: homeNavigationProvider)));
+                            },
+                            child: Text(
+                              AppLocalizations.of(context)!.allBlockedOfferText,
+                              style: const TextStyle(
+                                  fontSize: 14, color: GlobalVariables.tertiaryColor),
+                            ),
                           ),
                         ),
                         SizedBox(height: 10),
@@ -145,7 +233,12 @@ class HomeScreenState extends State<HomeScreen> {
                           return Column(
                             children: [
                               // Calls the generic tile for an offer
-                              OfferTile(parentContext: context, offer: homeProvider.listLastOffer[index], asset: homeProvider.listOfferAsset[homeProvider.listLastOffer[index].assetId]!, forPurchase: context.read<MainProvider>().connected),
+                              OfferTile(
+                                  parentContext: context,
+                                  offer: homeProvider.listLastOffer[index],
+                                  asset: homeProvider.listOfferAsset[homeProvider.listLastOffer[index].assetId]!,
+                                  forPurchase: (context.read<MainProvider>().connected && homeProvider.listLastOffer[index].offerer != context.read<MainProvider>().userName) ? true : false
+                              ),
                               if (index != homeProvider.listLastOffer.length)
                                 SizedBox(height: 10)
                             ],

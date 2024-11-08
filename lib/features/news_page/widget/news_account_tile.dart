@@ -33,21 +33,12 @@ class BookmarkTileState extends State<BookmarkTile> {
   bool _isValid = false;
   NewsPageService newsPageService = NewsPageService();
 
-  //Bool to toggle animation
-  bool _isExpanded = true;
-
-  void _toggleAnimation() {
-    setState(() {
-      _isExpanded = !_isExpanded;
-    });
-  }
-
   @override
   Widget build(context) {
     return  Column(
       children: [
         // If this container is not the last one, is in an even position and is not called in page 0, add a space
-        if (!widget.index.isEven & _isExpanded & !widget.fromHomePage)
+        if (!widget.index.isEven & !widget.fromHomePage)
           SizedBox(height: MediaQuery.of(context).size.height * 0.01),
         /*
          * AnimatedContainer to launch an animation when
@@ -55,14 +46,9 @@ class BookmarkTileState extends State<BookmarkTile> {
          * A news item is added to the list set in parameter (case of page 3) => added to the bookmarked list
          * _isExpanded is the boolean defining whether the container must have a size. After the animation, _isExpanded takes true to mean that the container must no longer have a size.
          */
-        AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeIn,
-            // If animation is toggle, height and width = 0 for container to disappear.
-            height: !_isExpanded ? 0
-                : MediaQuery.of(this.context).size.height * 0.1 ,
-            width: !_isExpanded ? 0
-                : MediaQuery.of(this.context).size.width,
+        Container(
+            height: MediaQuery.of(this.context).size.height * 0.1 ,
+            width: MediaQuery.of(this.context).size.width,
             decoration: BoxDecoration(
               color: Colors.white54,
               borderRadius: BorderRadius.circular(10),
@@ -71,15 +57,14 @@ class BookmarkTileState extends State<BookmarkTile> {
             child: Row(
               children: [
                 Expanded(
-                    flex: !_isExpanded ? 0 : 1,
-                    child: !_isExpanded ? Container() : newsPageService.newsAccountTileImg(widget.news)
+                    flex: 1,
+                    child: newsPageService.newsAccountTileImg(widget.news)
                 ),
                 Expanded(
                   // isFromProfil change flex to add an icon if false
-                  flex: !_isExpanded ? 0 : widget.isFromProfil ? 9 : 7,
-                  child: !_isExpanded ? Container()
-                  // news data to display
-                  : Container(
+                  flex: widget.isFromProfil ? 9 : 7,
+                  child:// news data to display
+                  Container(
                     padding: const EdgeInsets.all(12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,7 +81,7 @@ class BookmarkTileState extends State<BookmarkTile> {
                         ),
                         SizedBox(height: MediaQuery.of(this.context).size.height * 0.003),
                         GestureDetector(
-                          
+
                           // Launch the url in the default browser
                           onTap: () async {
                             await launchInBrowser(Uri.parse(widget.news.link));
@@ -117,8 +102,8 @@ class BookmarkTileState extends State<BookmarkTile> {
                 ),
                 if (!widget.isFromProfil)
                   Expanded(
-                    flex: !_isExpanded ? 0 : 2,
-                    child: !_isExpanded ? Container() : Container(
+                    flex: 2,
+                    child: Container(
                       decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
@@ -126,7 +111,7 @@ class BookmarkTileState extends State<BookmarkTile> {
                           bottomRight: Radius.circular(12.0), // Coin bas droit arrondi
                         ),
                       ),
-                      child: _isValid ? !_isExpanded ? Container() :
+                      child: _isValid ?
                       // Icon when animation is running and finished
                       const Icon(
                           Icons.check_circle_rounded,
@@ -138,15 +123,7 @@ class BookmarkTileState extends State<BookmarkTile> {
                       GestureDetector(
                           // Calls the function to activate animation and remove a news item from the bookmarked list and also the container itself
                           onTap: () async {
-                            setState(() {
-                              _isLoading = true;
-                            });
-                            widget.newsProvider.deleteNews(context, widget.news);
-                            setState(() {
-                              _isLoading = false;
-                              _isValid = true;
-                              _isExpanded = !_isExpanded;
-                            });
+                            await widget.newsProvider.deleteNews(context, widget.news);
                             widget.callBackAnimation!(widget.index) ?? true ;
                           },
                           // Icon to delete a news from bookmarked list
@@ -169,15 +146,8 @@ class BookmarkTileState extends State<BookmarkTile> {
                       // Case where in page 3 and user connected => can add news in bookmarked list
                       : context.read<MainProvider>().connected ? GestureDetector(
                           onTap: () async {
-                            setState(() {
-                              _isLoading = true;
-                            });
-
                             await widget.newsProvider.addNews(context, widget.news);
-                            setState(() {
-                              _isLoading = false;
-                              _isValid = true;
-                            });
+                            widget.callBackAnimation!(widget.index) ?? true ;
                           },
                           child: const Icon(
                             Icons.add_circle_outline_rounded,

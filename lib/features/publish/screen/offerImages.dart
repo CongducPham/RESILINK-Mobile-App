@@ -4,6 +4,7 @@ import 'package:Resilink/constants/global_variables.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:Resilink/features/publish/widget/popup_choice_img.dart';
 
+import '../../../providers/main_provider.dart';
 import '../provider/offerImg_provider.dart';
 import '../provider/publish_provider.dart';
 
@@ -53,7 +54,7 @@ class OfferImagesState extends State<OfferImages> {
                            * Else displays a popup to take a picture from multiple choices
                            */
                           onTap: () {
-                            if (offerImgProvider.fileImg != null || offerImgProvider.pathDefaultImg.isNotEmpty) {
+                            if (offerImgProvider.fileImg != null || offerImgProvider.pathDefaultImg.isNotEmpty || ( widget.publishProvider.imageList.length > index && widget.publishProvider.imageList[index] != null)) {
                               widget.publishProvider.removeElementImageList(index);
                               offerImgProvider.cleanImg();
                             } else {
@@ -61,7 +62,10 @@ class OfferImagesState extends State<OfferImages> {
                                 context: context,
                                 barrierDismissible: true,
                                 builder: (BuildContext context) {
-                                  return PopupChoiceImg(offerImgProvider: offerImgProvider, publishProvider: widget.publishProvider);
+                                  return PopupChoiceImg(
+                                      offerImgProvider: offerImgProvider,
+                                      publishProvider: widget.publishProvider
+                                  );
                                 }
                               );
                             }
@@ -75,6 +79,12 @@ class OfferImagesState extends State<OfferImages> {
                               image:  AssetImage(
                                   offerImgProvider.pathDefaultImg
                               )
+                          ) : ( widget.publishProvider.imageList.length > index && widget.publishProvider.imageList[index] != null) ? widget.publishProvider.imageList[index].toString().contains("https://") ?
+                          Image.network(
+                            widget.publishProvider.imageList[index],
+                            fit: BoxFit.fill,
+                          ) : Image.memory (
+                            context.read<MainProvider>().convertBase64ToImg(widget.publishProvider.imageList[index]),
                           ) :
                           // If not image is stocked, displays the default "add image" container
                           Container(

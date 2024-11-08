@@ -5,6 +5,7 @@ import 'package:Resilink/features/account/provider/account_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../common/widget/textfield_info.dart';
+import '../../../constants/global_variables.dart';
 
 // Widget, part of the account page, displays profile information and allows modifications.
 class AccountProfile extends StatefulWidget {
@@ -57,6 +58,54 @@ class AccountProfileState extends State<AccountProfile> {
         Container(
             margin: const EdgeInsets.only(bottom: 5),
             child: TextFieldInfo(textController: context.read<AccountProvider>().email, label: AppLocalizations.of(context)!.labelEmail, parentContext: context, isNumeric: false,)),
+        SizedBox(height: 10),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.07,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 3.0),
+                child: GestureDetector(
+                  onTap: () async {
+                    await context.read<AccountProvider>().setLocalisation();
+                  },
+                  child: AbsorbPointer(
+                    child: TextFormField(
+                      readOnly: true, // Makes the TextFormField non-editable
+                      controller: context.read<AccountProvider>().gps,
+                      textAlignVertical: TextAlignVertical.bottom,
+                      style: const TextStyle(
+                        fontSize: 13,
+                      ),
+                      decoration: InputDecoration(
+                        isDense: true,
+                        hintText: AppLocalizations.of(context)!.hinderTextLocalisation,
+                        prefixIcon: Icon(
+                          Icons.near_me_outlined,
+                          size: constraints.maxHeight * 0.5,
+                        ),
+                        labelText: AppLocalizations.of(context)!.publishLabelLocalisation,
+                        labelStyle: const TextStyle(
+                          color: GlobalVariables.tertiaryColor,
+                          fontSize: 16.0,
+                        ),
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                          borderSide: const BorderSide(color: GlobalVariables.unFocusBorderColor, width: 2.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                          borderSide: const BorderSide(color: GlobalVariables.tertiaryColor, width: 2.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
         SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,

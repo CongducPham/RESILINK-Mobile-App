@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:Resilink/features/news_page/provider/news_page_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../models/News.dart';
+import '../widget/news_account_tile.dart';
 import 'list_news_account_screen.dart';
 
 // Widget for news page
@@ -24,65 +26,101 @@ class NewsScreenState extends State<NewsScreen> {
         builder: (context, child) {
           return SingleChildScrollView(
               child: Column(
-                  children: [
-                    SizedBox(height: (MediaQuery.of(context).size.height * 0.02)),
-                    Center(
-                        child: Text(
-                          AppLocalizations.of(context)!.newsTitle,
-                          style: const TextStyle(
-                            fontSize: 24,
-                          ),
+                children: [
+                  SizedBox(height: (MediaQuery.of(context).size.height * 0.02)),
+                  Center(
+                      child: Text(
+                        AppLocalizations.of(context)!.newsTitle,
+                        style: const TextStyle(
+                          fontSize: 24,
+                        ),
+                      )
+                  ),
+                  const SizedBox(height: 15),
+
+                  // Listening to Account, HomeNavigation and Main providers to access their data
+                  Consumer<NewsPageProvider>(
+                    builder: (context, newsPageProvider, child) {
+
+                      // Calls function to retrieve a list of news if functions have not yet started
+                      if (!newsPageProvider.finishFetchNews) {
+                        newsPageProvider.setLastNews(context);
+                      }
+
+                      return Container(
+                        constraints: BoxConstraints(
+                            minHeight: MediaQuery.of(context).size.height * 0.14
+                        ),
+                        // Height varies according to the number of items in the list, or if the function for retrieving purchased offers has been terminated
+                        height: MediaQuery.of(context).size.height * 0.14 * (newsPageProvider.listNews.isNotEmpty ? newsPageProvider.listNews.length : 2),
+                        width: MediaQuery.of(context).size.width,
+                        child: newsPageProvider.finishFetchNews && !newsPageProvider.waitingFetchNews ? // if loadingFetchOffer is true, the asynchronous function is not completed and a waiting icon is displayed
+                        newsPageProvider.listNews.isNotEmpty ? // if lastOfferPublish is empty, there is no offers in the list so a message is displayed
+                        AnimatedList(
+                            key: newsPageProvider.listKey,
+                            scrollDirection: Axis.vertical,
+                            initialItemCount: newsPageProvider.listNews.length,
+                            itemBuilder: (context, index, animation) {
+                              return SizeTransition(
+                                sizeFactor: animation,
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      key: ValueKey(newsPageProvider.listNews[index].id),
+                                      child: BookmarkTile(
+                                        key: ValueKey(newsPageProvider.listNews[index].id),
+                                        news: newsPageProvider.listNews[index],
+                                        context: context,
+                                        isFromProfil: false,
+                                        isDeletion: false,
+                                        callBackAnimation: (index) {
+                                          // Supprimer l'élément avec animation
+                                          News deletedNews = newsPageProvider.listNews[index];
+                                          newsPageProvider.listNews.removeAt(index);
+                                          newsPageProvider.listKey.currentState!.removeItem(
+                                            index,
+                                            (_, animation) => SizeTransition(
+                                              axis: Axis.vertical,
+                                              sizeFactor: animation,
+                                              child: BookmarkTile(
+                                                news: deletedNews,
+                                                context: context,
+                                                isFromProfil: false,
+                                                isDeletion: false,
+                                                callBackAnimation: null,
+                                                index: index,
+                                                fromHomePage: true,
+                                                newsProvider: newsPageProvider,
+                                              ),
+                                            ),
+                                            duration: const Duration(milliseconds: 500),
+                                          );
+                                          Future.delayed(const Duration(milliseconds: 500), () {
+                                            newsPageProvider.notifyListeners();
+                                          });
+                                        },
+                                        index: index,
+                                        fromHomePage: true,
+                                        newsProvider: newsPageProvider,
+                                      ),
+                                    ),
+                                    if (index != newsPageProvider.listNews.length)
+                                      SizedBox(height: 10)
+                                  ],
+                                ),
+                              );
+                            }
                         )
-                    ),
-                    const SizedBox(height: 15),
-
-                    // Listening to Account, HomeNavigation and Main providers to access their data
-                    Consumer<NewsPageProvider>(
-                        builder: (context, newsPageProvider, child) {
-
-                          // Calls function to retrieve a list of news if functions have not yet started
-                          if (!newsPageProvider.finishFetchNews) {
-                            newsPageProvider.setLastNews(context);
-                          }
-
-                          // Display a waiting screen if setLastNews is not finished
-                          if (newsPageProvider.waitingFetchNews) {
-                            return SizedBox(
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width,
-                                height: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .height / 1.5,
-                                child: const Center(child: CircularProgressIndicator())
-                            );
-                          }
-
-                          /*
-                           * If setLastNews is finished and listNews is empty
-                           * Else display listNews with ListBookmarked widget
-                           */
-                          if (!newsPageProvider.waitingFetchNews && newsPageProvider.listNews.isEmpty) {
-                            return SizedBox(
-                                width: MediaQuery
-                                    .of(this.context)
-                                    .size
-                                    .width,
-                                height: MediaQuery
-                                    .of(this.context)
-                                    .size
-                                    .height / 1.5,
-                                child: Center(child: Text(AppLocalizations.of(context)!.newsNotFound))
-                            );
-                          } else {
-                            return ListBookmarked(newsList: newsPageProvider.listNews, maxLength: 5, fromProfil: false, deletion: false, newsProvider: newsPageProvider,);
-                          }
-                        }
-
-                    )
-                  ]
+                            : Center(
+                          child: Text(AppLocalizations.of(context)!.newsNotFound),
+                        )
+                            : const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+                  )
+                ]
               )
           );
         }

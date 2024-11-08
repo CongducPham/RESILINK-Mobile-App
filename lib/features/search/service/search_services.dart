@@ -108,7 +108,7 @@ class SearchServices {
     bool exceptionAlreadyThrown = false;
     try {
       String url = GlobalVariables.pathAPIRequest;
-      info("createRequestWithId - before sending data", data: {"data": data});
+      print("tentative création request, url: ${GlobalVariables.pathAPIRequest}");
       final headers = <String, String>{
         "accept": "application/json",
         "Authorization": "Bearer $token",
@@ -148,7 +148,7 @@ class SearchServices {
    * Create a contract from offerId and RequestId
    * An error is returned in the event of a problem
    */
-  Future<void> createContract (int offerId, int requestId, String token) async {
+  Future<void>  createContract (int offerId, int requestId, String token) async {
     bool exceptionAlreadyThrown = false;
     try {
       String url = GlobalVariables.pathAPIContract;
@@ -182,6 +182,49 @@ class SearchServices {
       // If a problem hasn't already occurred, write an error in the logs
       if(!exceptionAlreadyThrown) {
         error("createContract - Cannot connect to Resilink server", data: {"error": e});
+      }
+      rethrow;
+    }
+  }
+
+  /*
+   * Create a contract from offerId and RequestId
+   * An error is returned in the event of a problem
+   */
+  Future<void> setOfferInBlockedOfferList (int offerId, String username, String token) async {
+    bool exceptionAlreadyThrown = false;
+    try {
+      String url = "${GlobalVariables.pathAPIProsumer}$username/addBlockedOffer";
+      final data = json.encode(<String, dynamic>{'offerId': offerId.toString()});
+      final headers = <String, String>{
+        "accept": "application/json",
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json"
+      };
+      info("setOfferInBlockedOfferList - before sending data", data: {"data": data});
+      final response = await http.patch(
+          Uri.parse(url),
+          headers: headers,
+          body: data
+      ).timeout(const Duration(seconds: 15), onTimeout: () {
+        exceptionAlreadyThrown = true;
+        throw TimeoutException('The request has exceeded the 15-second time limit for retrieving offers.');
+      });
+      if (response.statusCode == 200) {
+        final jsonMap = jsonDecode(response.body);
+        info("setOfferInBlockedOfferList - success creating contract", data: {"data": jsonMap});
+      }
+      else {
+        // response code != 200 => error, writes to logs the answer and returns an exception
+        error("setOfferInBlockedOfferList - error creating contract", data: {"data": jsonDecode(response.body)});
+        exceptionAlreadyThrown = true;
+        throw Exception("Failed to connect to the addBlockedOffer request");
+      }
+
+    } catch (e) {
+      // If a problem hasn't already occurred, write an error in the logs
+      if(!exceptionAlreadyThrown) {
+        error("setOfferInBlockedOfferList - Cannot connect to Resilink server", data: {"error": e});
       }
       rethrow;
     }

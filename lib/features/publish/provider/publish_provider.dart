@@ -15,7 +15,6 @@ import '../../../models/Asset.dart';
 import '../../../models/Offer.dart';
 import '../../../models/SpecificAttrModel.dart';
 import '../../../providers/main_provider.dart';
-import '../../home_navigation/screen/home_navigation_screen.dart';
 
 class PublishProvider extends ChangeNotifier {
 
@@ -37,15 +36,22 @@ class PublishProvider extends ChangeNotifier {
         _specificAttributeValue[attr.name] = TextEditingController(text: "");
       }
       for (var attr in assetToUpdate!.specificAttributes!) {
-        _specificAttributeValue[attr.attributeName] = TextEditingController(text: attr.value != null ? attr.value : _specificAttributeValue[attr.attributeName].text);
+        if (attr.attributeName != "City/Village") {
+          _specificAttributeValue[attr.attributeName] = TextEditingController(text: attr.value != null ? attr.value : _specificAttributeValue[attr.attributeName].text);
+        } else {
+          _offerCityVillage = TextEditingController(text: attr.value);
+        }
       }
       _offerLocalisation = _specificAttributeValue['GPS'] ?? TextEditingController(text: "");
+      for (var images in assetToUpdate!.images!) {
+        _imageList.add(images);
+      }
       _isFormValid = true;
     } else {
       _assetTypeList.addAll(getListAssetTypeResilink(context.read<HomeNavigationProvider>().allAssetType.keys.toList()));
+      _offerLocalisation = TextEditingController(text: context.read<MainProvider>().actualUser?.gps ?? "");
     }
     _offerPrice = TextEditingController(text: offerToUpdate?.price.toString() ?? "0");
-    _offerQuantity = TextEditingController(text: assetToUpdate?.totalQuantity.toString() ?? "10");
     _offerDescription = TextEditingController(text: assetToUpdate?.description ?? "");
     _contactNumber = TextEditingController(text: context.read<MainProvider>().actualUser!.phoneNumber);
     _contactName = TextEditingController(text: context.read<MainProvider>().actualUser!.username);
@@ -60,6 +66,7 @@ class PublishProvider extends ChangeNotifier {
   // Variables for data in the mandatory part of the offer
   TextEditingController _offerName = TextEditingController(text: "");
   TextEditingController _offerLocalisation = TextEditingController(text: "");
+  TextEditingController _offerCityVillage = TextEditingController(text: "");
   String _assetType = "";
   bool _selected = false;
   String _offerTransactionType = "";
@@ -88,12 +95,12 @@ class PublishProvider extends ChangeNotifier {
   FocusNode _focusNodeDescription = FocusNode();
   TextEditingController _offerPrice = TextEditingController(text: "0");
   TextEditingController _offerDuration = TextEditingController(text: "1");
-  TextEditingController _offerQuantity = TextEditingController(text: "10");
   String _offerDurationRange = "month";
 
   // Getters
   TextEditingController get offerName => _offerName;
   TextEditingController get offerLocalisation => _offerLocalisation;
+  TextEditingController get offerCityVillage => _offerCityVillage;
   String get assetType => _assetType;
   bool get selected => _selected;
   String get offerTransactionType => _offerTransactionType;
@@ -115,7 +122,6 @@ class PublishProvider extends ChangeNotifier {
   FocusNode get focusNodeDescription => _focusNodeDescription;
   TextEditingController get offerPrice => _offerPrice;
   TextEditingController get offerDuration => _offerDuration;
-  TextEditingController get offerQuantity => _offerQuantity;
   String get offerDurationRange => _offerDurationRange;
 
   List<SpecificAttrModel> get specificAttributes => _specificAttributes;
@@ -216,7 +222,7 @@ class PublishProvider extends ChangeNotifier {
     _specificAttributeValue[name] = value;
   }
 
-  // Ask for permissions to get
+  // Ask for permissions to get GPS coord.
   Future<void> setLocalisation() async {
     Location location = Location();
     PermissionStatus permissionGranted = await location.hasPermission();
@@ -249,7 +255,7 @@ class PublishProvider extends ChangeNotifier {
   }
 
   // Delete an image base64 in String form
-  void removeElementImageList (int index) {
+  void  removeElementImageList (int index) {
     _imageList.removeAt(index);
   }
 
@@ -302,20 +308,22 @@ class PublishProvider extends ChangeNotifier {
       };
       asset['specificAttributes'] = [];
       _specificAttributeValue.forEach((key, value) {
-        asset['specificAttributes'].add({'attributeName': key, 'value': value.text ?? ""});
+        if (key != "GPS" && key != "City/Village") {
+          asset['specificAttributes'].add({'attributeName': key, 'value': value.text ?? ""});
+        }
       });
       asset['specificAttributes'].add({'attributeName': "GPS", 'value': _offerLocalisation.text});
+      asset['specificAttributes'].add({'attributeName': "City/Village", 'value': _offerCityVillage.text});
 
       if (homeNavigationProvider.allAssetType[_assetType]!.nature == 'immaterial') {
-        asset["totalQuantity"] = double.parse(_offerQuantity.text) + 1;
+        asset["totalQuantity"] = 1; // + 1 if it doesnt work, since ODEP is bugged
         offer['endTimeSlot'] = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(addDurationToDate(int.parse(_offerDuration.text), _offerDurationRange, DateTime.now()));
-        offer['offeredQuantity'] = int.parse(_offerQuantity.text);
-        offer['remainingQuantity'] = int.parse(_offerQuantity.text);
+        offer['offeredQuantity'] = 1;
+        offer['remainingQuantity'] = 1;
       } else if (homeNavigationProvider.allAssetType[_assetType]!.nature == 'material' && offerTransactionType == "rent") {
         offer['endTimeSlot'] = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(addDurationToDate(int.parse(_offerDuration.text), _offerDurationRange, DateTime.now()));
       }
 
-      print(asset);
       await _publishServices.publishOffer({'offer': offer, 'asset': asset}, context.read<MainProvider>().actualUser!.accessToken);
       // A new assetType has been created so need to retrieves the assetTypes
       await homeNavigationProvider.setAssetTypesAndGetUser(context);
@@ -369,6 +377,16 @@ class PublishProvider extends ChangeNotifier {
 
     // Calls the update offer function, if an error occurs, displays a popup giving a timeout error if the server doesn't respond or an internal server error.
     try {
+      List<String> _imageToUpdate = [];
+
+      for (var element in _imageList) {
+        if (element.contains("https://")) {
+          _imageToUpdate.add(await _publishServices.convertImageToBase64(element));
+        } else {
+          _imageToUpdate.add(element);
+        }
+      }
+
       Map<String, dynamic> offer = {
         "offerer": context.read<MainProvider>().actualUser!.username,
         "assetId": context.read<MainProvider>().assetDetails!.id,
@@ -385,26 +403,29 @@ class PublishProvider extends ChangeNotifier {
         "unit": context.read<MainProvider>().assetDetails!.unit,
         "owner": context.read<MainProvider>().actualUser!.username,
         "transactionType": _offerTransactionType,
-        "totalQuantity": _offerQuantity.text,
+        "totalQuantity": 1,
         "regulatedId": "",
         "regulator": "false",
-        "images": _imageList,
+        "images": _imageToUpdate,
       };
 
       // Add specificAttributes dynamically with what is in _specificAttributeValue
       asset['specificAttributes'] = [];
       _specificAttributeValue.forEach((key, value) {
-        asset['specificAttributes'].add({'attributeName': key, 'value': value.text ?? ""});
+        if (key != "City/Village") {
+          asset['specificAttributes'].add({'attributeName': key, 'value': value.text ?? ""});
+        }
       });
+      asset['specificAttributes'].add({'attributeName': "City/Village", 'value': _offerCityVillage.text});
 
       if (offerTransactionType != "rent"){
-        asset["totalQuantity"] = double.parse(_offerQuantity.text) + 1;
+        asset["totalQuantity"] = 1; // Need + 1 to if ODEP is still bugged
       }
 
       // Depending of the assetType nature (immaterial/material, adding/deleting some information
       if (homeNavigationProvider.allAssetType[_assetType]!.nature == 'immaterial') {
         offer['endTimeSlot'] = offer['validityLimit'];
-        offer['offeredQuantity'] = double.parse(_offerQuantity.text);
+        offer['offeredQuantity'] = 1;
       } else if (homeNavigationProvider.allAssetType[_assetType]!.nature == 'material') {
         asset.remove("totalQuantity");
         if (offerTransactionType == "rent"){

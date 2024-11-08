@@ -3,23 +3,24 @@ import 'FilterSpecificAttr.dart';
 
 class Filter {
 
-  String? _BeginTime;
-  String? _EndTime;
-  String? _ValidityTime;
-  String? _TransactionType;
-  String? _AssetType;
-  String? _Name;
-  num? _MaxPrice;
-  num? _MaxDeposit;
-  int? _MaxQuantity;
-  int? _MinQuantity;
+  String? _beginTime;
+  String? _endTime;
+  String? _validityTime;
+  String? _transactionType;
+  String? _assetType;
+  String? _name;
+  String? _cityVillage;
+  num? _maxPrice;
+  num? _maxDeposit;
+  int? _maxQuantity;
+  int? _minQuantity;
   double? _latitude;
   double? _longitude;
   double? _distanceKilometer;
 
-  List<FilterSpecificAttr> _MapSpec = [];
+  List<FilterSpecificAttr> _mapSpec = [];
 
-  String get assetType => _AssetType ?? "";
+  String get assetType => _assetType ?? "";
 
   void setDistanceKilometer(double value) {
     _distanceKilometer = value;
@@ -27,64 +28,66 @@ class Filter {
 
   void setBeginTime (String beginTime){
     if (beginTime != "" && RegExp(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$',).hasMatch(beginTime)) {
-      _BeginTime = beginTime;
-      print("passer begintime : $_BeginTime");
+      _beginTime = beginTime;
     }
   }
 
   void setName (String name){
     if (name != null && name != "") {
-      _Name = name;
-      print("passer endtime : $_EndTime");
+      _name = name;
+    }
+  }
+
+  void setCityVillage (String cityVillage){
+    if (cityVillage != null && cityVillage != "") {
+      _cityVillage = cityVillage;
     }
   }
 
   void setEndTime (String endTime){
     if (endTime != "" && RegExp(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$',).hasMatch(endTime)) {
-      _EndTime = endTime;
-      print("passer endtime : $_EndTime");
+      _endTime = endTime;
     }
   }
 
   void setValidityTime (String validityTime){
     if (validityTime != "" && RegExp(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$',).hasMatch(validityTime)) {
-      _ValidityTime = validityTime;
-      print("passer validitytime :  $_ValidityTime");
+      _validityTime = validityTime;
     }
   }
 
   void setTransactionType (String transactiontype){
     if (transactiontype != "none" && transactiontype != "Both") {
-      _TransactionType = transactiontype;
+      _transactionType = transactiontype;
     }
   }
 
   void setAssetType (String assettype){
     if (assettype != "none") {
-      _AssetType = assettype;
+      _assetType = assettype;
     }
   }
 
   void setMaxPrice (num? maxprice) {
     if (maxprice != null) {
-      _MaxPrice = maxprice;
+      _maxPrice = maxprice;
     }
   }
 
   void setMaxDeposit (num? maxdeposit) {
     if (maxdeposit != null) {
-      _MaxDeposit = maxdeposit;
+      _maxDeposit = maxdeposit;
     }
   }
 
   void setMaxQuantity (int? maxquantity) {
     if (maxquantity != null) {
-      _MaxQuantity = maxquantity;
+      _maxQuantity = maxquantity;
     }
   }
 
   void setMapSpec (List<FilterSpecificAttr> mapSpec) {
-     _MapSpec.addAll(mapSpec);
+     _mapSpec.addAll(mapSpec);
   }
 
   void setCoordinate(double latitude, double longitude) {
@@ -94,20 +97,21 @@ class Filter {
 
   Map<String, dynamic> getMapFilter () {
     Map<String, dynamic> Filter = {
-      if (_AssetType != null) "assetType": _AssetType,
-      if (_Name != null) "name": _Name,
-      if (_MaxQuantity != null) "maxQuantity": _MaxQuantity,
-      if (_MinQuantity != null) "minQuantity": _MinQuantity,
-      if (_MaxDeposit != null) "maxDeposit": _MaxDeposit,
-      if (_MapSpec.isNotEmpty) "properties": _MapSpec,
-      if (_MaxPrice != null) "maxPrice": _MaxPrice,
-      if (_TransactionType != null) "transactionType": _TransactionType,
-      if (_ValidityTime != null) "ValidityTime": _ValidityTime,
-      if (_BeginTime != null) "minDate": _BeginTime,
-      if (_EndTime != null) "maxDate": _EndTime,
+      if (_assetType != null) "assetType": _assetType,
+      if (_name != null) "name": _name,
+      if (_maxQuantity != null) "maxQuantity": _maxQuantity,
+      if (_minQuantity != null) "minQuantity": _minQuantity,
+      if (_maxDeposit != null) "maxDeposit": _maxDeposit,
+      if (_mapSpec.isNotEmpty) "properties": _mapSpec,
+      if (_maxPrice != null) "maxPrice": _maxPrice,
+      if (_transactionType != null) "transactionType": _transactionType,
+      if (_validityTime != null) "ValidityTime": _validityTime,
+      if (_beginTime != null) "minDate": _beginTime,
+      if (_endTime != null) "maxDate": _endTime,
       if (_latitude != null) "latitude": _latitude,
       if (_longitude != null) "longitude": _longitude,
       if (_distanceKilometer != null) "distance": _distanceKilometer,
+      if (_cityVillage != null) "cityVillage": _cityVillage
     };
     return Filter;
   }
