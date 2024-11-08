@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:resilink_design/common/widget/textfield_info.dart';
-import 'package:resilink_design/constants/global_variables.dart';
-import 'package:resilink_design/features/home_navigation/provider/home_navigation_provider.dart';
-import 'package:resilink_design/features/publish/provider/publish_provider.dart';
-import 'package:resilink_design/features/publish/screen/offerImages.dart';
+import 'package:Resilink/common/widget/textfield_info.dart';
+import 'package:Resilink/constants/global_variables.dart';
+import 'package:Resilink/features/home_navigation/provider/home_navigation_provider.dart';
+import 'package:Resilink/features/publish/provider/publish_provider.dart';
+import 'package:Resilink/features/publish/screen/offerImages.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:Resilink/providers/main_provider.dart';
 
+import '../widget/specific_attributes_asset.dart';
+
+// Widget to display all optional data
 class OfferOption extends StatefulWidget {
-  OfferOption({super.key, required this.publishProvider});
+  OfferOption({super.key, required this.publishProvider, required this.homeNavigationProvider});
 
   PublishProvider publishProvider;
+  HomeNavigationProvider homeNavigationProvider;
 
   @override
   State<StatefulWidget> createState() {
@@ -37,6 +42,7 @@ class OfferOptionState extends State<OfferOption> {
         Row(
           children: [
             Flexible(
+              // TextField to display/update offer duration
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.15,
                 height: MediaQuery.of(context).size.height * 0.06,
@@ -53,6 +59,7 @@ class OfferOptionState extends State<OfferOption> {
                     FilteringTextInputFormatter.digitsOnly
                   ],
                   decoration: InputDecoration(
+                    isDense: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 3),
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(
@@ -73,9 +80,13 @@ class OfferOptionState extends State<OfferOption> {
               )
             ),
             SizedBox(width: 15),
+            // Container to display/update offer duration range (day/week/month)
             Container(
               height: MediaQuery.of(context).size.height * 0.06,
               width: MediaQuery.of(context).size.width * 0.16,
+              constraints: const BoxConstraints(
+                minWidth: 60
+              ),
               padding: EdgeInsets.only(left: 3),
               decoration: BoxDecoration(
                 border: Border.all(color: GlobalVariables.unFocusBorderColor, width: 1),
@@ -108,17 +119,27 @@ class OfferOptionState extends State<OfferOption> {
             )
           ],
         ),
-        SizedBox(height: 10),
-        TextFieldInfo(textController: widget.publishProvider.offerPrice, label: AppLocalizations.of(context)!.publishLabelPrice, parentContext: context),
-        SizedBox(height: 10),
-        if (context.read<HomeNavigationProvider>().allAssetType[widget.publishProvider.assetType]!.nature == "immaterial" ||
-            context.read<HomeNavigationProvider>().allAssetType[widget.publishProvider.assetType]!.nature == "immaterialNotQuantified")
+        // If specific dates are required, option to add date fields
+        if (context.read<MainProvider>().offerDetails != null)
           Column(
             children: [
-              TextFieldInfo(textController: widget.publishProvider.offerQuantity , label: AppLocalizations.of(context)!.publishLabelQuantity, parentContext: context),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Text("add duration"),
+                  Checkbox(value: widget.publishProvider.addDuration, onChanged: (bool? newValue) {
+                    widget.publishProvider.setAddDuration(newValue!);
+                  }),
+                ],
+              ),
             ],
           ),
+        SizedBox(height: 10),
+        TextFieldInfo(textController: widget.publishProvider.offerPrice, label: AppLocalizations.of(context)!.publishLabelPrice, parentContext: context, isNumeric: true,),
+        SizedBox(height: 10),
+        SpecificAttributesAsset(publishProvider: widget.publishProvider),
+        SizedBox(height: 10),
+        // Container to display/update offer description
         Container(
           padding: EdgeInsets.all(5),
           constraints: BoxConstraints(
@@ -137,6 +158,7 @@ class OfferOptionState extends State<OfferOption> {
               SizedBox(height: 10),
               TextField(
                 controller: widget.publishProvider.offerDescription,
+                focusNode: widget.publishProvider.focusNodeDescription,
                 style: TextStyle(
                   overflow: TextOverflow.ellipsis,
                   fontSize: 14
@@ -160,7 +182,8 @@ class OfferOptionState extends State<OfferOption> {
           ),
         ),
         SizedBox(height: 15),
-        OfferImages(),
+        // Widget to display/update offer images
+        OfferImages(publishProvider: widget.publishProvider),
       ],
     );
   }

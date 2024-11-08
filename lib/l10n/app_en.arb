@@ -39,15 +39,27 @@
   "@account": {
     "description": "Text for navigation bottom bar and header "
   },
-  "homeBookmarkConnected": "Your bookmarked news accounts",
+  "blockedOfferPageTitle":"Blocked offers",
+  "@blockedOfferPageTitle": {
+    "description": "Title for blocked offers page"
+  },
+  "ownerOfferPurchased": "Offer purchased",
+  "@ownerOfferPurchased": {
+    "description": "Text for navigation bottom bar and header "
+  },
+  "ownerOfferPublished": "Offer published",
+  "@ownerOfferPublished": {
+    "description": "Text for navigation bottom bar and header "
+  },
+  "homeBookmarkConnected": "Your bookmarked news sources",
   "@homeBookmarkConnected": {
     "description": "Text for home page "
   },
-  "homeBookmark": "Last news accounts",
+  "homeBookmark": "Last news' sources",
   "@homeBookmark": {
     "description": "Text for home page "
   },
-  "homeSuggestedConnected": "suggested offers",
+  "homeSuggestedConnected": "Suggested offer",
   "@homeSuggestedConnected": {
     "description": "Text for home page "
   },
@@ -63,7 +75,7 @@
   "@searchFirstSubText": {
     "description": "Text for search page "
   },
-  "hinderTextRequest": "Write your request",
+  "hinderTextRequest": "Keyword",
   "@hinderTextRequest": {
     "description": "Text for search page "
   },
@@ -75,11 +87,11 @@
   "@searchSecondTitle": {
     "description": "Text for search page "
   },
-  "hinderTextLocalisation": "Type a place or use the geolocalisation",
+  "hinderTextLocalisation": "Where are you",
   "@hinderTextLocalisation": {
     "description": "Text for search page "
   },
-  "searchSecondSubText": "within a radius of",
+  "searchSecondSubText": "within a distance of",
   "@searchSecondSubText": {
     "description": "Text for search page "
   },
@@ -103,7 +115,7 @@
   "@secondTypeTransaction": {
     "description": "Option in the chooseTransaction dropdown"
   },
-  "publishLabelTitle": "What's the title of your offer",
+  "publishLabelTitle": "Title of my offer",
   "@publishLabelTitle": {
     "description": "Label for title input field in the publish page"
   },
@@ -111,7 +123,7 @@
   "@publishHinderLabelTitle": {
     "description": "placeholder for title input field in the publish page"
   },
-  "publishLabelLocalisation": "where is your good",
+  "publishLabelLocalisation": "GPS coord. to enable exact search",
   "@publishLabelLocalisation": {
     "description": "placeholder for location input field in the publish page"
   },
@@ -123,7 +135,7 @@
   "@publishMoreDetails": {
     "description": "expandable section title for additional details in the publish page"
   },
-  "publishLabelContactName": "contact name",
+  "publishLabelContactName": "Contact name",
   "@publishLabelContactName": {
     "description": "Label in the publish page"
   },
@@ -131,15 +143,19 @@
   "@publishLabelFarmName": {
     "description": "Label in the publish page"
   },
-  "labelPhoneNumber": "phone number",
+  "labelPhoneNumber": "Phone number",
   "@labelPhoneNumber": {
     "description": "Label in the publish page & account page"
   },
-  "labelEmail": "email",
+  "labelEmail": "Email",
   "@labelEmail": {
     "description": "Label in the publish page & account page"
   },
-  "publishLabelDuration": "Duration of your good",
+  "labelGps": "GPS coord.",
+  "@labelGps": {
+    "description": "Label in the publish page & account page"
+  },
+  "publishLabelDuration": "Duration of your offer",
   "@publishLabelDuration": {
     "description": "Label in the publish page"
   },
@@ -159,8 +175,48 @@
   "@publishLabelPrice": {
     "description": "Label in the publish page"
   },
-  "publishLabelQuantity": "The quantity of your goods",
+  "publishLabelQuantity": "Quantity of your offer",
   "@publishLabelQuantity": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecType": "Type of your offer",
+  "@publishLabelSpecType": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecVariety": "Variety of your offer",
+  "@publishLabelSpecVariety": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecLocalization": "Farm/Village/City",
+  "@publishLabelSpecLocalization": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecBrand": "Brand of your goods",
+  "@publishLabelSpecBrand": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecModel": "Model of your goods",
+  "@publishLabelSpecModel": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecYear": "Year of manufacture of your goods",
+  "@publishLabelSpecYear": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecUsage": "Usage of your goods",
+  "@publishLabelSpecUsage": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecCondition": "Condition of your goods",
+  "@publishLabelSpecCondition": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecFrom": "Where can you take the goods",
+  "@publishLabelSpecFrom": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecTo": "Where do you deliver the goods",
+  "@publishLabelSpecTo": {
     "description": "Label in the publish page"
   },
   "publishLabelDetails": "Details",
@@ -171,6 +227,14 @@
   "@publishHinderDetails": {
     "description": "hinder of Details in the publish page"
   },
+  "publishHinderOfferType": "e.g. green apple",
+  "@publishHinderOfferType": {
+    "description": "placeholder for offer type input field in the publish page"
+  },
+  "publishHinderOfferVariety": "e.g. gala apple",
+  "@publishHinderOfferVariety": {
+    "description": "placeholder for offer variety input field in the publish page"
+  },
   "publishLabelImages": "Add pictures",
   "@publishLabelImages": {
     "description": "Label in the publish page"
@@ -179,7 +243,7 @@
   "@publishImagesText": {
     "description": "Text in Images container in the publish page"
   },
-  "newsTitle": "List of news source",
+  "newsTitle": "List of news' sources",
   "@newsTitle": {
     "description": "Title in the news page"
   },
@@ -207,7 +271,7 @@
   "@accountLabelLocation": {
     "description": "Label in the account page"
   },
-  "accountLabelJob": "job",
+  "accountLabelJob": "Occupation/Activity",
   "@accountLabelJob": {
     "description": "Label in the account page"
   },
@@ -219,17 +283,21 @@
   "@accountTitlePublish": {
     "description": "Title in the account page"
   },
-  "accountTitleParameters": "Parameters",
+  "accountTitleParameters": "Settings",
   "@accountTitleParameters": {
     "description": "Title in the account page"
   },
-  "accountSubTitleLanguage": "change Language",
+  "accountSubTitleLanguage": "Language",
   "@accountSubTitleLanguage": {
     "description": "First parameter in the account page"
   },
-  "accountSubTitleLocalization": "change Localization",
+  "accountSubTitleLocalization": "Localization",
   "@accountSubTitleLocalization": {
     "description": "second parameter in the account page"
+  },
+  "accountSubTitleLogOut": "Log out",
+  "@accountSubTitleLogOut": {
+    "description": "Third parameter in the account page"
   },
   "buttonClose": "close",
   "@buttonClose": {
@@ -271,20 +339,52 @@
   "@buttonSave": {
     "description": "Label for button"
   },
+  "buttonSignIn": "Sign in",
+  "@buttonSignIn": {
+    "description": "Label for button"
+  },
+  "buttonSignUp": "Sign up",
+  "@buttonSignUp": {
+    "description": "Label for button"
+  },
+  "buttonConfirm": "Confirm",
+  "@buttonConfirm": {
+    "description": "Label for button"
+  },
   "seeMoreText": "See more",
   "@seeMoreText": {
     "description": "Text for TextButton"
   },
-  "offerDetailsPublisher": "Publish by : ",
+  "allBlockedOfferText": "See all blocked offers",
+  "@allBlockedOfferText": {
+    "description": "Text for TextButton"
+  },
+  "offerDetailsPublisher": "Published by : ",
   "@offerDetailsPublisher": {
     "description": "Text in offer details page"
   },
-  "offerDetailsPeriod": "Publish by : ",
+  "offerDetailsPeriod": "Publish on : ",
   "@offerDetailsPeriod": {
+    "description": "Text in offer details page"
+  },
+  "offerDetailsPeriodEnd": "Ends on : ",
+  "@offerDetailsPeriodEnd": {
+    "description": "Text in offer details page"
+  },
+  "offerDetailsPrice": "Price : ",
+  "@offerDetailsPrice": {
+    "description": "Text in offer details page"
+  },
+  "offerDetailsQuantity": "Quantity : ",
+  "@offerDetailsQuantity": {
     "description": "Text in offer details page"
   },
   "offerDetailsNoPrice": "No price / Negotiation",
   "@offerDetailsNoPrice": {
+    "description": "Text in offer details page"
+  },
+  "offerDetailsMaterial": "1 service",
+  "@offerDetailsMaterial": {
     "description": "Text in offer details page"
   },
   "resultsTitle": "Results",
@@ -310,6 +410,10 @@
   "popupTitleChooseOptionImage":"Choose your option",
   "@popupTitleChooseOptionImage": {
     "description": "Title in the pop-up to choose an option"
+  },
+  "popupTitleConfirm":"Are you sure ?",
+  "@popupTitleConfirm": {
+    "description": "Title in the pop-up to confirm your action"
   },
   "popupFirstChooseOptionImage":"Open the default images",
   "@popupFirstChooseOptionImage": {
@@ -350,5 +454,273 @@
   "accountShiftToProfile": "Profile >>>",
   "@accountShiftToProfile": {
     "description": "Text to shift in the page"
+  },
+  "registerLoginTitle": "Welcome",
+  "@registerLoginTitle": {
+    "description": "Title in login  page"
+  },
+  "registerLoginFirstLabel": "Username",
+  "@registerLoginFirstLabel": {
+    "description": "Label 1 in login  page"
+  },
+  "registerLoginSecondLabel": "Password",
+  "@registerLoginSecondLabel": {
+    "description": "Label 2 in login  page"
+  },
+  "registerLoginRedirection": "No account? Sign up here >>",
+  "@registerLoginRedirection": {
+    "description": "Text button in login page"
+  },
+  "registerLoginErrorConnexion": "Wrong username or password, try again",
+  "@registerLoginErrorConnexion": {
+    "description": "Text error in login page"
+  },
+  "registerSignUpRedirection": "Already have an account? Sign in here >>",
+  "@registerSignUpRedirection": {
+    "description": "Text button in register page"
+  },
+  "registerSignUpTitle": "Inscription",
+  "@registerSignUpTitle": {
+    "description": "Title in register page"
+  },
+  "registerSignUpErrorPassword": "Your password need at least 6 characters",
+  "@registerSignUpErrorPassword": {
+    "description": "Text error in register page"
+  },
+  "popupFailConnexionTitle": "Connection failure",
+  "@popupFailConnexion": {
+    "description": "Title for pop-up if not possible to connect the user"
+  },
+  "popupFailConnexionTimeout": "Waiting period exceeded, your request cannot be processed",
+  "@popupFailConnexionTimeout": {
+    "description": "Text in case of a Timeout"
+  },
+  "popupFailConnexionNoServer": "The connection didn't work properly.",
+  "@popupFailConnexionNoServer": {
+    "description": "Text in case of an error in during the process in the server or no access to it"
+  },
+  "textOk": "Ok",
+  "@textOk": {
+    "description": "Text for button for example"
+  },
+  "problemSetOwnerOffer": "Problems retrieving owner's offers",
+  "@problemSetOwnerOffer": {
+    "description": "Text for Problems in setting up owner's offers"
+  },
+  "problemSetOwnerPurchased": "Problems retrieving offers purchased by the owner",
+  "@problemSetOwnerPurchased": {
+    "description": "Text for Problems in setting up owner's purchased"
+  },
+  "problemSetUpdateUser": "Problems updating user's data",
+  "@problemSetUpdateUser": {
+    "description": "Text for Problems in updating owner's data"
+  },
+  "problemDeleteOwnerOffer": "Problems deleting user's offer",
+  "@problemDeleteOwnerOffer": {
+    "description": "Text for Problems in deleting owner's data"
+  },
+  "problemRetrievingNews": "Problems retrieving news",
+  "@problemRetrievingNews": {
+    "description": "Text for Problems in retrieving some news"
+  },
+  "problemAddingNews": "Problems in adding in your favorites the news",
+  "@problemAddingNews": {
+    "description": "Text for Problems in adding a news in the favorites"
+  },
+  "problemDeletingNews": "Problems in deleting news from your favorites",
+  "@problemDeletingNews": {
+    "description": "Text for Problems in deleting a news from favorites"
+  },
+  "problemPublishingOffer": "Problems in publishing your service",
+  "@problemPublishingOffer": {
+    "description": "Text for Problems in publishing an offer"
+  },
+  "problemUpdatingOffer": "Problems in updating your service",
+  "@problemUpdatingOffer": {
+    "description": "Text for Problems in updating an offer"
+  },
+  "problemLoadingOffer": "Problems in searching the offers",
+  "@problemLoadingOffer": {
+    "description": "Text for Problems in retrieving searched offers"
+  },
+  "problemBuyingOffer": "Problems in buying the offer",
+  "@problemBuyingOffer": {
+    "description": "Text for Problems in buying an offer"
+  },
+  "problemUpdatingContract": "Problems in updating your contract",
+  "@problemUpdatingContract": {
+    "description": "Text for Problems in updating a contract"
+  },
+  "problemRetrievingLastOffers": "Problems in retrieving the last offers",
+  "@problemRetrievingLastOffers": {
+    "description": "Text for Problems in retrieving the last offers"
+  },
+  "problemRetrievingAssetType": "Problems in retrieving data from server",
+  "@problemRetrievingAssetType": {
+    "description": "Text for Problems in retrieving assetTypes"
+  },
+  "problemBlockingOffer": "Problems blocking an offer",
+  "@problemBlockingOffer": {
+    "description": "Text for Problems in adding an offer in blockedOffers list"
+  },
+  "titlePopUpUpdateUser": "Updating user data...",
+  "@titlePopUpUpdateUser": {
+    "description": "Text for title pop-up updating user data"
+  },
+  "titlePopUpDeletingOffer": "Deleting offer...",
+  "@titlePopUpDeletingOffer": {
+    "description": "Text for title pop-up deleting offer's offer"
+  },
+  "titlePopUpPublishOffer": "Publishing your offer...",
+  "@titlePopUpPublishOffer": {
+    "description": "Text for title pop-up publishing an offer"
+  },
+  "titlePopUpUpdatingOffer": "Updating your offer...",
+  "@titlePopUpUpdatingOffer": {
+    "description": "Text for title pop-up updating an offer"
+  },
+  "titlePopUpLoadingSearch": "Loading...",
+  "@titlePopUpLoadingSearch": {
+    "description": "Text for title pop-up retrieving searched offers"
+  },
+  "titlePopUpBuyingOffer": "Buying the service...",
+  "@titlePopUpBuyingOffer": {
+    "description": "Text for title pop-up buying a service"
+  },
+  "titlePopUpUpdatingContract": "Updating your contract...",
+  "@titlePopUpUpdatingContract": {
+    "description": "Text for title pop-up updating a contract"
+  },
+  "titlePopUpLogIn": "Connection...",
+  "@titlePopUpLogIn": {
+    "description": "Text for title pop-up connection"
+  },
+  "titlePopUpSignUp": "Account creation...",
+  "@titlePopUpSignUp": {
+    "description": "Text for title pop-up sign-up"
+  },
+  "titlePopUpModifyOffer": "Modify your offer...",
+  "@titlePopUpModifyOffer": {
+    "description": "Text for title pop-up to manage an offer"
+  },
+  "titlePopUpCancelContract": "Cancel the purchase...",
+  "@titlePopUpCancelContract": {
+    "description": "Text for title pop-up to cancel a contract"
+  },
+  "titlePopUpBlockingOffer": "Blocking an offer...",
+  "@titlePopUpBlockingOffer": {
+    "description": "Text for title pop-up to block an offer"
+  },
+  "titlePopUpUnblockingOffer": "Unblocking an offer",
+  "@titlePopUpUnblockingOffer": {
+    "description": "Text for title pop-up to unblock an offer"
+  },
+  "textPopUpModifyOfferGood": "Your offer has no problem",
+  "@textPopUpModifyOfferGood": {
+    "description": "Text for body pop-up to manage an offer in case of no problems"
+  },
+  "textPopUpModifyOfferBad": "Your offer is expired, it will not be show in the shop until it is modified",
+  "@textPopUpModifyOfferBad": {
+    "description": "Text for body pop-up to manage an offer in case of problems"
+  },
+  "textPopUpUnblockOffer": "Would you like to unblock this offer?",
+  "@textPopUpUnblockOffer": {
+    "description": "Text for body pop-up to unblock an offer"
+  },
+  "textNoBlockedOffer": "No blocked offers",
+  "@textNoBlockedOffer": {
+    "description": "Text for page to show there is no blocked offers"
+  },
+  "textNoOfferPublish": "No offers published",
+  "@textNoOfferPublish": {
+    "description": "Text in case of empty list offers published "
+  },
+  "textNoOfferPurchase": "No offers purchased",
+  "@textNoOfferPurchase": {
+    "description": "Text in case of empty list offers purchased "
+  },
+  "textNoOffer": "No offers available",
+  "@textNoOffer": {
+    "description": "Text in case of empty list offers publish "
+  },
+  "textNoBookmarkedNews": "no bookmarked news",
+  "@textNoBookmarkedNews": {
+    "description": "Text in case of empty list bookmarked news "
+  },
+  "snackBarContractNotGood": "The current status of the contract is more advanced or is the same as the selected one",
+  "@snackBarContractNotGood": {
+    "description": "Text for snackBar in case of new contract's state higher than current contract's state"
+  },
+  "snackBarBadKeyboard": "Please switch to a roman keyboard.",
+  "@snackBarBadKeyboard": {
+    "description": "Text for snackBar in case of none roman keyboard"
+  },
+  "snackBarBadFilling": "Need to fill at least your email, username, password, lastname and firstname",
+  "@snackBarBadFilling": {
+    "description": "Text for snackBar in case of bad filling"
+  },
+  "assetTypeFruit": "Fruit",
+  "@assetTypeFruit": {
+    "description": "Text for assetType"
+  },
+  "assetTypeVegetable": "Vegetable",
+  "@assetTypeVegetable": {
+    "description": "Text for assetType"
+  },
+  "assetTypeCrop": "Crop",
+  "@assetTypeCrop": {
+    "description": "Text for assetType"
+  },
+  "assetTypeMachinery": "Machinery",
+  "@assetTypeMachinery": {
+    "description": "Text for assetType"
+  },
+  "assetTypeTransport": "Transport",
+  "@assetTypeTransport": {
+    "description": "Text for assetType"
+  },
+  "assetTypeInputs": "Inputs",
+  "@assetTypeInputs": {
+    "description": "Text for assetType"
+  },
+  "assetTypeStorage": "Storage",
+  "@assetTypeStorage": {
+    "description": "Text for assetType"
+  },
+  "assetTypeLabor": "Labor",
+  "@assetTypeLabor": {
+    "description": "Text for assetType"
+  },
+  "assetTypeOtherServices": "Other services",
+  "@assetTypeOtherServices": {
+    "description": "Text for assetType"
+  },
+  "contractChangeStateText": "Change contract State",
+  "@contractChangeStateText": {
+    "description": "Text for contract state in offer details view"
+  },
+  "contractActualStateText": "Actual State",
+  "@contractActualStateText": {
+    "description": "Text for contract state in offer details view"
+  },
+  "contractNewStateText": "Change state to ",
+  "@contractNewStateText": {
+    "description": "Text for contract state in offer details view"
+  },
+  "contractStateProceeding": "Proceeding",
+  "@contractStateProceeding": {
+    "description": "Text for contract state in offer details view"
+  },
+  "contractStatePending": "Pending",
+  "@contractStatePending": {
+    "description": "Text for contract state in offer details view"
+  },
+  "contractStateReceived": "Received",
+  "@contractStateReceived": {
+    "description": "Text for contract state in offer details view"
+  },
+  "contractStateDelivered": "Delivered",
+  "@contractStateDelivered": {
+    "description": "Text for contract state in offer details view"
   }
 }

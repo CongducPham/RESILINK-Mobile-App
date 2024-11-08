@@ -19,7 +19,7 @@
   "@splashscreenText": {
     "description": "Text in the splashscreen page"
   },
-  "home": "المنزل",
+  "home": "الرئيسية",
   "@home": {
     "description": "Text for navigation bottom bar and header"
   },
@@ -38,6 +38,18 @@
   "account": "الحساب",
   "@account": {
     "description": "Text for navigation bottom bar and header"
+  },
+  "blockedOfferPageTitle":"العروض المحظورة",
+  "@blockedOfferPageTitle": {
+    "description": "Title for blocked offers page"
+  },
+  "ownerOfferPurchased": "العرض الذي تم شراؤه",
+  "@ownerOfferPurchased": {
+    "description": "Text for navigation bottom bar and header "
+  },
+  "ownerOfferPublished": "العرض المنشور",
+  "@ownerOfferPublished": {
+    "description": "Text for navigation bottom bar and header "
   },
   "homeBookmarkConnected": "حسابات الأخبار المحفوظة",
   "@homeBookmarkConnected": {
@@ -75,11 +87,11 @@
   "@searchSecondTitle": {
     "description": "Text for search page"
   },
-  "hinderTextLocalisation": "اكتب مكانًا أو استخدم التحديد الجغرافي",
+  "hinderTextLocalisation": "أين أنت",
   "@hinderTextLocalisation": {
     "description": "Text for search page"
   },
-  "searchSecondSubText": "ضمن نطاق",
+  "searchSecondSubText": "ضمن مسافة",
   "@searchSecondSubText": {
     "description": "Text for search page"
   },
@@ -111,7 +123,7 @@
   "@publishHinderLabelTitle": {
     "description": "placeholder for title input field in the publish page"
   },
-  "publishLabelLocalisation": "أين هو موقعك",
+  "publishLabelLocalisation": "إحداثيات GPS لتمكين البحث الدقيق",
   "@publishLabelLocalisation": {
     "description": "placeholder for location input field in the publish page"
   },
@@ -139,6 +151,10 @@
   "@labelEmail": {
     "description": "Label in the publish page & account page"
   },
+  "labelGps": "تنسيق GPS.",
+  "@labelGps": {
+    "description": "Label in the publish page & account page"
+  },
   "publishLabelDuration": "مدة العرض",
   "@publishLabelDuration": {
     "description": "Label in the publish page"
@@ -163,6 +179,46 @@
   "@publishLabelQuantity": {
     "description": "Label in the publish page"
   },
+  "publishLabelSpecType": "ما هو نوع بضاعتك",
+  "@publishLabelSpecType": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecVariety": "ما هو تنوع بضائعك",
+  "@publishLabelSpecVariety": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecLocalization": "مزرعة/قرية/مدينة",
+  "@publishLabelSpecLocalization": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecBrand": "ما هي العلامة التجارية لبضائعك",
+  "@publishLabelSpecBrand": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecModel": "ما هو طراز بضاعتك",
+  "@publishLabelSpecModel": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecYear": "ما هي سنة تصنيع بضاعتك",
+  "@publishLabelSpecYear": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecUsage": "ما هو استخدام بضاعتك",
+  "@publishLabelSpecUsage": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecCondition": "ما هي حالة بضاعتك",
+  "@publishLabelSpecCondition": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecFrom": "أين يمكنك أخذ البضاعة",
+  "@publishLabelSpecFrom": {
+    "description": "Label in the publish page"
+  },
+  "publishLabelSpecTo": "أين تسلم البضاعة",
+  "@publishLabelSpecTo": {
+    "description": "Label in the publish page"
+  },
   "publishLabelDetails": "التفاصيل",
   "@publishLabelDetails": {
     "description": "Label in the publish page"
@@ -170,6 +226,14 @@
   "publishHinderDetails": "قدم المزيد من التفاصيل حول عرضك هنا",
   "@publishHinderDetails": {
     "description": "hinder of Details in the publish page"
+  },
+  "publishHinderOfferType": "مثل التفاح الأخضر",
+  "@publishHinderOfferType": {
+    "description": "placeholder for offer type input field in the publish page"
+  },
+  "publishHinderOfferVariety": "على سبيل المثال حفل التفاح",
+  "@publishHinderOfferVariety": {
+    "description": "placeholder for offer variety input field in the publish page"
   },
   "publishLabelImages": "أضف صور",
   "@publishLabelImages": {
@@ -231,6 +295,10 @@
   "@accountSubTitleLocalization": {
     "description": "second parameter in the account page"
   },
+  "accountSubTitleLogOut": "تسجيل الخروج",
+  "@accountSubTitleLogOut": {
+    "description": "Third parameter in the account page"
+  },
   "buttonClose": "إغلاق",
   "@buttonClose": {
     "description": "Label for button"
@@ -271,8 +339,24 @@
   "@buttonSave": {
     "description": "Label for button"
   },
+  "buttonSignIn": "تسجيل الدخول",
+  "@buttonSignIn": {
+    "description": "Label for button"
+  },
+  "buttonSignUp": "التسجيل",
+  "@buttonSignUp": {
+    "description": "Label for button"
+  },
+  "buttonConfirm": "تأكيد",
+  "@buttonConfirm": {
+    "description": "Label for button"
+  },
   "seeMoreText": "شاهد المزيد",
   "@seeMoreText": {
+    "description": "Text for TextButton"
+  },
+  "allBlockedOfferText": "شاهد جميع العروض المحظورة",
+  "@allBlockedOfferText": {
     "description": "Text for TextButton"
   },
   "offerDetailsPublisher": "النشر بواسطة :",
@@ -283,8 +367,24 @@
   "@offerDetailsPeriod": {
     "description": "Text in offer details page"
   },
+  "offerDetailsPeriodEnd": "ينتهي في : ",
+  "@offerDetailsPeriodEnd": {
+    "description": "Text in offer details page"
+  },
+  "offerDetailsPrice": "السعر : ",
+  "@offerDetailsPrice": {
+    "description": "Text in offer details page"
+  },
+  "offerDetailsQuantity": "الكمية : ",
+  "@offerDetailsQuantity": {
+    "description": "Text in offer details page"
+  },
   "offerDetailsNoPrice": "لا يوجد سعر / تفاوض",
   "@offerDetailsNoPrice": {
+    "description": "Text in offer details page"
+  },
+  "offerDetailsMaterial": "1 خدمة",
+  "@offerDetailsMaterial": {
     "description": "Text in offer details page"
   },
   "resultsTitle": "النتائج",
@@ -310,6 +410,10 @@
   "popupTitleChooseOptionImage":"اختر خيارك",
   "@popupTitleChooseOptionImage": {
     "description": "Title in the pop-up to choose an option"
+  },
+  "popupTitleConfirm":"هل أنت متأكد؟",
+  "@popupTitleConfirm": {
+    "description": "Title in the pop-up to confirm your action"
   },
   "popupFirstChooseOptionImage":"فتح الصور الافتراضية",
   "@popupFirstChooseOptionImage": {
@@ -350,5 +454,273 @@
   "accountShiftToProfile": "الملف الشخصي >>>",
   "@accountShiftToProfile": {
     "description": "Text to shift in the page"
+  },
+  "registerLoginTitle": "أهلاً وسهلاً بك",
+  "@registerLoginTitle": {
+    "description": "Title in login  page"
+  },
+  "registerLoginFirstLabel": "اسم المستخدم",
+  "@registerLoginFirstLabel": {
+    "description": "Label 1 in login  page"
+  },
+  "registerLoginSecondLabel": "كلمة المرور",
+  "@registerLoginSecondLabel": {
+    "description": "Label 2 in login  page"
+  },
+  "registerLoginRedirection": "ليس لديك حساب؟ قم بالتسجيل هنا >>>",
+  "@registerLoginRedirection": {
+    "description": "Text button in login page"
+  },
+  "registerLoginErrorConnexion": "خطأ في اسم المستخدم أو كلمة المرور، حاول مرة أخرى",
+  "@registerLoginErrorConnexion": {
+    "description": "Text for error in login page"
+  },
+  "registerSignUpRedirection": "هل لديك حساب بالفعل؟ سجّل الدخول هنا >>>",
+  "@registerSignUpRedirection": {
+    "description": "Text button in register page"
+  },
+  "registerSignUpTitle": "النقش",
+  "@registerSignUpTitle": {
+    "description": "Title in register page"
+  },
+  "registerSignUpErrorPassword": "تحتاج كلمة المرور الخاصة بك إلى 6 أحرف على الأقل",
+  "@registerSignUpErrorPassword": {
+    "description": "Text error in register page"
+  },
+  "popupFailConnexionTitle": "فشل الاتصال",
+  "@popupFailConnexion": {
+    "description": "Title for pop-up if not possible to connect the user"
+  },
+  "popupFailConnexionTimeout": "تم تجاوز فترة الانتظار، لا يمكن معالجة طلبك",
+  "@popupFailConnexionTimeout": {
+    "description": "Text in case of a Timeout"
+  },
+  "popupFailConnexionNoServer": "لم يعمل الاتصال بشكل صحيح.",
+  "@popupFailConnexionNoServer": {
+    "description": "Text in case of an error in during the process in the server or no access to it"
+  },
+  "textOk": "حسناً",
+  "@textOk": {
+    "description": "Text for button for example"
+  },
+  "problemSetOwnerOffer": "مشاكل في إعداد عروض المالكين",
+  "@problemSetOwnerOffer": {
+    "description": "Text for Problems in setting up owner's offers"
+  },
+  "problemSetOwnerPurchased": "مشاكل استرداد العروض التي اشتراها المالك",
+  "@problemSetOwnerPurchased": {
+    "description": "Text for Problems in setting up owner's offers"
+  },
+  "problemSetUpdateUser": "مشاكل في تحديث بيانات المستخدم",
+  "@problemSetUpdateUser": {
+    "description": "Text for Problems in updating owner's data"
+  },
+  "problemDeleteOwnerOffer": "مشاكل حذف عرض المستخدم",
+  "@problemDeleteOwnerOffer": {
+    "description": "Text for Problems in deleting owner's data"
+  },
+  "problemRetrievingNews": "مشاكل في استرجاع الأخبار",
+  "@problemRetrievingNews": {
+    "description": "Text for Problems in retrieving some news"
+  },
+  "problemAddingNews": "مشاكل في إضافة الأخبار في المفضلة لديك",
+  "@problemAddingNews": {
+    "description": "Text for Problems in adding the news in your favorites"
+  },
+  "problemDeletingNews": "مشاكل في حذف الأخبار من المفضلة",
+  "@problemDeletingNews": {
+    "description": "Text for Problems in deleting a news from favorites"
+  },
+  "problemPublishingOffer": "مشاكل في نشر خدمتك",
+  "@problemPublishingOffer": {
+    "description": "Text for Problems in publishing an offer"
+  },
+  "problemUpdatingOffer": "مشاكل في تحديث الخدمة",
+  "@problemUpdatingOffer": {
+    "description": "Text for Problems in updating an offer"
+  },
+  "problemLoadingOffer": "مشاكل في البحث في العروض",
+  "@problemLoadingOffer": {
+    "description": "Text for Problems in retrieving searched offers"
+  },
+  "problemBuyingOffer": "مشاكل في شراء العرض",
+  "@problemBuyingOffer": {
+    "description": "Text for Problems in buying an offer"
+  },
+  "problemUpdatingContract": "مشاكل في تحديث العقد",
+  "@problemUpdatingContract": {
+    "description": "Text for Problems in updating a contract"
+  },
+  "problemRetrievingLastOffers": "مشاكل في استرداد آخر العروض",
+  "@problemRetrievingLastOffers": {
+    "description": "Text for Problems in retrieving the last offers"
+  },
+  "problemRetrievingAssetType": "مشاكل في استرداد البيانات من الخادم",
+  "@problemRetrievingAssetType": {
+    "description": "Text for Problems in retrieving assetTypes"
+  },
+  "problemBlockingOffer": "مشاكل حظر العرض",
+  "@problemBlockingOffer": {
+    "description": "Text for Problems in adding an offer in blockedOffers list"
+  },
+  "titlePopUpUpdateUser": "تحديث بيانات المستخدم...",
+  "@titlePopUpUpdateUser": {
+    "description": "Text for title updating user data"
+  },
+  "titlePopUpDeletingOffer": "حذف العرض...",
+  "@titlePopUpDeletingOffer": {
+    "description": "Text for title pop-up deleting offer's offer"
+  },
+  "titlePopUpPublishOffer": "نشر عرضك...",
+  "@titlePopUpPublishOffer": {
+    "description": "Text for title pop-up publishing an offer"
+  },
+  "titlePopUpUpdatingOffer": "تحديث عرضك...",
+  "@titlePopUpUpdatingOffer": {
+    "description": "Text for title pop-up updating an offer"
+  },
+  "titlePopUpLoadingSearch": "جاري التحميل...",
+  "@titlePopUpLoadingSearch": {
+    "description": "Text for title pop-up retrieving searched offers"
+  },
+  "titlePopUpBuyingOffer": "شراء الخدمة الخدمة الخدمة ...",
+  "@titlePopUpBuyingOffer": {
+    "description": "Text for title pop-up buying a service"
+  },
+  "titlePopUpUpdatingContract": "تحديث عقدك ...",
+  "@titlePopUpUpdatingContract": {
+    "description": "Text for title pop-up updating a contract"
+  },
+  "titlePopUpLogIn": "الاتصال...",
+  "@titlePopUpLogIn": {
+    "description": "Text for title pop-up connection"
+  },
+  "titlePopUpSignUp": "إنشاء الحساب...",
+  "@titlePopUpSignUp": {
+    "description": "Text for title pop-up sign-up"
+  },
+  "titlePopUpModifyOffer": "تعديل عرضك...",
+  "@titlePopUpModifyOffer": {
+    "description": "Text for title pop-up to manage an offer"
+  },
+  "titlePopUpCancelContract": "إلغاء الشراء...",
+  "@titlePopUpCancelContract": {
+    "description": "Text for title pop-up to cancel a contract"
+  },
+  "titlePopUpBlockingOffer": "حظر عرض...",
+  "@titlePopUpBlockingOffer": {
+    "description": "Text for title pop-up to block an offer"
+  },
+  "titlePopUpUnblockingOffer": "إلغاء حظر عرض",
+  "@titlePopUpUnblockingOffer": {
+    "description": "Text for title pop-up to unblock an offer"
+  },
+  "textPopUpModifyOfferGood": "لا توجد مشكلة في عرضك",
+  "@textPopUpModifyOfferGood": {
+    "description": "Text for body pop-up to manage an offer in case of no problems"
+  },
+  "textPopUpModifyOfferBad": "عرضك منتهي الصلاحية، لن يظهر في المتجر حتى يتم تعديله",
+  "@textPopUpModifyOfferBad": {
+    "description": "Text for body pop-up to manage an offer in case of problems"
+  },
+  "textPopUpUnblockOffer": "هل ترغب في فتح هذا العرض؟",
+  "@textPopUpUnblockOffer": {
+    "description": "Text for body pop-up to unlock an offer"
+  },
+  "textNoBlockedOffer": "لا توجد عروض محجوبة",
+  "@textNoBlockedOffer": {
+    "description": "Text for page to show there is no blocked offers"
+  },
+  "textNoOfferPublish": "لم يتم نشر أي عروض",
+  "@textNoOfferPublish": {
+    "description": "Text in case of empty list offers published "
+  },
+  "textNoOfferPurchase": "لم يتم شراء أي عروض",
+  "@textNoOfferPurchase": {
+    "description": "Text in case of empty list offers purchased "
+  },
+  "textNoOffer": "لا توجد عروض متاحة",
+  "@textNoOffer": {
+    "description": "Text in case of empty list offers publish "
+  },
+  "textNoBookmarkedNews": "لا توجد أخبار مرجعية",
+  "@textNoBookmarkedNews": {
+    "description": "Text in case of empty list bookmarked news "
+  },
+  "snackBarContractNotGood": "الحالة الحالية للعقد أكثر تقدماً أو هي نفس الحالة المحددة",
+  "@snackBarContractNotGood": {
+    "description": "Text for snackBar in case of new contract's state higher than current contract's state"
+  },
+  "snackBarBadKeyboard": "يرجى التبديل إلى لوحة المفاتيح الرومانية.",
+  "@snackBarBadKeyboard": {
+    "description": "Text for snackBar in case of none roman keyboard"
+  },
+  "snackBarBadFilling": "تحتاج إلى ملء بريدك الإلكتروني واسم المستخدم وكلمة المرور والاسم الأخير والاسم الأول على الأقل",
+  "@snackBarBadFilling": {
+    "description": "Text for snackBar in case of bad filling"
+  },
+  "assetTypeFruit": "الفاكهة",
+  "@assetTypeFruit": {
+    "description": "Text for assetType"
+  },
+  "assetTypeVegetable": "الخضراوات",
+  "@assetTypeVegetable": {
+    "description": "Text for assetType"
+  },
+  "assetTypeCrop": "الحبوب و القطاني",
+  "@assetTypeCrop": {
+    "description": "Text for assetType"
+  },
+  "assetTypeMachinery": "الآلات الزراعية ",
+  "@assetTypeMachinery": {
+    "description": "Text for assetType"
+  },
+  "assetTypeTransport": "النقل والمواصلات",
+  "@assetTypeTransport": {
+    "description": "Text for assetType"
+  },
+  "assetTypeInputs": "الآلات الزراعية",
+  "@assetTypeInputs": {
+    "description": "Text for assetType"
+  },
+  "assetTypeStorage": "التخزين",
+  "@assetTypeStorage": {
+    "description": "Text for assetType"
+  },
+  "assetTypeLabor": "العمالة",
+  "@assetTypeLabor": {
+    "description": "Text for assetType"
+  },
+  "assetTypeOtherServices": "خدمات أخرى",
+  "@assetTypeOtherServices": {
+    "description": "Text for assetType"
+  },
+  "contractChangeStateText": "تغيير حالة العقد",
+  "@contractChangeStateText": {
+    "description": "Text for contract state in offer details view"
+  },
+  "contractActualStateText": "الحالة الفعلية",
+  "@contractActualStateText": {
+    "description": "Text for contract state in offer details view"
+  },
+  "contractNewStateText": "تغيير الحالة إلى ",
+  "@contractNewStateText": {
+    "description": "Text for contract state in offer details view"
+  },
+  "contractStateProceeding": "المتابعة",
+  "@contractStateProceeding": {
+    "description": "Text for contract state in offer details view"
+  },
+  "contractStatePending": "قيد الانتظار",
+  "@contractStatePending": {
+    "description": "Text for contract state in offer details view"
+  },
+  "contractStateReceived": "تم الاستلام",
+  "@contractStateReceived": {
+    "description": "Text for contract state in offer details view"
+  },
+  "contractStateDelivered": "تم التسليم",
+  "@contractStateDelivered": {
+    "description": "Text for contract state in offer details view"
   }
 }

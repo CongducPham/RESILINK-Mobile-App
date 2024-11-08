@@ -1,30 +1,38 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../constants/global_variables.dart';
 
+/*
+ * A customizable button widget that can execute either a synchronous or asynchronous function.
+ * This button is designed to be reusable across the app with specific styling options.
+ * Depending on the label text, it can display different colors and trigger either a regular function or an asynchronous function when pressed.
+ */
 class DefaultButton extends StatelessWidget {
   DefaultButton({super.key, required this.label, required this.parentContext, required this.function, required this.futureFunction});
 
+  // inherited variables
   BuildContext parentContext;
   String label;
   Function? function;
-  Future? futureFunction;
+  Future<void> Function()? futureFunction;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
         onPressed: () async {
-          function != null ? function!() : await futureFunction;
+          function != null ? function!() : futureFunction!();
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,//GlobalVariables.backgroundColor,
+          backgroundColor: (label == "Delete" || label == "حذف") ? GlobalVariables.tertiaryColor : Colors.transparent,//GlobalVariables.backgroundColor,
           elevation: 0, // Disable elevation to keep same background color as scaffold widget
-          side: const BorderSide(color: GlobalVariables.tersiaryColor),
+          side: const BorderSide(color: GlobalVariables.tertiaryColor),
         ),
         child: Text(
           label,
-          style: const TextStyle(
-              color: GlobalVariables.tersiaryColor
+          style: TextStyle(
+              color: label == "Delete" || label == "حذف" ? GlobalVariables.textHeaderColor : GlobalVariables.tertiaryColor
           ),
         )
     );

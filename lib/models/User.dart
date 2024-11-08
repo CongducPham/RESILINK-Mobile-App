@@ -1,67 +1,71 @@
 class User {
 
    late String id;
-   late String? Password;
-   late String Username;
-   late String FirstName;
-   late String LastName;
-   late String Role;
-   late String Email;
-   late String Provider;
-   late String Account;
-   late String CreatedAt;
-   late String UpdateAt;
-   late String AccesToken;
-   late String PhoneNumber;
+   late String? password;
+   late String username;
+   late String firstName;
+   late String lastName;
+   late String role;
+   late String email;
+   late String provider;
+   late String account;
+   late String createdAt;
+   late String updateAt;
+   late String accessToken;
+   late String phoneNumber;
+   late String gps;
 
   User ({
     required this.id,
-    required this.Username,
-    required this.FirstName,
-    required this.LastName,
-    required this.Role,
-    required this.Email,
-    required this.Provider,
-    required this.Account,
-    required this.CreatedAt,
-    required this.UpdateAt,
-    required this.AccesToken,
-    required this.Password,
-    required this.PhoneNumber
+    required this.username,
+    required this.firstName,
+    required this.lastName,
+    required this.role,
+    required this.email,
+    required this.provider,
+    required this.account,
+    required this.createdAt,
+    required this.updateAt,
+    required this.accessToken,
+    required this.password,
+    required this.phoneNumber,
+    required this.gps
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User (
       id: json['_id'],
-      Username: json['userName'],
-      FirstName: json['firstName'],
-      LastName:  json['lastName'],
-      Role: json['roleOfUser'],
-      Email: json['email'],
-      Provider: json['provider'],
-      Account: json['account'],
-      CreatedAt:  json['createdAt'],
-      UpdateAt:  json['updatedAt'],
-      AccesToken: json['accessToken'],
-      Password: json['passWord'],
-      PhoneNumber: json['phoneNumber'] ?? "",
+      username: json['userName'],
+      firstName: json['firstName'],
+      lastName:  json['lastName'],
+      role: json['roleOfUser'],
+      email: json['email'],
+      provider: json['provider'],
+      account: json['account'],
+      createdAt:  json['createdAt'],
+      updateAt:  json['updatedAt'],
+      accessToken: json['accessToken'],
+      password: json['passWord'],
+      phoneNumber: json['phoneNumber'] ?? "",
+      gps: json['gps'] ?? ""
     );
   }
 
-  Map<String, dynamic> ToJson() => {
+  Map<String, dynamic> toJson() => {
     '_id': id,
-    'userName': Username,
-    'firstName': FirstName,
-    'lastName': LastName,
-    'roleOfUser': Role,
-    'email': Email,
-    'provider': Provider,
-    'account': Account,
-    'createdAt': CreatedAt,
-    'updatedAt': UpdateAt,
-    'accessToken': AccesToken,
-    'passWord': Password,
-    'phoneNumber': PhoneNumber ?? "",
+    'userName': username,
+    'firstName': firstName,
+    'lastName': lastName,
+    'roleOfUser': role,
+    'email': email,
+    'provider': provider,
+    'account': account,
+    'createdAt': createdAt,
+    'updatedAt': updateAt,
+    'accessToken': accessToken,
+    'passWord': password,
+    'phoneNumber': phoneNumber ?? "",
+    'gps': gps
   };
 
 }

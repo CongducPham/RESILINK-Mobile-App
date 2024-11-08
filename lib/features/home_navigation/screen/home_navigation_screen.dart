@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:resilink_design/constants/global_variables.dart';
-import 'package:resilink_design/features/account/screen/account_screen.dart';
-import 'package:resilink_design/features/home/screen/home_screen.dart';
-import 'package:resilink_design/features/publish/screen/publish_screen.dart';
-import 'package:resilink_design/features/registration/screen/login_screen.dart';
-import 'package:resilink_design/features/news_page/screen/news_page_screen.dart';
+import 'package:Resilink/constants/global_variables.dart';
+import 'package:Resilink/features/account/screen/account_screen.dart';
+import 'package:Resilink/features/home/screen/home_screen.dart';
+import 'package:Resilink/features/publish/screen/publish_screen.dart';
+import 'package:Resilink/features/registration/screen/login_screen.dart';
+import 'package:Resilink/features/news_page/screen/news_page_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:resilink_design/features/search/screen/search_screen.dart';
+import 'package:Resilink/features/search/screen/search_screen.dart';
 
-import '../../../providers/user_provider.dart';
+import '../../../providers/main_provider.dart';
 import '../provider/home_navigation_provider.dart';
 
+// Widget to manage available pages and their management for navigation
 class HomeNavigation extends StatefulWidget {
   HomeNavigation({super.key});
 
@@ -25,24 +26,31 @@ class HomeNavigation extends StatefulWidget {
 class HomeNavigationState extends State<HomeNavigation> {
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
   void initState() {
     super.initState();
-    // initialize pages
+    // Calls function to retrieve user token and data every 1 hour and 30 minutes
+    context.read<MainProvider>().fetchUserDataPeriodically(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => HomeNavigationProvider(),
+      // Creating the HomeNavigation provider in the tree structure
+    create: (_) => HomeNavigationProvider(),
       builder: (context, child) {
         return SafeArea(
-          child: Consumer2<UserProvider, HomeNavigationProvider>(
-            builder: (context, userProvider, homeNavigationProvider, child) {
+          child: Consumer2<HomeNavigationProvider, MainProvider>( // Listening to HomeNavigation and Main providers to access and update their data
+            builder: (context, homeNavigationProvider, mainProvider, child) {
+
+              if (context.read<MainProvider>().actualUser == null) {
+                context.read<MainProvider>().getUserDataAndToken();
+              }
+
+              // Call the function to retrieve all assetTypes in case getUserDataAndToken is done and it has not be already called
+              // Need to put it in the Consummer for it to be call when a user log out
+              if (context.read<MainProvider>().actualUser != null && !homeNavigationProvider.settingAssetTypes) {
+                homeNavigationProvider.setAssetTypesAndGetUser(context);
+              }
 
               // Needed to put it un local to update the header because the parameters page is out of HomeNavigatorProvider reach
               // Need to put the list in UserProvider or put HomeNavigatorProvider as global provider if not using local variable
@@ -54,7 +62,11 @@ class HomeNavigationState extends State<HomeNavigation> {
                 AppLocalizations.of(context)!.account
               ];
 
-              return Scaffold(
+              /*
+               * If a user is not set (connected or not (can be the public account)), return a waiting screen
+               * Else return the default page with navigation
+               */
+              return mainProvider.actualUser != null ? Scaffold(
                 appBar: AppBar(
                   centerTitle: true,
                   title: Center(
@@ -69,15 +81,23 @@ class HomeNavigationState extends State<HomeNavigation> {
                   leading: homeNavigationProvider.selectedIndex != 0 ? IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.black54),
                     onPressed: () {
+                      /*
+                       * Button to return to main screen (page 0)
+                       * If hasResultSearch is true (=> search result screen page 1) and offerDetails has a value (=> offer detail screen page 1), deletes offer, asset and contract values
+                       * And refresh page 1 to return to search result screen
+                       * Else navigate to page 0 and if offerDetails has a value, clear it with its asset and contract.
+                       */
                       if(context.read<HomeNavigationProvider>().hasResultSearch) {
-                        if (context.read<UserProvider>().offerDetails != null){
-                          context.read<UserProvider>().clearOfferAndAssetViewDetails();
+                        if (context.read<MainProvider>().offerDetails != null){
+                          context.read<MainProvider>().clearOfferAssetContractViewDetails();
                           context.read<HomeNavigationProvider>().setIndexAndUpdateHeader(1);
+                        } else {
+                          context.read<HomeNavigationProvider>().setIndexAndUpdateHeader(0);
                         }
                       } else {
                         context.read<HomeNavigationProvider>().setIndexAndUpdateHeader(0);
-                        if (context.read<UserProvider>().offerDetails != null){
-                          context.read<UserProvider>().clearOfferAndAssetViewDetails();
+                        if (context.read<MainProvider>().offerDetails != null){
+                          context.read<MainProvider>().clearOfferAssetContractViewDetails();
                         }
                       }
                     },
@@ -97,11 +117,16 @@ class HomeNavigationState extends State<HomeNavigation> {
                   elevation: 10,
                   currentIndex: homeNavigationProvider.selectedIndex,
                   onTap: (index) => {
-                    context.read<HomeNavigationProvider>().setIndexAndUpdateHeader(index),
-                    if (context.read<UserProvider>().offerDetails != null && index != 1){
-                      context.read<UserProvider>().clearOfferAndAssetViewDetails()
+                    /*
+                     * Navigates to the page corresponding to the index obtained by clicking on a BottomNavigationBarItem
+                     * And call the function to clear the offer, its asset and its contract if offerDetails has a value and navigation does not go from page 2 to page 1.
+                     */
+                    if (context.read<MainProvider>().offerDetails != null && (context.read<HomeNavigationProvider>().selectedIndex == 2 || index != 1)) {
+                      context.read<MainProvider>().clearOfferAssetContractViewDetails(),
                     },
+                    context.read<HomeNavigationProvider>().setIndexAndUpdateHeader(index),
                   },
+                  // List of navigation options in the BottomBar
                   items: <BottomNavigationBarItem>[
                     BottomNavigationBarItem(
                         icon: const Icon(Icons.home),
@@ -131,14 +156,19 @@ class HomeNavigationState extends State<HomeNavigation> {
                     physics: NeverScrollableScrollPhysics(),
                     controller: homeNavigationProvider.pageController,
                     onPageChanged: (index) {},
+                    // Widgets for different browsable pages
                     children: <Widget>[
                       HomeScreen(),
                       SearchScreen(),
-                      context.watch<UserProvider>().connected == true ? PublishScreen() : LoginScreen(),
+                      context.watch<MainProvider>().connected == true ? PublishScreen() : LoginScreen(),
                       NewsScreen(),
-                      context.watch<UserProvider>().connected == true ? AccountScreen(homeNavigationProvider: homeNavigationProvider) : LoginScreen(),
+                      context.watch<MainProvider>().connected == true ? AccountScreen(homeNavigationProvider: homeNavigationProvider) : LoginScreen(),
                     ],
-                  ),//_buildAnimatedSwitcher()
+                  ),
+                ),
+              ) : Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
                 ),
               );
             },

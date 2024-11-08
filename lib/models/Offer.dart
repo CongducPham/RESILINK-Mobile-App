@@ -9,6 +9,7 @@ class Offer {
   late String? endTimeSlot;
   late String validityLimit;
   late String? publicationDate;
+  late String? ownerPhoneNumber;
   late num? offeredQuantity;
   late num? remainingQuantity;
   late num price;
@@ -24,6 +25,7 @@ class Offer {
     required this.endTimeSlot,
     required this.validityLimit,
     required this.publicationDate,
+    required this.ownerPhoneNumber,
     required this.offeredQuantity,
     required this.remainingQuantity,
     required this.price,
@@ -45,6 +47,7 @@ class Offer {
       endTimeSlot: json['endTimeSlot'],
       validityLimit: json['validityLimit'],
       publicationDate: json['publicationDate'],
+      ownerPhoneNumber: json['phoneNumber'] ?? "",
       offeredQuantity: json['offeredQuantity'],
       remainingQuantity: json['remainingQuantity'],
       price: json['price'],

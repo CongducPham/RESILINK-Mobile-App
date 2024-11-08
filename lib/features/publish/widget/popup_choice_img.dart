@@ -1,12 +1,15 @@
+import 'package:Resilink/features/publish/provider/publish_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:resilink_design/constants/global_variables.dart';
-import 'package:resilink_design/features/publish/provider/offerImg_provider.dart';
+import 'package:Resilink/constants/global_variables.dart';
+import 'package:Resilink/features/publish/provider/offerImg_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+// A widget that displays a popup dialog allowing the user to choose an image source (default images, camera, or gallery) for an offer.
 class PopupChoiceImg extends StatelessWidget {
-  PopupChoiceImg({super.key, required this.offerImgProvider});
+  PopupChoiceImg({super.key, required this.offerImgProvider, required this.publishProvider});
 
   OfferImgProvider offerImgProvider;
+  PublishProvider publishProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +52,9 @@ class PopupChoiceImg extends StatelessWidget {
                               String key = GlobalVariables.othersImage.keys.elementAt(index);
 
                               return GestureDetector(
-                                onTap: () {
+                                onTap: () async {
                                   offerImgProvider.setImgWithDefaultImg(GlobalVariables.othersImage[key]!);
+                                  publishProvider.addElementImageList( await offerImgProvider.convertImgToBase64());
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                 },
@@ -70,9 +74,10 @@ class PopupChoiceImg extends StatelessWidget {
               ElevatedButton(
                 child: Text(AppLocalizations.of(context)!.popupSecondChooseOptionImage),
                 onPressed: () async {
-                  offerImgProvider.setImgWithPhoto();
-                  //TODO quand faudra faire le filtre, ne pas oublier de mettre à jour la liste de photos
-                  Navigator.of(context).pop;
+                  await offerImgProvider.setImgWithPhoto();
+                  String imgBase64 = await offerImgProvider.convertImgToBase64();
+                  publishProvider.addElementImageList(imgBase64);
+                  Navigator.pop(context);
                 },
               ),
 
@@ -82,9 +87,10 @@ class PopupChoiceImg extends StatelessWidget {
               ElevatedButton(
                 child: Text(AppLocalizations.of(context)!.popupThirdChooseOptionImage),
                 onPressed: () async {
-                  offerImgProvider.setImgWithGallery();
-                  //TODO quand faudra faire le filtre, ne pas oublier de mettre à jour la liste de photos
-                  Navigator.of(context).pop;
+                  await offerImgProvider.setImgWithGallery();
+                  String imgBase64 = await offerImgProvider.convertImgToBase64();
+                  publishProvider.addElementImageList(imgBase64);
+                  Navigator.pop(context);
                 },
               ),
             ],

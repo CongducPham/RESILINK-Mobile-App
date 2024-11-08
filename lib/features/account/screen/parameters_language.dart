@@ -1,24 +1,29 @@
+import 'package:Resilink/common/widget/default_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:resilink_design/features/home_navigation/provider/home_navigation_provider.dart';
-import 'package:resilink_design/providers/user_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../constants/global_variables.dart';
+import '../../../providers/locale_provider.dart';
 
-class ParametersLanguage extends StatelessWidget {
-  ParametersLanguage({super.key, required this.homeNavigationProvider});
+// Widget for the languages page
+class ParametersLanguage extends StatefulWidget {
+  ParametersLanguage({super.key});
 
-  HomeNavigationProvider homeNavigationProvider;
+  @override
+  _ParametersLanguageState createState() => _ParametersLanguageState();
+}
+
+class _ParametersLanguageState extends State<ParametersLanguage> {
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(
-      builder: (context, userProvider, child) {
+    return Consumer<LocaleProvider>(
+      builder: (context, localeProvider, child) {
         return Directionality(
-          textDirection: TextDirection.ltr,
+          textDirection: TextDirection.ltr, // Needed when the language change
           child: Scaffold(
-            appBar: AppBar(
+            appBar: AppBar( // Same AppBar as the main navigation page
               centerTitle: true,
               backgroundColor: GlobalVariables.navigationBarColor,
               title: Center(
@@ -39,78 +44,43 @@ class ParametersLanguage extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.notifications_none_outlined, color: Colors.transparent),
                   onPressed: () {
-                    //TODO to complete if notification page/features is implemented
                   },
                 ),
               ],
             ),
             body: Center(
-              child: Container(
-                margin: const EdgeInsets.only(left: 15, right: 15),
-                height: MediaQuery.of(context).size.height * 0.2,
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return Container(
-                      color: Colors.blueGrey,
-                      width: constraints.maxWidth,
-                      height: constraints.maxHeight,
-                      child: Row(
-                        children: [
-                          Expanded(
-                              flex: 4,
-                              child: GestureDetector(
-                                onTap: () {
-                                  userProvider.setNewLocale('ar');
-                                },
-                                child: Column(
-                                    children: [
-                                      SvgPicture.network(
-                                        "https://upload.wikimedia.org/wikipedia/commons/2/2b/Flag_of_the_Arab_League.svg",
-                                        fit: BoxFit.fill,
-                                        width: constraints.maxWidth * 0.4,
-                                        height: constraints.maxHeight * 0.8,
-                                      ),
-                                      Text(
-                                        AppLocalizations.of(context)!.languagePageFirstChoice,
-                                        style: const TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500
-                                        ),
-                                      ),
-                                    ]
-                                ),
-                              )
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DropdownButton<String>(
+                      value: localeProvider.valueLocale,
+                      onChanged: (String? newValue) {
+                        localeProvider.setValueLocale(newValue!);
+                      },
+                      /*
+                       * creates a list of available languages
+                       * ar = arabic
+                       * en = english
+                       */
+                      items: localeProvider.valueLanguage.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value == 'ar'
+                                ? AppLocalizations.of(context)!.languagePageFirstChoice
+                                : AppLocalizations.of(context)!.languagePageSecondChoice,
                           ),
-                          Expanded(flex: 1, child: SizedBox()),
-                          Expanded(
-                              flex: 4,
-                              child: GestureDetector(
-                                onTap: () {
-                                  userProvider.setNewLocale('en');
-                                },
-                                child: Column(
-                                    children: [
-                                      SvgPicture.network(
-                                        "https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg",
-                                        fit: BoxFit.fill,
-                                        width: constraints.maxWidth * 0.4,
-                                        height: constraints.maxHeight * 0.8,
-                                      ),
-                                      Text(
-                                        AppLocalizations.of(context)!.languagePageSecondChoice,
-                                        style: const TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500
-                                        ),
-                                      ),
-                                    ]
-                                ),
-                              )
-                          )
-                        ],
-                      ),
-                    );
-                  },
+                        );
+                      }).toList(),
+                    ),
+                    SizedBox(height: 20),
+                    Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      // Button to call up the language change function in the application
+                      child: DefaultButton(label: AppLocalizations.of(context)!.buttonModify, parentContext: context, function: null, futureFunction: () => localeProvider.setNewLocale()))
+                  ],
                 ),
               ),
             ),
@@ -119,5 +89,4 @@ class ParametersLanguage extends StatelessWidget {
       },
     );
   }
-
 }
