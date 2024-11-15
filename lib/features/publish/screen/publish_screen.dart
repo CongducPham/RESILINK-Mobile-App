@@ -170,25 +170,27 @@ class PublishScreenState extends State<PublishScreen> {
                           },
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       //SizedBox to display/manage the offer localisation
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.07,
-                        child: LayoutBuilder(
-                          builder: (context, constraints) {
-                            return GestureDetector(
-                              onTap: () async {
-                                await publishProvider.setLocalisation();
-                                publishProvider.checkFormValidity();
-                              },
-                              child: AbsorbPointer( // To prevent keyboard from showing up
-                                child: TextFormField(
+                      Opacity(
+                        opacity: publishProvider.offerCityVillage.text.isNotEmpty ? 0.3 : 1,
+                        child: IgnorePointer(
+                          ignoring: publishProvider.offerCityVillage.text.isNotEmpty,
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                return TextFormField(
                                   readOnly: true, // Makes the TextFormField non-editable
                                   controller: publishProvider.offerLocalisation,
                                   textAlignVertical: TextAlignVertical.bottom,
                                   onChanged: (value) {
                                     publishProvider.checkFormValidity();
                                   },
+                                  onTap: publishProvider.offerLocalisation.text.isEmpty ? () async {
+                                    await publishProvider.setLocalisationOnGPS();
+                                    publishProvider.checkFormValidity();
+                                  } : null,
                                   style: const TextStyle(
                                     fontSize: 13,
                                   ),
@@ -199,7 +201,14 @@ class PublishScreenState extends State<PublishScreen> {
                                       Icons.near_me_outlined,
                                       size: constraints.maxHeight * 0.5,
                                     ),
-                                    labelText: AppLocalizations.of(context)!.publishLabelLocalisation,
+                                    suffixIcon: publishProvider.offerLocalisation.text.isNotEmpty
+                                        ? IconButton(
+                                      icon: Icon(Icons.clear, size: constraints.maxHeight * 0.4),
+                                      onPressed: () {
+                                        publishProvider.setLocalisation("");
+                                      },
+                                    ) : null,
+                                    labelText: "${AppLocalizations.of(context)!.publishLabelLocalisation} *",
                                     labelStyle: const TextStyle(
                                       color: GlobalVariables.tertiaryColor,
                                       fontSize: 16.0,
@@ -214,18 +223,75 @@ class PublishScreenState extends State<PublishScreen> {
                                       borderSide: const BorderSide(color: GlobalVariables.tertiaryColor, width: 2.0),
                                     ),
                                   ),
-                                ),
-                              ),
-                            );
-                          },
+                                );
+                              },
+                            ),
+                          ),
                         ),
                       ),
-                      SizedBox(height: 10),
-                      TextFieldInfo(
-                        textController: publishProvider.offerCityVillage,
-                        label: AppLocalizations.of(context)!.publishLabelSpecLocalization,
-                        parentContext: context,
-                        isNumeric: false,
+                      SizedBox(height: 5),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: GestureDetector(
+                            onTap: () {
+                              publishProvider.setLocalisation(context.read<MainProvider>()!.actualUser!.gps);
+                            },
+                            child: Text(
+                              AppLocalizations.of(context)!.publishTextButtonLocalization,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: GlobalVariables.tertiaryColor,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(AppLocalizations.of(context)!.searchOr),
+                      const SizedBox(height: 8),
+                      Opacity(
+                        opacity: publishProvider.offerLocalisation.text.isNotEmpty ? 0.3 : 1,
+                        child: IgnorePointer(
+                          ignoring: publishProvider.offerLocalisation.text.isNotEmpty,
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                return TextFormField(
+                                  clipBehavior: Clip.none,
+                                  controller: publishProvider.offerCityVillage,
+                                  textAlignVertical: TextAlignVertical.bottom,
+                                  onChanged: (value) {
+                                    publishProvider.checkFormValidity();
+                                  },
+                                  style: TextStyle(
+                                      fontSize: 13
+                                  ),
+                                  maxLines: 1,
+                                  textInputAction: TextInputAction.done,
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    hintText: AppLocalizations.of(context)!.publishHinderLabelTitle,
+                                    labelText: "${AppLocalizations.of(context)!.publishLabelSpecLocalization} *",
+                                    labelStyle: const TextStyle(
+                                      color: GlobalVariables.tertiaryColor,
+                                      fontSize: 16.0,
+                                    ),
+                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                      borderSide: const BorderSide(color: GlobalVariables.unFocusBorderColor, width: 2.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                      borderSide: const BorderSide(color: GlobalVariables.tertiaryColor, width: 2.0),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
                       ),
                       SizedBox(height: 20),
                       // Clickable text to display the widget to manage all user information

@@ -19,7 +19,7 @@ class SearchProvider extends ChangeNotifier {
 
   // Constructor
   SearchProvider(HomeNavigationProvider provider, MainProvider mainProvider)
-      : _localisationController = TextEditingController(text: mainProvider?.actualUser?.gps ?? ""),
+      : _localisationController = TextEditingController(text: ""),
         _searchController = TextEditingController(text: ""),
         _cityVillageController = TextEditingController(text: ""),
         _assetTypeNames = provider.allAssetType.keys.toList(),
@@ -150,7 +150,7 @@ class SearchProvider extends ChangeNotifier {
   }
 
   // Retrieves the user's location
-  Future<void> setLocalisation() async {
+  Future<void> setLocalisationByGPS() async {
     Location location = Location();
     PermissionStatus permissionGranted = await location.hasPermission();
     if (permissionGranted == PermissionStatus.denied) {
@@ -161,6 +161,20 @@ class SearchProvider extends ChangeNotifier {
       _localisationController.text = '<${locationData.latitude},${locationData.longitude}>';
       filter.setCoordinate(locationData.latitude!, locationData.longitude!);
     }
+  }
+
+  void setLocalisation(String gps) async {
+    _localisationController.text = gps;
+    if (gps.isNotEmpty) {
+      gps = gps.replaceAll('<', '').replaceAll('>', '');
+      List<String> parts = gps.split(',');
+      print(gps);
+      print(double.parse(parts[1]));
+      filter.setCoordinate(double.parse(parts[0]), double.parse(parts[1]));
+    } else {
+      filter.clearCoordinate();
+    }
+    notifyListeners();
   }
 
   void setCityVillage(String cityVillage) async {

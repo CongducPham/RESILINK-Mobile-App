@@ -25,3 +25,11 @@ String formatDateToFullDate(String dateString) {
   String formattedDate = "${DateFormat("dd/MM/yyyy").format(dateObject)} at ${DateFormat("HH:mm a").format(dateObject)}";
   return formattedDate;
 }
+
+bool isOneHourPassed(String date) {
+  DateTime parsedDate = DateTime.parse(date); // Parse la date ISO 8601
+  DateTime now = DateTime.now().toUtc(); // Heure actuelle en UTC (pour correspondre au format ISO)
+  Duration difference = now.difference(parsedDate); // Calcul de la différence
+
+  return difference.inHours >= 1; // Vérifie si au moins une heure s'est écoulée
+}

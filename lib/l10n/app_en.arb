@@ -87,7 +87,7 @@
   "@searchSecondTitle": {
     "description": "Text for search page "
   },
-  "hinderTextLocalisation": "Where are you",
+  "hinderTextLocalisation": "Where is your offer",
   "@hinderTextLocalisation": {
     "description": "Text for search page "
   },
@@ -170,6 +170,10 @@
   "thirdTypeDuration": "month",
   "@thirdTypeDuration": {
     "description": "Option in the Duration dropdown in the publish page"
+  },
+  "publishTextButtonLocalization": "Use your default location",
+  "@publishTextButtonLocalization": {
+    "description": "Text button to use default location of user account in the publish page"
   },
   "publishLabelPrice": "Your sale or rental price",
   "@publishLabelPrice": {
@@ -650,6 +654,10 @@
   "snackBarContractNotGood": "The current status of the contract is more advanced or is the same as the selected one",
   "@snackBarContractNotGood": {
     "description": "Text for snackBar in case of new contract's state higher than current contract's state"
+  },
+  "snackBarContractTooEarly": "The state of the contract can only be changed one hour after the start of the contract",
+  "@snackBarContractTooEarly": {
+    "description": "Text for snackBar in case of new contract's beginTime is not passed"
   },
   "snackBarBadKeyboard": "Please switch to a roman keyboard.",
   "@snackBarBadKeyboard": {

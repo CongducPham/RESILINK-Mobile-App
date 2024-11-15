@@ -14,6 +14,7 @@ import '../../../common/service/date_manager.dart';
 import '../../../models/Asset.dart';
 import '../../../models/Offer.dart';
 import '../../../models/SpecificAttrModel.dart';
+import '../../../models/User.dart';
 import '../../../providers/main_provider.dart';
 
 class PublishProvider extends ChangeNotifier {
@@ -49,7 +50,7 @@ class PublishProvider extends ChangeNotifier {
       _isFormValid = true;
     } else {
       _assetTypeList.addAll(getListAssetTypeResilink(context.read<HomeNavigationProvider>().allAssetType.keys.toList()));
-      _offerLocalisation = TextEditingController(text: context.read<MainProvider>().actualUser?.gps ?? "");
+      _offerLocalisation = TextEditingController(text: "");
     }
     _offerPrice = TextEditingController(text: offerToUpdate?.price.toString() ?? "0");
     _offerDescription = TextEditingController(text: assetToUpdate?.description ?? "");
@@ -223,7 +224,7 @@ class PublishProvider extends ChangeNotifier {
   }
 
   // Ask for permissions to get GPS coord.
-  Future<void> setLocalisation() async {
+  Future<void> setLocalisationOnGPS() async {
     Location location = Location();
     PermissionStatus permissionGranted = await location.hasPermission();
     if (permissionGranted == PermissionStatus.denied) {
@@ -235,9 +236,14 @@ class PublishProvider extends ChangeNotifier {
     }
   }
 
+  void setLocalisation(String gps) async {
+    _offerLocalisation.text = gps;
+    notifyListeners();
+  }
+
   // Checks if conditions are right for _optionActive to be true (=> clickable option button on page)
   void checkFormValidity() {
-    _isFormValid = offerName.text.isNotEmpty && offerLocalisation.text.isNotEmpty && offerTransactionType.isNotEmpty && assetType.isNotEmpty;
+    _isFormValid = offerName.text.isNotEmpty && (offerLocalisation.text.isNotEmpty || offerCityVillage.text.isNotEmpty) && offerTransactionType.isNotEmpty && assetType.isNotEmpty;
     if (!_isFormValid && _optionActive) {
       _optionActive = false;
     }
@@ -312,9 +318,13 @@ class PublishProvider extends ChangeNotifier {
           asset['specificAttributes'].add({'attributeName': key, 'value': value.text ?? ""});
         }
       });
-      asset['specificAttributes'].add({'attributeName': "GPS", 'value': _offerLocalisation.text});
-      asset['specificAttributes'].add({'attributeName': "City/Village", 'value': _offerCityVillage.text});
-
+      if (_offerCityVillage.text != null && _offerCityVillage.text.isNotEmpty) {
+        asset['specificAttributes'].add({'attributeName': "City/Village", 'value': _offerCityVillage.text});
+        asset['specificAttributes'].add({'attributeName': "GPS", 'value': ""});
+      } else {
+        asset['specificAttributes'].add({'attributeName': "GPS", 'value': _offerLocalisation.text});
+        asset['specificAttributes'].add({'attributeName': "City/Village", 'value': ""});
+      }
       if (homeNavigationProvider.allAssetType[_assetType]!.nature == 'immaterial') {
         asset["totalQuantity"] = 1; // + 1 if it doesnt work, since ODEP is bugged
         offer['endTimeSlot'] = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(addDurationToDate(int.parse(_offerDuration.text), _offerDurationRange, DateTime.now()));

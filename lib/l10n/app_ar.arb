@@ -87,7 +87,7 @@
   "@searchSecondTitle": {
     "description": "Text for search page"
   },
-  "hinderTextLocalisation": "أين أنت",
+  "hinderTextLocalisation": "أين عرضك",
   "@hinderTextLocalisation": {
     "description": "Text for search page"
   },
@@ -170,6 +170,10 @@
   "thirdTypeDuration": "شهر",
   "@thirdTypeDuration": {
     "description": "Option in the Duration dropdown in the publish page"
+  },
+  "publishTextButtonLocalization": "استخدم موقعك الافتراضي",
+  "@publishTextButtonLocalization": {
+    "description": "Text button to use default location of user account in the publish page"
   },
   "publishLabelPrice": "سعر البيع أو الإيجار",
   "@publishLabelPrice": {
@@ -650,6 +654,10 @@
   "snackBarContractNotGood": "الحالة الحالية للعقد أكثر تقدماً أو هي نفس الحالة المحددة",
   "@snackBarContractNotGood": {
     "description": "Text for snackBar in case of new contract's state higher than current contract's state"
+  },
+  "snackBarContractTooEarly": "لا يمكن تغيير حالة العقد إلا بعد ساعة واحدة من بدء العقد",
+  "@snackBarContractTooEarly": {
+    "description": "Text for snackBar in case of new contract's beginTime is not passed"
   },
   "snackBarBadKeyboard": "يرجى التبديل إلى لوحة المفاتيح الرومانية.",
   "@snackBarBadKeyboard": {
