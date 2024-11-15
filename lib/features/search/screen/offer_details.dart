@@ -120,7 +120,7 @@ class OfferDetails extends StatelessWidget {
                                     null,
                                   );
                                 },
-                                icon: const Icon(Icons.delete_forever, color: Colors.red),
+                                icon: const Icon(Icons.block_outlined, color: Colors.red),
                               ),
                             ),
                           ],

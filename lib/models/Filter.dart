@@ -95,6 +95,11 @@ class Filter {
     _longitude = longitude;
   }
 
+  void clearCoordinate() {
+    _latitude = null;
+    _longitude = null;
+  }
+
   Map<String, dynamic> getMapFilter () {
     Map<String, dynamic> Filter = {
       if (_assetType != null) "assetType": _assetType,

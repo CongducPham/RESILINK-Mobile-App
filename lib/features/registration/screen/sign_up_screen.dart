@@ -27,6 +27,7 @@ class SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
         child: Scaffold(
           /*
@@ -60,99 +61,100 @@ class SignUpScreenState extends State<SignUpScreen> {
               ),
             ],
           ),
-            body: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: ChangeNotifierProvider(
-                  create: (_) => SignUpProvider(),
-                  builder: (context, child) {
-                    return Consumer2<SignUpProvider, MainProvider>( // Listening to SignUp and Main providers to access their data
-                      builder: (context, signUpProvider, mainProvider, child) {
+            body: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: ChangeNotifierProvider(
+                create: (_) => SignUpProvider(),
+                builder: (context, child) {
+                  return Consumer2<SignUpProvider, MainProvider>( // Listening to SignUp and Main providers to access their data
+                    builder: (context, signUpProvider, mainProvider, child) {
 
-                        return Container(
-                          margin: const EdgeInsets.only(left: 20, top: 15, right: 20, bottom: 15),
-                          height: MediaQuery.of(context).size.height,
-                          child: Column( // Column with text fields for user data, a second access to the login page and a button to confirm user registration
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.03,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                      margin: const EdgeInsets.only(right: 10, bottom: 15),
-                                      width: MediaQuery.of(context).size.width * 0.35,
-                                      child: TextFieldInfo(textController: signUpProvider.firstname, label: "${AppLocalizations.of(context)!.accountLabelFirstname} *", parentContext: context, isNumeric: false,)),
-                                  Container(
-                                      margin: const EdgeInsets.only(left: 10, bottom: 15),
-                                      width: MediaQuery.of(context).size.width * 0.35,
-                                      child: TextFieldInfo(textController: signUpProvider.lastname, label: "${AppLocalizations.of(context)!.accountLabelLastname} *", parentContext: context, isNumeric: false,)),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                      margin: const EdgeInsets.only(right: 10, bottom: 15),
-                                      width: MediaQuery.of(context).size.width * 0.35,
-                                      child: TextFieldInfo(textController: signUpProvider.username, label: "${AppLocalizations.of(context)!.accountLabelUsername} *", parentContext: context, isNumeric: false,)),
-                                  Container(
-                                      margin: const EdgeInsets.only(left: 10, bottom: 15),
-                                      width: MediaQuery.of(context).size.width * 0.35,
-
-                                      child: TextFieldInfo(textController: signUpProvider.phoneNumber, label: "${AppLocalizations.of(context)!.labelPhoneNumber} *", parentContext: context, isNumeric: true,))
-                                ],
-                              ),
-                              Container(
-                                  margin: const EdgeInsets.only(bottom: 15),
-                                  child: TextFieldInfo(textController: signUpProvider.job, label: AppLocalizations.of(context)!.accountLabelJob, parentContext: context, isNumeric: false,)),
-                              Container(
-                                  margin: const EdgeInsets.only(bottom: 15),
-                                  child: TextFieldInfo(textController: signUpProvider.email, label: "${AppLocalizations.of(context)!.labelEmail} *", parentContext: context, isNumeric: false,)),
-                              TextFieldInfo(textController: signUpProvider.password, label: "${AppLocalizations.of(context)!.registerLoginSecondLabel} *", parentContext: context, isNumeric: false,),
-
-                              if (context.watch<SignUpProvider>().error && signUpProvider.password.text.length < 6)
+                      return Container(
+                        margin: const EdgeInsets.only(left: 20, top: 15, right: 20, bottom: 15),
+                        height: MediaQuery.of(context).size.height,
+                        child: Column( // Column with text fields for user data, a second access to the login page and a button to confirm user registration
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.03,
+                            ),
+                            Row(
+                              children: [
                                 Container(
-                                    margin: const EdgeInsets.only(top: 10, bottom: 10),
-                                    child: Center(
-                                      child: Text(AppLocalizations.of(context)!.registerSignUpErrorPassword,
-                                          style: const TextStyle(
-                                              color: Colors.red
-                                          )),
-                                    )
-                                ),
+                                    margin: const EdgeInsets.only(right: 10, bottom: 15),
+                                    width: MediaQuery.of(context).size.width * 0.35,
+                                    child: TextFieldInfo(textController: signUpProvider.firstname, label: "${AppLocalizations.of(context)!.accountLabelFirstname} *", parentContext: context, isNumeric: false,)),
+                                Flexible(flex: 1, child: Container()),
+                                Container(
+                                    margin: const EdgeInsets.only(left: 10, bottom: 15),
+                                    width: MediaQuery.of(context).size.width * 0.35,
+                                    child: TextFieldInfo(textController: signUpProvider.lastname, label: "${AppLocalizations.of(context)!.accountLabelLastname} *", parentContext: context, isNumeric: false,)),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                    margin: const EdgeInsets.only(right: 10, bottom: 15),
+                                    width: MediaQuery.of(context).size.width * 0.35,
+                                    child: TextFieldInfo(textController: signUpProvider.username, label: "${AppLocalizations.of(context)!.accountLabelUsername} *", parentContext: context, isNumeric: false,)),
+                                Flexible(flex: 1, child: Container()),
+                                Container(
+                                    margin: const EdgeInsets.only(left: 10, bottom: 15),
+                                    width: MediaQuery.of(context).size.width * 0.35,
 
-                              // Registration button
+                                    child: TextFieldInfo(textController: signUpProvider.phoneNumber, label: "${AppLocalizations.of(context)!.labelPhoneNumber} *", parentContext: context, isNumeric: true,))
+                              ],
+                            ),
+                            Container(
+                                margin: const EdgeInsets.only(bottom: 15),
+                                child: TextFieldInfo(textController: signUpProvider.job, label: AppLocalizations.of(context)!.accountLabelJob, parentContext: context, isNumeric: false,)),
+                            Container(
+                                margin: const EdgeInsets.only(bottom: 15),
+                                child: TextFieldInfo(textController: signUpProvider.email, label: "${AppLocalizations.of(context)!.labelEmail} *", parentContext: context, isNumeric: false,)),
+                            TextFieldInfo(textController: signUpProvider.password, label: "${AppLocalizations.of(context)!.registerLoginSecondLabel} *", parentContext: context, isNumeric: false,),
+
+                            if (context.watch<SignUpProvider>().error && signUpProvider.password.text.length < 6)
                               Container(
-                                  margin: const EdgeInsets.only(top: 20),
-                                  child: DefaultButton(
-                                      label: AppLocalizations.of(context)!.buttonSignUp,
-                                      parentContext: context, function: null,
-                                      futureFunction: () => signUpProvider.signUp(context, mainProvider, widget.homeNavigationProvider)
+                                  margin: const EdgeInsets.only(top: 10, bottom: 10),
+                                  child: Center(
+                                    child: Text(AppLocalizations.of(context)!.registerSignUpErrorPassword,
+                                        style: const TextStyle(
+                                            color: Colors.red
+                                        )),
                                   )
                               ),
-                              const SizedBox(height: 10),
 
-                              // textButton equivalent to access login page
-                              GestureDetector(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(
-                                      AppLocalizations.of(context)!.registerSignUpRedirection,
-                                      style: const TextStyle(fontSize: 13,
-                                          color: Colors.lightBlueAccent)
-                                  )
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
+                            // Registration button
+                            Container(
+                                margin: const EdgeInsets.only(top: 20),
+                                child: DefaultButton(
+                                    label: AppLocalizations.of(context)!.buttonSignUp,
+                                    parentContext: context, function: null,
+                                    futureFunction: () => signUpProvider.signUp(context, mainProvider, widget.homeNavigationProvider)
+                                )
+                            ),
+                            const SizedBox(height: 10),
+
+                            // textButton equivalent to access login page
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                    AppLocalizations.of(context)!.registerSignUpRedirection,
+                                    style: const TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.lightBlueAccent
+                                    )
+                                )
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             )
         ),

@@ -25,62 +25,65 @@ class TextFieldInfo extends StatelessWidget {
         const SizedBox(height: 10),
         LayoutBuilder(
           builder: (context, constraints) {
-            return SizedBox(
-              height: MediaQuery.of(parentContext).size.height * 0.070,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 3.0),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Container(
-                    constraints: BoxConstraints(maxWidth: constraints.maxWidth),
-                    child: TextFormField(
-                      clipBehavior: Clip.none,
-                      controller: textController,
-                      textAlignVertical: testHint != null ? TextAlignVertical.bottom : TextAlignVertical.top, // With an hinder, text in Textfield is not in normal position
-                      style: TextStyle(
-                          fontSize: 13,
-                      ),
-                      inputFormatters: [
-                        if (label == "email")
-                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\s]')),
-                      ],
-                      onChanged: (String value) {
+            return ClipRect(
+              child: Align(
+                alignment: Alignment.center,
+                heightFactor: 1.1, // Contrôle verticalement la zone visible
+                child: SizedBox(
+                  height: MediaQuery.of(parentContext).size.height * 0.070,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 3.0),
+                    child: Container(
+                      constraints: BoxConstraints(maxWidth: constraints.maxWidth),
+                      child: TextFormField(
+                        clipBehavior: Clip.none,
+                        controller: textController,
+                        textAlignVertical: testHint != null ? TextAlignVertical.bottom : TextAlignVertical.top, // With an hinder, text in Textfield is not in normal position
+                        style: TextStyle(
+                            fontSize: 13,
+                        ),
+                        inputFormatters: [
+                          if (label == "email")
+                            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\s]')),
+                        ],
+                        onChanged: (String value) {
 
-                        // regex to detect text not in roman script
-                        final RegExp arabicRegExp = RegExp(r'[\u0600-\u06FF]');
+                          // regex to detect text not in roman script
+                          final RegExp arabicRegExp = RegExp(r'[\u0600-\u06FF]');
 
-                        // Checks whether the text respects the regex and whether the current text size is larger than its previous value.
-                        // If so, displays a warning SnackBar.
-                        if (arabicRegExp.hasMatch(textController.text) && _previousText.length < value.length) {
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(AppLocalizations.of(context)!.snackBarBadKeyboard),
-                              duration: const Duration(seconds: 3),
-                            ),
-                          );
-                        }
-                        _previousText = value;
-                      },
-                      decoration: InputDecoration(
-                        hintText: testHint,
-                        isDense: true,
-                        labelText: label,
-                        labelStyle: const TextStyle(
-                          color: GlobalVariables.tertiaryColor,
-                          fontSize: 16.0,
+                          // Checks whether the text respects the regex and whether the current text size is larger than its previous value.
+                          // If so, displays a warning SnackBar.
+                          if (arabicRegExp.hasMatch(textController.text) && _previousText.length < value.length) {
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(AppLocalizations.of(context)!.snackBarBadKeyboard),
+                                duration: const Duration(seconds: 3),
+                              ),
+                            );
+                          }
+                          _previousText = value;
+                        },
+                        decoration: InputDecoration(
+                          hintText: testHint,
+                          isDense: true,
+                          labelText: label,
+                          labelStyle: const TextStyle(
+                            color: GlobalVariables.tertiaryColor,
+                            fontSize: 16.0,
+                          ),
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                            borderSide: const BorderSide(color: GlobalVariables.unFocusBorderColor, width: 2.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                            borderSide: const BorderSide(color: GlobalVariables.tertiaryColor, width: 2.0),
+                          ),
                         ),
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(4.0),
-                          borderSide: const BorderSide(color: GlobalVariables.unFocusBorderColor, width: 2.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(4.0),
-                          borderSide: const BorderSide(color: GlobalVariables.tertiaryColor, width: 2.0),
-                        ),
+                        keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
                       ),
-                      keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
                     ),
                   ),
                 ),

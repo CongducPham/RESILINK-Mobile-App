@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:Resilink/features/search/service/update_contract_services.dart';
 
+import '../../../common/service/date_manager.dart';
 import '../../../models/Contract.dart';
 import '../../../providers/main_provider.dart';
 import '../../home_navigation/provider/home_navigation_provider.dart';
@@ -155,6 +156,10 @@ class UpdateContractProvider extends ChangeNotifier {
     if(_deliveryState.indexOf(_deliveryValue) <= _deliveryState.indexOf(contract.state)){
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(AppLocalizations.of(context)!.snackBarContractNotGood)),
+      );
+    } else if (!isOneHourPassed(contract.beginTimeSlot)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context)!.snackBarContractTooEarly)),
       );
     } else {
 

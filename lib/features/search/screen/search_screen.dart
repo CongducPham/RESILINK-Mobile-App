@@ -87,6 +87,12 @@ class SearchScreenState extends State<SearchScreen> {
                                       // Update the selected state and filter map based on input
                                       searchProvider.setSelected(value.isNotEmpty);
                                       searchProvider.filter.setName(value);
+                                      if (value.length > 30) {
+                                        searchProvider.searchController.text = value.substring(0, 30);
+                                        searchProvider.searchController.selection = TextSelection.fromPosition( // Conserve la position du curseur
+                                          TextPosition(offset: searchProvider.searchController.text.length),
+                                        );
+                                      }
                                     },
                                     decoration: InputDecoration(
                                       hintText: AppLocalizations.of(context)!.hinderTextRequest,
@@ -170,6 +176,7 @@ class SearchScreenState extends State<SearchScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.06,
                       child: TextField(
+                        clipBehavior: Clip.none,
                         controller: searchProvider.cityVillageController,
                         textAlignVertical: TextAlignVertical.bottom,
                         style: const TextStyle(fontSize: 13),
@@ -202,16 +209,40 @@ class SearchScreenState extends State<SearchScreen> {
                               hintText: AppLocalizations.of(context)!.hinderTextLocalisation,
                               border: const OutlineInputBorder(
                                   borderSide: BorderSide(color: GlobalVariables.tertiaryColor)),
+                              suffixIcon: searchProvider.localisationController.text.isNotEmpty
+                                  ? IconButton(
+                                icon: Icon(Icons.clear, size: constraints.maxHeight * 0.4),
+                                onPressed: () {
+                                  searchProvider.setLocalisation("");
+                                },
+                              ) : null,
                               prefixIcon: IconButton(
                                 icon: Icon(Icons.near_me_outlined, size: constraints.maxHeight * 0.5),
                                 onPressed: () async {
-                                  await searchProvider.setLocalisation();
+                                  await searchProvider.setLocalisationByGPS();
                                   searchProvider.checkFormValidity();
                                 },
                               ),
                             ),
                           );
                         },
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: GestureDetector(
+                        onTap: () {
+                          searchProvider.setLocalisation(context.read<MainProvider>()!.actualUser!.gps);
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)!.publishTextButtonLocalization,
+                          style: const TextStyle(
+                              fontSize: 12,
+                              color: GlobalVariables.tertiaryColor,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 15),
