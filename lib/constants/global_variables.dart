@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 class GlobalVariables {
 
   //API URL
-  static const String pathAPIAsset = 'http://192.168.1.28:9990/v1/assets/';
-  static const String pathAPIOffer = 'http://192.168.1.28:9990/v1/offers/';
-  static const String pathAPIContract = 'http://192.168.1.28:9990/v1/contracts/';
-  static const String pathAPIRequest = 'http://192.168.1.28:9990/v1/ODEP/requests/';
-  static const String pathAPIProsumer = 'http://192.168.1.28:9990/v1/prosumers/';
-  static const String pathAPIAssetType = 'http://192.168.1.28:9990/v1/assetTypes/';
-  static const String pathAPIUser = 'http://192.168.1.28:9990/v1/users/';
-  static const String pathAPINews = 'http://192.168.1.28:9990/v1/news/';
+  static const String pathAPIAsset = 'https://resilink-api.onrender.com/v1/assets/';
+  static const String pathAPIOffer = 'https://resilink-api.onrender.com/v1/offers/';
+  static const String pathAPIContract = 'https://resilink-api.onrender.com/v1/contracts/';
+  static const String pathAPIRequest = 'https://resilink-api.onrender.com/v1/ODEP/requests/';
+  static const String pathAPIProsumer = 'https://resilink-api.onrender.com/v1/prosumers/';
+  static const String pathAPIAssetType = 'https://resilink-api.onrender.com/v1/assetTypes/';
+  static const String pathAPIUser = 'https://resilink-api.onrender.com/v1/users/';
+  static const String pathAPINews = 'https://resilink-api.onrender.com/v1/news/';
 
   // COLORS
   static const backgroundColor = Colors.white;
