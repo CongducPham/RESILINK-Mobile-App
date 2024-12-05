@@ -22,6 +22,7 @@ class HomeProvider extends ChangeNotifier {
   bool _loadingFetchOffer = true;
   bool _loadingFetchSuggestion = true;
   bool _loadingFetchBlockedOffer = true;
+  bool _isDispose = false;
 
   List<News> _listNews = [];
   List<Offer> _lastOfferPublish = [];
@@ -54,30 +55,32 @@ class HomeProvider extends ChangeNotifier {
    * WARNING for the moment, use this function to get suggested offers, once the suggestion function is done in the server, make a separate function
    */
   Future<void> setLastOfferPublish(BuildContext context) async {
-    try {
+    if (!_isDispose) {
+      try {
 
-      // Set _finishFetchOffer & _finishFetchSuggestion to true to notify the parent calling the function that the function has run
-      _finishFetchOffer = true;
-      await _homeServices.fetchLastThreeOfferAsset(_lastOfferPublish, _offerAssets, context.read<MainProvider>().actualUser!.accessToken);
-      // Set _loadingFetchOffer to false to notify the parent calling the function that the function has finished
-      _loadingFetchOffer = false;
-    } catch (e) {
-      _finishFetchOffer = true;
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(AppLocalizations.of(context)!.problemRetrievingLastOffers),
-          content: Text(e is TimeoutException
-              ? AppLocalizations.of(context)!.popupFailConnexionTimeout
-              : AppLocalizations.of(context)!.popupFailConnexionNoServer),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(AppLocalizations.of(context)!.textOk),
-            ),
-          ],
-        ),
-      );
+        // Set _finishFetchOffer & _finishFetchSuggestion to true to notify the parent calling the function that the function has run
+        _finishFetchOffer = true;
+        await _homeServices.fetchLastThreeOfferAsset(_lastOfferPublish, _offerAssets, context.read<MainProvider>().actualUser!.accessToken);
+        // Set _loadingFetchOffer to false to notify the parent calling the function that the function has finished
+        _loadingFetchOffer = false;
+      } catch (e) {
+        _finishFetchOffer = true;
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(AppLocalizations.of(context)!.problemRetrievingLastOffers),
+            content: Text(e is TimeoutException
+                ? AppLocalizations.of(context)!.popupFailConnexionTimeout
+                : AppLocalizations.of(context)!.popupFailConnexionNoServer),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(AppLocalizations.of(context)!.textOk),
+              ),
+            ],
+          ),
+        );
+      }
     }
     notifyListeners();
   }
@@ -87,36 +90,46 @@ class HomeProvider extends ChangeNotifier {
    * displays a popup giving a timeout error if the server doesn't respond or an internal server error.
    */
   Future<void> setLastSuggestedOffer(BuildContext context) async {
-    try {
-
-      // Set _finishFetchSuggestion to true to notify the parent calling the function that the function has run
-      _finishFetchSuggestion = true;
-      await _homeServices.fetchSuggestedOfferAsset(_lastSuggestedOffer, _suggestedOfferAssets, context.read<MainProvider>().actualUser!.username, context.read<MainProvider>().actualUser!.accessToken);
-      // Set _loadingFetchSuggestion to false to notify the parent calling the function that the function has finished
-      _loadingFetchSuggestion = false;
-    } catch (e) {
-      _finishFetchSuggestion = true;
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(AppLocalizations.of(context)!.problemRetrievingLastOffers),
-          content: Text(e is TimeoutException
-              ? AppLocalizations.of(context)!.popupFailConnexionTimeout
-              : AppLocalizations.of(context)!.popupFailConnexionNoServer),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(AppLocalizations.of(context)!.textOk),
-            ),
-          ],
-        ),
-      );
+    if (!_isDispose) {
+      try {
+        // Set _finishFetchSuggestion to true to notify the parent calling the function that the function has run
+        _finishFetchSuggestion = true;
+        await _homeServices.fetchSuggestedOfferAsset(
+            _lastSuggestedOffer, _suggestedOfferAssets, context
+            .read<MainProvider>()
+            .actualUser!
+            .username, context
+            .read<MainProvider>()
+            .actualUser!
+            .accessToken);
+        // Set _loadingFetchSuggestion to false to notify the parent calling the function that the function has finished
+        _loadingFetchSuggestion = false;
+      } catch (e) {
+        _finishFetchSuggestion = true;
+        showDialog(
+          context: context,
+          builder: (context) =>
+              AlertDialog(
+                title: Text(
+                    AppLocalizations.of(context)!.problemRetrievingLastOffers),
+                content: Text(e is TimeoutException
+                    ? AppLocalizations.of(context)!.popupFailConnexionTimeout
+                    : AppLocalizations.of(context)!.popupFailConnexionNoServer),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text(AppLocalizations.of(context)!.textOk),
+                  ),
+                ],
+              ),
+        );
+      }
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   Future<void> setOwnerBlockedOffer(BuildContext context) async {
-    try {
+      try {
 
       // Set _finishFetchSuggestion to true to notify the parent calling the function that the function has run
       _finishFetchBlockedOffer = true;

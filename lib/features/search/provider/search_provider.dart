@@ -9,6 +9,7 @@ import 'package:Resilink/features/publish/services/publish_services.dart';
 import 'package:Resilink/features/search/service/search_services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../common/service/date_manager.dart';
 import '../../../models/Asset.dart';
 import '../../../models/Filter.dart';
 import '../../../models/Offer.dart';
@@ -141,6 +142,10 @@ class SearchProvider extends ChangeNotifier {
 
   void setSearchDone(bool value) {
     _isSearchDone = value;
+    if (!value) {
+      _searchedOffer = [];
+      _offerAssets = {};
+    }
     notifyListeners();
   }
 
@@ -168,8 +173,6 @@ class SearchProvider extends ChangeNotifier {
     if (gps.isNotEmpty) {
       gps = gps.replaceAll('<', '').replaceAll('>', '');
       List<String> parts = gps.split(',');
-      print(gps);
-      print(double.parse(parts[1]));
       filter.setCoordinate(double.parse(parts[0]), double.parse(parts[1]));
     } else {
       filter.clearCoordinate();
@@ -268,7 +271,7 @@ class SearchProvider extends ChangeNotifier {
       int requestId = await _searchServices.createRequestWithId(
           {
             'requestor': context.read<MainProvider>().actualUser!.username,
-            'beginTimeSlot': DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(DateTime.now()),
+            'beginTimeSlot': dateToGMTPlus1(),
             'endTimeSlot': (asset.transactionType == "rent" && homeNavigationProvider.allAssetType[asset.assetType]!.nature == "material" ) && context.read<HomeNavigationProvider>().allAssetType[asset.assetType]!.nature != "immaterial" ? offer.endTimeSlot : offer.validityLimit,
             'validityLimit': offer.validityLimit,
             'transactionType': asset.transactionType,

@@ -206,6 +206,7 @@ class PublishScreenState extends State<PublishScreen> {
                                       icon: Icon(Icons.clear, size: constraints.maxHeight * 0.4),
                                       onPressed: () {
                                         publishProvider.setLocalisation("");
+                                        publishProvider.checkFormValidity();
                                       },
                                     ) : null,
                                     labelText: "${AppLocalizations.of(context)!.publishLabelLocalisation} *",
@@ -230,20 +231,26 @@ class PublishScreenState extends State<PublishScreen> {
                         ),
                       ),
                       SizedBox(height: 5),
-                      Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: GestureDetector(
-                            onTap: () {
-                              publishProvider.setLocalisation(context.read<MainProvider>()!.actualUser!.gps);
-                            },
-                            child: Text(
-                              AppLocalizations.of(context)!.publishTextButtonLocalization,
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: GlobalVariables.tertiaryColor,
-                                fontWeight: FontWeight.bold
-                              ),
+                      Opacity(
+                        opacity: publishProvider.offerCityVillage.text.isNotEmpty ? 0.3 : 1,
+                        child: IgnorePointer(
+                          ignoring: publishProvider.offerCityVillage.text.isNotEmpty,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: GestureDetector(
+                                onTap: () {
+                                  publishProvider.setLocalisation(context.read<MainProvider>()!.actualUser!.gps);
+                                },
+                                child: Text(
+                                  AppLocalizations.of(context)!.publishTextButtonLocalization,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: GlobalVariables.tertiaryColor,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
                             ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -271,7 +278,7 @@ class PublishScreenState extends State<PublishScreen> {
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
                                     isDense: true,
-                                    hintText: AppLocalizations.of(context)!.publishHinderLabelTitle,
+                                    hintText: AppLocalizations.of(context)!.publishHinterFarmCity,
                                     labelText: "${AppLocalizations.of(context)!.publishLabelSpecLocalization} *",
                                     labelStyle: const TextStyle(
                                       color: GlobalVariables.tertiaryColor,

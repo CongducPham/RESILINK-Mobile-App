@@ -127,6 +127,10 @@
   "@publishLabelLocalisation": {
     "description": "placeholder for location input field in the publish page"
   },
+  "publishHinterFarmCity": "على سبيل المثال مزرعة الغزالي في الشرفة",
+  "@publishHinterFarmCity": {
+    "description": "Hint for Farm/City/Village input field in the publish page"
+  },
   "publishContactInformation": "معلومات الاتصال",
   "@publishContactInformation": {
     "description": "expandable section title for contact information in the publish page"
@@ -227,6 +231,10 @@
   "@publishLabelDetails": {
     "description": "Label in the publish page"
   },
+  "publishLabelAddDuration": "تمديد المدة",
+  "@publishLabelAddDuration": {
+    "description": "Label in the publish page"
+  },
   "publishHinderDetails": "قدم المزيد من التفاصيل حول عرضك هنا",
   "@publishHinderDetails": {
     "description": "hinder of Details in the publish page"
@@ -291,6 +299,10 @@
   "@accountTitleParameters": {
     "description": "Title in the account page"
   },
+  "accountTitleRating": "تقييم التطبيق",
+  "@accountTitleRating": {
+    "description": "Title in the account page"
+  },
   "accountSubTitleLanguage": "تغيير اللغة",
   "@accountSubTitleLanguage": {
     "description": "First parameter in the account page"
@@ -302,6 +314,10 @@
   "accountSubTitleLogOut": "تسجيل الخروج",
   "@accountSubTitleLogOut": {
     "description": "Third parameter in the account page"
+  },
+  "accountProfileGpsHintText": "موقعك الافتراضي",
+  "@accountProfileGpsHintText": {
+    "description": "helper text in the account page"
   },
   "buttonClose": "إغلاق",
   "@buttonClose": {
@@ -391,10 +407,15 @@
   "@offerDetailsMaterial": {
     "description": "Text in offer details page"
   },
+  "offerDetailsBuyer": "المشتري :",
+  "@offerDetailsBuyer": {
+    "description": "Text in offer details page"
+  },
   "resultsTitle": "النتائج",
   "@resultsTitle": {
     "description": "Title in result_search page"
   },
+
   "popupTitleExpired": "عرض منتهي الصلاحية",
   "@popupTitleExpired": {
     "description": "Title in the pop-up for expired offer"
@@ -655,7 +676,7 @@
   "@snackBarContractNotGood": {
     "description": "Text for snackBar in case of new contract's state higher than current contract's state"
   },
-  "snackBarContractTooEarly": "لا يمكن تغيير حالة العقد إلا بعد ساعة واحدة من بدء العقد",
+  "snackBarContractTooEarly": "لا يمكن تغيير حالة العقد إلا بعد دقيقة واحدة فقط من بدء العقد",
   "@snackBarContractTooEarly": {
     "description": "Text for snackBar in case of new contract's beginTime is not passed"
   },

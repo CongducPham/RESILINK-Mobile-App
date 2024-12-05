@@ -12,6 +12,7 @@ class GlobalVariables {
   static const String pathAPIAssetType = 'https://resilink-api.onrender.com/v1/assetTypes/';
   static const String pathAPIUser = 'https://resilink-api.onrender.com/v1/users/';
   static const String pathAPINews = 'https://resilink-api.onrender.com/v1/news/';
+  static const String pathAPIRating = 'https://resilink-api.onrender.com/v1/rating/';
 
   // COLORS
   static const backgroundColor = Colors.white;

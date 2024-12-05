@@ -157,7 +157,7 @@ class UpdateContractProvider extends ChangeNotifier {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(AppLocalizations.of(context)!.snackBarContractNotGood)),
       );
-    } else if (!isOneHourPassed(contract.beginTimeSlot)) {
+    } else if (!isOneMinutePassed(contract.beginTimeSlot)) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(AppLocalizations.of(context)!.snackBarContractTooEarly)),
       );

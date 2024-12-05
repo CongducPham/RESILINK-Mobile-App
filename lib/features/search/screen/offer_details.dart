@@ -107,22 +107,23 @@ class OfferDetails extends StatelessWidget {
                                 icon: const Icon(Icons.bookmark_add_outlined),
                               ),
                             ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.1, // Fixed width for the delete icon
-                              child: IconButton(
-                                onPressed: () {
-                                  DefaultPopUp.show(
-                                    context,
-                                        () => searchProvider.addBlockedOffer(
-                                        context,
-                                        context.read<MainProvider>().offerDetails!,
-                                        homeNavigationProvider),
-                                    null,
-                                  );
-                                },
-                                icon: const Icon(Icons.block_outlined, color: Colors.red),
+                            if (context.read<MainProvider>().actualContract == null)
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.1, // Fixed width for the delete icon
+                                child: IconButton(
+                                  onPressed: () {
+                                    DefaultPopUp.show(
+                                      context,
+                                          () => searchProvider.addBlockedOffer(
+                                          context,
+                                          context.read<MainProvider>().offerDetails!,
+                                          homeNavigationProvider),
+                                      null,
+                                    );
+                                  },
+                                  icon: const Icon(Icons.block_outlined, color: Colors.red),
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ),
@@ -220,6 +221,11 @@ class OfferDetails extends StatelessWidget {
                                     style: const TextStyle(fontSize: 12),
                                   ),
                                 ),
+                            if (context.read<MainProvider>().actualContract != null)
+                              Text(
+                                "${AppLocalizations.of(context)!.offerDetailsBuyer}${context.read<MainProvider>().actualContract!.requester}",
+                                style: const TextStyle(fontSize: 12),
+                              ),
                             SizedBox(height: 20),
                             // Scrollable text section for asset description
                             Container(
@@ -277,16 +283,19 @@ class OfferDetails extends StatelessWidget {
                             ),
                             const SizedBox(width: 8),
                             Opacity(
-                              opacity: context.read<MainProvider>().forPurchase ? 1 : 0.3,
-                              child: DefaultButton(
-                                label: AppLocalizations.of(context)!.buttonPurchase,
-                                parentContext: context,
-                                function: null,
-                                futureFunction: () => searchProvider.buyingServices(
-                                    context,
-                                    context.read<MainProvider>().assetDetails!,
-                                    context.read<MainProvider>().offerDetails!,
-                                    homeNavigationProvider),
+                              opacity: context.read<MainProvider>().actualUser!.username != "public"? context.read<MainProvider>().offerDetails!.offerer != context.read<MainProvider>().actualUser?.username ? 1 : 0.3 : 0.3,
+                              child: IgnorePointer(
+                                ignoring: context.read<MainProvider>().actualUser?.username != "public"? context.read<MainProvider>().offerDetails!.offerer == context.read<MainProvider>().actualUser?.username ? true : false : true,
+                                child: DefaultButton(
+                                  label: AppLocalizations.of(context)!.buttonPurchase,
+                                  parentContext: context,
+                                  function: null,
+                                  futureFunction: () => searchProvider.buyingServices(
+                                      context,
+                                      context.read<MainProvider>().assetDetails!,
+                                      context.read<MainProvider>().offerDetails!,
+                                      homeNavigationProvider),
+                                ),
                               ),
                             ),
                           ],

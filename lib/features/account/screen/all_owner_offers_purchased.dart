@@ -62,11 +62,11 @@ class AllOwnerOfferPurchasedState extends State<AllOwnerOfferPurchased> {
                 SizedBox(height: 30),
                 SizedBox(
                   // Height varies according to the number of items in the list, or if the function for retrieving purchased offers has been terminated
-                  height: MediaQuery.of(context).size.height * 0.13 * (widget.accountProvider.offerPurchased.isNotEmpty ? widget.accountProvider.offerPurchased.length : 1),
+                  height: MediaQuery.of(context).size.height * 0.14 * (widget.accountProvider.offerPurchased.isNotEmpty ? widget.accountProvider.offerPurchased.length : 1),
                   child: widget.accountProvider.finishFetchPurchase && !widget.accountProvider.loadingFetchPurchase ? // if loadingFetchPurchase is true, the asynchronous function is not completed and a waiting icon is displayed
                   widget.accountProvider.offerPurchased.isNotEmpty ? // if offerPurchased is empty, there is no offers in the list so a message is displayed
                   ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: BouncingScrollPhysics(),
                       itemCount: widget.accountProvider.contractPurchased.length,
                       itemBuilder: (_, int index) {
                         return Column(

@@ -191,7 +191,9 @@ class SearchScreenState extends State<SearchScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 8),
+                    Text(AppLocalizations.of(context)!.searchOr),
+                    const SizedBox(height: 8),
                     // Localization input field with a prefix icon for auto-localization
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.06,
@@ -206,7 +208,7 @@ class SearchScreenState extends State<SearchScreen> {
                               searchProvider.checkFormValidity();
                             },
                             decoration: InputDecoration(
-                              hintText: AppLocalizations.of(context)!.hinderTextLocalisation,
+                              hintText: AppLocalizations.of(context)!.searchHinderTextLocalisation,
                               border: const OutlineInputBorder(
                                   borderSide: BorderSide(color: GlobalVariables.tertiaryColor)),
                               suffixIcon: searchProvider.localisationController.text.isNotEmpty

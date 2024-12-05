@@ -95,6 +95,10 @@
   "@searchSecondSubText": {
     "description": "Text for search page "
   },
+  "searchHinderTextLocalisation": "Where are you searching",
+  "@searchHinderTextLocalisation": {
+    "description": "Hint text for search page "
+  },
   "publishFirstTitle": "Let's start....",
   "@publishFirstTitle": {
     "description": "Title in the publish page"
@@ -122,6 +126,10 @@
   "publishHinderLabelTitle": "Type a title",
   "@publishHinderLabelTitle": {
     "description": "placeholder for title input field in the publish page"
+  },
+  "publishHinterFarmCity": "e.g. El Ghazali farm in Chorfa",
+  "@publishHinterFarmCity": {
+    "description": "Hint for Farm/City/Village input field in the publish page"
   },
   "publishLabelLocalisation": "GPS coord. to enable exact search",
   "@publishLabelLocalisation": {
@@ -227,6 +235,10 @@
   "@publishLabelDetails": {
     "description": "Label in the publish page"
   },
+  "publishLabelAddDuration": "extend duration",
+  "@publishLabelAddDuration": {
+    "description": "Label in the publish page"
+  },
   "publishHinderDetails": "Give more details of your offer here",
   "@publishHinderDetails": {
     "description": "hinder of Details in the publish page"
@@ -291,6 +303,10 @@
   "@accountTitleParameters": {
     "description": "Title in the account page"
   },
+  "accountTitleRating": "Evaluate the app",
+  "@accountTitleRating": {
+    "description": "Title in the account page"
+  },
   "accountSubTitleLanguage": "Language",
   "@accountSubTitleLanguage": {
     "description": "First parameter in the account page"
@@ -302,6 +318,10 @@
   "accountSubTitleLogOut": "Log out",
   "@accountSubTitleLogOut": {
     "description": "Third parameter in the account page"
+  },
+  "accountProfileGpsHintText": "Your default location",
+  "@accountProfileGpsHintText": {
+    "description": "helper text in the account page"
   },
   "buttonClose": "close",
   "@buttonClose": {
@@ -389,6 +409,10 @@
   },
   "offerDetailsMaterial": "1 service",
   "@offerDetailsMaterial": {
+    "description": "Text in offer details page"
+  },
+  "offerDetailsBuyer": "buyer : ",
+  "@offerDetailsBuyer": {
     "description": "Text in offer details page"
   },
   "resultsTitle": "Results",
@@ -655,7 +679,7 @@
   "@snackBarContractNotGood": {
     "description": "Text for snackBar in case of new contract's state higher than current contract's state"
   },
-  "snackBarContractTooEarly": "The state of the contract can only be changed one hour after the start of the contract",
+  "snackBarContractTooEarly": "The state of the contract can only be changed 1 minute after the start of the contract",
   "@snackBarContractTooEarly": {
     "description": "Text for snackBar in case of new contract's beginTime is not passed"
   },
