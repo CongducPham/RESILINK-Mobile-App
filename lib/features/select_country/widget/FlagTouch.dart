@@ -38,7 +38,7 @@ class FlagTouch {
                   : "https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Egypt.svg",
               fit: BoxFit.cover,
               width: maxWidth * 0.5,
-              height: maxHeight * 0.2,
+              height: maxHeight * 0.19,
             ),
           ),
           Align(
