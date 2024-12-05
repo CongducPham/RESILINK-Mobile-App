@@ -127,7 +127,7 @@ class SpecificAttributesAsset extends StatelessWidget {
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 12.0),
-                          labelText: AppLocalizations.of(context)!.publishLabelChooseTransaction,
+                          labelText: AppLocalizations.of(context)!.publishLabelSpecCondition,
                           labelStyle: const TextStyle(
                             color: GlobalVariables.tertiaryColor,
                             fontSize: 16.0,

@@ -1,5 +1,6 @@
 import 'package:Resilink/features/account/screen/all_owner_offers_published.dart';
 import 'package:Resilink/features/account/screen/all_owner_offers_purchased.dart';
+import 'package:Resilink/features/account/screen/rating_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:Resilink/common/widget/default_touch_headband.dart';
@@ -31,17 +32,7 @@ class AccountScreenState extends State<AccountScreen> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       // Creating the Account provider in the tree structure
-      create: (_) => AccountProvider(
-          username: context.read<MainProvider>()?.actualUser?.username ?? "",
-          firstname: context.read<MainProvider>()?.actualUser?.firstName ?? "",
-          lastname: context.read<MainProvider>()?.actualUser?.lastName ?? "",
-          email: context.read<MainProvider>()?.actualUser?.email ?? "",
-          job: context.read<MainProvider>()?.actualProsumer?.job ?? "",
-          phoneNumber:
-              context.read<MainProvider>()?.actualUser?.phoneNumber ?? "",
-          location: context.read<MainProvider>()?.actualProsumer?.location ?? "",
-          gps: context.read<MainProvider>()?.actualUser?.gps ?? ""
-      ),
+      create: (_) => AccountProvider(),
       builder: (context, child) {
         return Consumer3<MainProvider, AccountProvider, HomeNavigationProvider>( // Listening to Account, HomeNavigation and Main providers to access their data
           builder: (context, mainProvider, accountProvider, homeNavigationProvider, child) {
@@ -385,6 +376,30 @@ class AccountScreenState extends State<AccountScreen> {
                           const SizedBox(width: 20),
                           Text(
                               AppLocalizations.of(context)!.accountSubTitleLocalization,
+                              style: const TextStyle(fontSize: 18)),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    // Clickable text to access the rating page
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RatingScreen())
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.star_border,
+                            size: 30,
+                          ),
+                          const SizedBox(width: 20),
+                          Text(
+                              AppLocalizations.of(context)!.accountTitleRating,
                               style: const TextStyle(fontSize: 18)),
                         ],
                       ),

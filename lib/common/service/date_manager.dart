@@ -26,10 +26,27 @@ String formatDateToFullDate(String dateString) {
   return formattedDate;
 }
 
-bool isOneHourPassed(String date) {
-  DateTime parsedDate = DateTime.parse(date); // Parse la date ISO 8601
-  DateTime now = DateTime.now().toUtc(); // Heure actuelle en UTC (pour correspondre au format ISO)
-  Duration difference = now.difference(parsedDate); // Calcul de la différence
+/*
+   Function to check that one minute has passed between the start of the parameter date
+   and the current date in GMT+1
+ */
+bool isOneMinutePassed(String date) {
+  DateTime parsedDate = DateTime.parse(date);
+  DateTime now = DateTime.now().toUtc();
+  DateTime nowGmt1 = now.add(Duration(hours: 1));
+  Duration difference = nowGmt1.difference(parsedDate);
 
-  return difference.inHours >= 1; // Vérifie si au moins une heure s'est écoulée
+  return difference.inMinutes >= 1;
+}
+
+/*
+  Function to retrieve the time of the GMT+1 time zone with an extra 1 minute
+  to allow for a margin of error in beginTimeSlot assignments.
+ */
+String dateToGMTPlus1() {
+  DateTime now = DateTime.now().toUtc();
+  DateTime gmtPlusOne = now.add(Duration(hours: 1));
+  DateTime finalDate = gmtPlusOne.add(Duration(minutes: 1));
+  String formattedDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(finalDate);
+  return formattedDate;
 }

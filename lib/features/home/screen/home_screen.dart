@@ -27,6 +27,15 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
 
+  bool _isDispose = false;
+
+  @override
+  void dispose() {
+    print("dispose un max");
+    _isDispose = true;
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -44,7 +53,7 @@ class HomeScreenState extends State<HomeScreen> {
                * Calls up functions to retrieve the latest published offers and, depending on whether the user is logged in or not,
                * to retrieve the latest news or news bookmarked by the user if the functions have not yet been started.
                */
-              if (!homeProvider.finishFetchOffer || (context.read<MainProvider>().connected && !homeProvider.finishFetchSuggestion) || !newsProvider.finishFetchNews) {
+              if (_isDispose == false && (!homeProvider.finishFetchOffer || (context.read<MainProvider>().connected && !homeProvider.finishFetchSuggestion) || !newsProvider.finishFetchNews)) {
                 homeProvider.setLastOfferPublish(context);
                 if (context.read<MainProvider>().connected) {
                   homeProvider.setLastSuggestedOffer(context);

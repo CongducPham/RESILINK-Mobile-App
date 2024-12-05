@@ -14,7 +14,6 @@ import '../../../common/service/date_manager.dart';
 import '../../../models/Asset.dart';
 import '../../../models/Offer.dart';
 import '../../../models/SpecificAttrModel.dart';
-import '../../../models/User.dart';
 import '../../../providers/main_provider.dart';
 
 class PublishProvider extends ChangeNotifier {
@@ -97,6 +96,25 @@ class PublishProvider extends ChangeNotifier {
   TextEditingController _offerPrice = TextEditingController(text: "0");
   TextEditingController _offerDuration = TextEditingController(text: "1");
   String _offerDurationRange = "month";
+
+  // Dispose of controllers
+  @override
+  void dispose() {
+    _offerName.dispose();
+    _offerLocalisation.dispose();
+    _offerCityVillage.dispose();
+    _contactName.dispose();
+    _contactFarm.dispose();
+    _contactNumber.dispose();
+    _contactEmail.dispose();
+    _offerDescription.dispose();
+    _offerPrice.dispose();
+    _offerDuration.dispose();
+    _specificAttributeValue.forEach((key, controller) {
+      controller.dispose();
+    });
+    super.dispose();
+  }
 
   // Getters
   TextEditingController get offerName => _offerName;
@@ -189,6 +207,7 @@ class PublishProvider extends ChangeNotifier {
    */
   void setOptionActive(bool value, HomeNavigationProvider homeNavigationProvider, BuildContext context) {
     _optionActive = value;
+    print(specificAttributes);
     if (value && specificAttributes.isEmpty) {
       _specificAttributes.addAll(context.read<HomeNavigationProvider>().allAssetType[_assetType]?.specificAttrModel ?? []);
       for (var attr in _specificAttributes) {
@@ -238,6 +257,7 @@ class PublishProvider extends ChangeNotifier {
 
   void setLocalisation(String gps) async {
     _offerLocalisation.text = gps;
+    checkFormValidity();
     notifyListeners();
   }
 
@@ -246,6 +266,9 @@ class PublishProvider extends ChangeNotifier {
     _isFormValid = offerName.text.isNotEmpty && (offerLocalisation.text.isNotEmpty || offerCityVillage.text.isNotEmpty) && offerTransactionType.isNotEmpty && assetType.isNotEmpty;
     if (!_isFormValid && _optionActive) {
       _optionActive = false;
+      _specificAttributes = [];
+      _specificAttributeValue = {};
+      print(_specificAttributes);
     }
     notifyListeners();
   }
@@ -295,7 +318,7 @@ class PublishProvider extends ChangeNotifier {
       Map<String, dynamic> offer = {
         "offerer": context.read<MainProvider>().actualUser!.username,
         "assetId": 0,
-        "beginTimeSlot": DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(DateTime.now()),
+        "beginTimeSlot": dateToGMTPlus1(),
         "validityLimit": DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(addDurationToDate(int.parse(_offerDuration.text), _offerDurationRange, DateTime.now())),
         "price": int.parse(_offerPrice.text),
         "deposit": 0,
@@ -445,6 +468,7 @@ class PublishProvider extends ChangeNotifier {
 
       await _publishServices.updateOfferAsset(context.read<MainProvider>().actualUser!.accessToken, {'asset': asset, 'offer': offer}, context.read<MainProvider>().offerDetails!.offerId!);
       Navigator.of(context).pop();
+      context.read<MainProvider>().clearOfferAssetContractViewDetails();
       homeNavigationProvider.setIndexAndUpdateHeader(4);
 
     } catch (e) {

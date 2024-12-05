@@ -160,9 +160,9 @@ class HomeNavigationState extends State<HomeNavigation> {
                     children: <Widget>[
                       HomeScreen(),
                       SearchScreen(),
-                      context.watch<MainProvider>().connected == true ? PublishScreen() : LoginScreen(),
+                      context.watch<MainProvider>().connected == true ? PublishScreen(key: UniqueKey()) : LoginScreen(key: UniqueKey()),
                       NewsScreen(),
-                      context.watch<MainProvider>().connected == true ? AccountScreen(homeNavigationProvider: homeNavigationProvider) : LoginScreen(),
+                      context.watch<MainProvider>().connected == true ? AccountScreen(homeNavigationProvider: homeNavigationProvider) : LoginScreen(key: UniqueKey()),
                     ],
                   ),
                 ),

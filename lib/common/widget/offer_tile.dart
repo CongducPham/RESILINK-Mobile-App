@@ -85,7 +85,7 @@ class OfferTile extends StatelessWidget {
                 ),
               ),
               child: asset.images!.isEmpty ? Image(
-                image: AssetImage(GlobalVariables.assetTypeImages[asset.assetType.toLowerCase().replaceAll(RegExp(r'\d+'), '')]!),
+                image: AssetImage(GlobalVariables.assetTypeImages[asset.assetType.toLowerCase().replaceAll(RegExp(r'[\d\s]+'), '')]!),
               ) : asset.images![0].toString().contains("https://") ? Image.network(
                 asset.images!.first,
                 fit: BoxFit.fill,

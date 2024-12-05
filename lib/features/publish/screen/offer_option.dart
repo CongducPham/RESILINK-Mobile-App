@@ -126,7 +126,7 @@ class OfferOptionState extends State<OfferOption> {
               SizedBox(height: 10),
               Row(
                 children: [
-                  Text("add duration"),
+                  Text(AppLocalizations.of(context)!.publishLabelAddDuration),
                   Checkbox(value: widget.publishProvider.addDuration, onChanged: (bool? newValue) {
                     widget.publishProvider.setAddDuration(newValue!);
                   }),
