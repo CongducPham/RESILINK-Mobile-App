@@ -651,6 +651,10 @@
   "@textPopUpModifyOfferBad": {
     "description": "Text for body pop-up to manage an offer in case of problems"
   },
+  "textPopUpBlockOffer": "Do you want to block this offer?",
+  "@textPopUpBlockOffer": {
+    "description": "Text for body pop-up to block an offer"
+  },
   "textPopUpUnblockOffer": "Would you like to unblock this offer?",
   "@textPopUpUnblockOffer": {
     "description": "Text for body pop-up to unblock an offer"
