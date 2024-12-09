@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:Resilink/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -330,17 +331,20 @@ class PublishProvider extends ChangeNotifier {
         "assetType": _assetType,
         "unit": "",
         "owner": context.read<MainProvider>().actualUser!.username,
-        "transactionType": _offerTransactionType,
+        "transactionType": context.read<LocaleProvider>().valueLocale == "en" ? _offerTransactionType
+            : _offerTransactionType == "بيع/شراء" ? "sale/purchase" : "rent",
         "regulatedId": "",
         "regulator": "false",
         "images": _imageList,
       };
+      print("0");
       asset['specificAttributes'] = [];
       _specificAttributeValue.forEach((key, value) {
         if (key != "GPS" && key != "City/Village") {
           asset['specificAttributes'].add({'attributeName': key, 'value': value.text ?? ""});
         }
       });
+      print("a");
       if (_offerCityVillage.text != null && _offerCityVillage.text.isNotEmpty) {
         asset['specificAttributes'].add({'attributeName': "City/Village", 'value': _offerCityVillage.text});
         asset['specificAttributes'].add({'attributeName': "GPS", 'value': ""});
@@ -348,6 +352,9 @@ class PublishProvider extends ChangeNotifier {
         asset['specificAttributes'].add({'attributeName': "GPS", 'value': _offerLocalisation.text});
         asset['specificAttributes'].add({'attributeName': "City/Village", 'value': ""});
       }
+      print("b");
+      print(_assetType);
+      print(homeNavigationProvider.allAssetType[_assetType]!.nature);
       if (homeNavigationProvider.allAssetType[_assetType]!.nature == 'immaterial') {
         asset["totalQuantity"] = 1; // + 1 if it doesnt work, since ODEP is bugged
         offer['endTimeSlot'] = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(addDurationToDate(int.parse(_offerDuration.text), _offerDurationRange, DateTime.now()));
@@ -356,7 +363,7 @@ class PublishProvider extends ChangeNotifier {
       } else if (homeNavigationProvider.allAssetType[_assetType]!.nature == 'material' && offerTransactionType == "rent") {
         offer['endTimeSlot'] = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(addDurationToDate(int.parse(_offerDuration.text), _offerDurationRange, DateTime.now()));
       }
-
+      print("c");
       await _publishServices.publishOffer({'offer': offer, 'asset': asset}, context.read<MainProvider>().actualUser!.accessToken);
       // A new assetType has been created so need to retrieves the assetTypes
       await homeNavigationProvider.setAssetTypesAndGetUser(context);

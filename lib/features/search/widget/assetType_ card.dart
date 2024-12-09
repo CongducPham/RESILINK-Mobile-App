@@ -70,7 +70,7 @@ class AssetTypeCard extends StatelessWidget {
                     ),
                     SizedBox(height: constraints.maxHeight * 0.08),
                     Text(
-                      label,
+                      publishProvider!.getTradAssetType(label, parentContext),
                       style: TextStyle(fontSize: 11),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

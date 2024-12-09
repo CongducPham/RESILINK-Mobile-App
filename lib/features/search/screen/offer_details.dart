@@ -112,16 +112,21 @@ class OfferDetails extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width * 0.1, // Fixed width for the delete icon
                                 child: IconButton(
                                   onPressed: () {
-                                    DefaultPopUp.show(
-                                      context,
-                                          () => searchProvider.addBlockedOffer(
-                                          context,
-                                          context.read<MainProvider>().offerDetails!,
-                                          homeNavigationProvider),
-                                      null,
-                                    );
+                                    if (context.read<MainProvider>().actualUser!.username != "public") {
+                                      DefaultPopUp.show(
+                                        context,
+                                            () => searchProvider.addBlockedOffer(
+                                            context,
+                                            context.read<MainProvider>().offerDetails!,
+                                            homeNavigationProvider),
+                                        null,
+                                      );
+                                    }
                                   },
-                                  icon: const Icon(Icons.block_outlined, color: Colors.red),
+                                  icon: Icon(
+                                      Icons.block_outlined,
+                                      color: context.read<MainProvider>().actualUser!.username == "public" ? Colors.grey : Colors.red
+                                  ),
                                 ),
                               ),
                           ],

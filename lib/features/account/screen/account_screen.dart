@@ -383,6 +383,7 @@ class AccountScreenState extends State<AccountScreen> {
                     const SizedBox(height: 10),
 
                     // Clickable text to access the rating page
+                    /* Disable to downgrade the app
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -405,6 +406,7 @@ class AccountScreenState extends State<AccountScreen> {
                       ),
                     ),
                     const SizedBox(height: 10),
+                     */
 
                     // Clickable text to call the logout function and change page afterward
                     GestureDetector(

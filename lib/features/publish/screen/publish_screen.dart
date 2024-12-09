@@ -83,7 +83,7 @@ class PublishScreenState extends State<PublishScreen> {
                             return Container(
                                 height: MediaQuery.of(context).size.width * 0.2,
                                 width: MediaQuery.of(context).size.width * 0.2,
-                                child: AssetTypeCard(label: publishProvider.getTradAssetType(publishProvider.assetTypeList[index], context), icon: (GlobalVariables.svgImage[publishProvider.assetTypeList[index].toLowerCase().replaceAll(' ', '')]!) , parentContext: context, publishProvider: publishProvider,)
+                                child: AssetTypeCard(label: publishProvider.assetTypeList[index], icon: (GlobalVariables.svgImage[publishProvider.assetTypeList[index].toLowerCase().replaceAll(' ', '')]!) , parentContext: context, publishProvider: publishProvider,)
                             );
                           },
                         ),

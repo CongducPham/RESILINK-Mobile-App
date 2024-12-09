@@ -648,6 +648,10 @@
   "@textPopUpModifyOfferBad": {
     "description": "Text for body pop-up to manage an offer in case of problems"
   },
+  "textPopUpBlockOffer": "هل تريد حظر هذا العرض؟",
+  "@textPopUpBlockOffer": {
+    "description": "Text for body pop-up to block an offer"
+  },
   "textPopUpUnblockOffer": "هل ترغب في فتح هذا العرض؟",
   "@textPopUpUnblockOffer": {
     "description": "Text for body pop-up to unlock an offer"
