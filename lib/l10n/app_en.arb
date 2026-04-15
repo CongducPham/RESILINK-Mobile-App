@@ -1,17 +1,17 @@
 {
-  "chooseCountry": "select your country",
+  "chooseCountry": "Select your country",
   "@chooseCountry": {
     "description": "Text in the country selection page"
   },
-  "morocco": "morocco",
+  "morocco": "Morocco",
   "@morocco": {
     "description": "morocco in the country selection page"
   },
-  "algeria": "algeria",
+  "algeria": "Algeria",
   "@algeria": {
     "description": "algeria in the country selection page"
   },
-  "egypt": "egypt",
+  "egypt": "Egypt",
   "@egypt": {
     "description": "egypt in the country selection page"
   },
@@ -21,89 +21,89 @@
   },
   "home": "home",
   "@home": {
-    "description": "Text for navigation bottom bar and header "
+    "description": "Text for navigation bottom bar and header"
   },
   "search": "search",
   "@search": {
-    "description": "Text for navigation bottom bar and header "
+    "description": "Text for navigation bottom bar and header"
   },
   "publish": "publish",
   "@publish": {
-    "description": "Text for navigation bottom bar and header "
+    "description": "Text for navigation bottom bar and header"
   },
   "news": "news",
   "@news": {
-    "description": "Text for navigation bottom bar and header "
+    "description": "Text for navigation bottom bar and header"
   },
   "account": "account",
   "@account": {
-    "description": "Text for navigation bottom bar and header "
+    "description": "Text for navigation bottom bar and header"
   },
-  "blockedOfferPageTitle":"Blocked offers",
+  "blockedOfferPageTitle": "Blocked offers",
   "@blockedOfferPageTitle": {
     "description": "Title for blocked offers page"
   },
   "ownerOfferPurchased": "Offer purchased",
   "@ownerOfferPurchased": {
-    "description": "Text for navigation bottom bar and header "
+    "description": "Text for navigation bottom bar and header"
   },
   "ownerOfferPublished": "Offer published",
   "@ownerOfferPublished": {
-    "description": "Text for navigation bottom bar and header "
+    "description": "Text for navigation bottom bar and header"
   },
   "homeBookmarkConnected": "Your bookmarked news sources",
   "@homeBookmarkConnected": {
-    "description": "Text for home page "
+    "description": "Text for home page"
   },
   "homeBookmark": "Last news' sources",
   "@homeBookmark": {
-    "description": "Text for home page "
+    "description": "Text for home page"
   },
   "homeSuggestedConnected": "Suggested offer",
   "@homeSuggestedConnected": {
-    "description": "Text for home page "
+    "description": "Text for home page"
   },
   "homeLastOffer": "Last Offers",
   "@homeLastOffer": {
-    "description": "Text for home page "
+    "description": "Text for home page"
   },
   "searchFirstTitle": "What are you looking for ?",
   "@searchFirstTitle": {
-    "description": "Text for search page "
+    "description": "Text for search page"
   },
   "searchFirstSubText": "There are 2 ways to search, use one of them.",
   "@searchFirstSubText": {
-    "description": "Text for search page "
+    "description": "Text for search page"
   },
   "hinderTextRequest": "Keyword",
   "@hinderTextRequest": {
-    "description": "Text for search page "
+    "description": "Text for search page"
   },
   "searchOr": "or",
   "@searchOr": {
-    "description": "Text for search page "
+    "description": "Text for search page"
   },
   "searchSecondTitle": "Where do you search",
   "@searchSecondTitle": {
-    "description": "Text for search page "
+    "description": "Text for search page"
   },
   "hinderTextLocalisation": "Where is your offer",
   "@hinderTextLocalisation": {
-    "description": "Text for search page "
+    "description": "Text for search page"
   },
   "searchSecondSubText": "within a distance of",
   "@searchSecondSubText": {
-    "description": "Text for search page "
+    "description": "Text for search page"
   },
   "searchHinderTextLocalisation": "Where are you searching",
   "@searchHinderTextLocalisation": {
-    "description": "Hint text for search page "
+    "description": "Hint text for search page"
   },
   "publishFirstTitle": "Let's start....",
   "@publishFirstTitle": {
     "description": "Title in the publish page"
   },
-  "publishFirstText": "publish your offer quickly in 4 easy steps",
+  "publishFirstText": "publish your offer quickly in 5 easy steps",
   "@publishFirstText": {
     "description": "subtitle in the publish page"
   },
@@ -127,13 +127,13 @@
   "@publishHinderLabelTitle": {
     "description": "placeholder for title input field in the publish page"
   },
-  "publishHinterFarmCity": "e.g. El Ghazali farm in Chorfa",
-  "@publishHinterFarmCity": {
-    "description": "Hint for Farm/City/Village input field in the publish page"
-  },
   "publishLabelLocalisation": "GPS coord. to enable exact search",
   "@publishLabelLocalisation": {
     "description": "placeholder for location input field in the publish page"
+  },
+  "publishHinterFarmCity": "e.g. El Ghazali farm in Chorfa",
+  "@publishHinterFarmCity": {
+    "description": "Hint for Farm/City/Village input field in the publish page"
   },
   "publishContactInformation": "contact Information",
   "@publishContactInformation": {
@@ -215,7 +215,7 @@
   "@publishLabelSpecYear": {
     "description": "Label in the publish page"
   },
-  "publishLabelSpecUsage": "Usage of your goods",
+  "publishLabelSpecUsage": "Type of usage",
   "@publishLabelSpecUsage": {
     "description": "Label in the publish page"
   },
@@ -267,9 +267,25 @@
   "@newsNotFound": {
     "description": "Title in the news page"
   },
+  "newsAddingTitle": "Create your own news",
+  "@newsAddingTitle": {
+    "description": "Title in the adding news page"
+  },
+  "newsAddingUrl": "URL",
+  "@newsAddingUrl": {
+    "description": "SubTitle in the adding news page"
+  },
+  "newsAddingInstitute": "Institute",
+  "@newsAddingInstitute": {
+    "description": "SubTitle in the adding news page"
+  },
   "accountProfileTitle": "Profile",
   "@accountProfileTitle": {
     "description": "Title in the account page"
+  },
+  "accountLabelPrivateId": "Private id",
+  "@accountLabelPrivateId": {
+    "description": "Label in the account page"
   },
   "accountLabelFirstname": "First name",
   "@accountLabelFirstname": {
@@ -283,7 +299,7 @@
   "@accountLabelUsername": {
     "description": "Label in the account page"
   },
-  "accountLabelLocation": "Location",
+  "accountLabelLocation": "Farm Location",
   "@accountLabelLocation": {
     "description": "Label in the account page"
   },
@@ -318,6 +334,14 @@
   "accountSubTitleLogOut": "Log out",
   "@accountSubTitleLogOut": {
     "description": "Third parameter in the account page"
+  },
+  "accountSubTitleOnboarding": "Review the guide",
+  "@accountSubTitleOnboarding": {
+    "description": "Settings subtitle in the account page"
+  },
+  "accountSubTitleAboutUs": "About us",
+  "@accountSubTitleAboutUs": {
+    "description": "Settings subtitle in the account page"
   },
   "accountProfileGpsHintText": "Your default location",
   "@accountProfileGpsHintText": {
@@ -415,6 +439,14 @@
   "@offerDetailsBuyer": {
     "description": "Text in offer details page"
   },
+  "offerDetailsTitleDescription": "Description : ",
+  "@offerDetailsTitleDescription": {
+    "description": "Text in offer details page"
+  },
+  "offerDetailsBodyDescription": "no details given by seller",
+  "@offerDetailsBodyDescription": {
+    "description": "Text in offer details page"
+  },
   "resultsTitle": "Results",
   "@resultsTitle": {
     "description": "Title in result_search page"
@@ -427,49 +459,81 @@
   "@popupTextExpired": {
     "description": "Text in the pop-up for expired offer"
   },
-  "popupTitlePublishSuccess":"Offer published",
+  "popupTitlePublishSuccess": "Offer published",
   "@popupTitlePublishSuccess": {
-  "description": "Title in the pop-up for successful published offer"
+    "description": "Title in the pop-up for successful published offer"
   },
-  "popupTextPublishSuccess":"Your offer will be published within an hour",
+  "popupTextPublishSuccess": "Your offer will be published within an hour",
   "@popupTextPublishSuccess": {
     "description": "Text in the pop-up for successful published offer"
   },
-  "popupTitleChooseOptionImage":"Choose your option",
+  "popupTitleChooseOptionImage": "Choose your option",
   "@popupTitleChooseOptionImage": {
     "description": "Title in the pop-up to choose an option"
   },
-  "popupTitleConfirm":"Are you sure ?",
+  "popupTitleConfirm": "Are you sure ?",
   "@popupTitleConfirm": {
     "description": "Title in the pop-up to confirm your action"
   },
-  "popupFirstChooseOptionImage":"Open the default images",
+  "popupFirstChooseOptionImage": "Open the default images",
   "@popupFirstChooseOptionImage": {
     "description": "Title in the pop-up to select a asset's image"
   },
-  "popupFirstOptionImageTitle":"Default images",
+  "popupFirstOptionImageTitle": "Default images",
   "@popupFirstOptionImageTitle": {
     "description": "Option 1 to select an image"
   },
-  "popupSecondChooseOptionImage":"Take a photo",
+  "popupSecondChooseOptionImage": "Take a photo",
   "@popupSecondChooseOptionImage": {
     "description": "Option 2 to select an image"
   },
-  "popupThirdChooseOptionImage":"Open the gallery",
+  "popupThirdChooseOptionImage": "Open the gallery",
   "@popupThirdChooseOptionImage": {
     "description": "Option 3 to select an image"
   },
-  "languagePageTitle":"Language",
+  "languagePageTitle": "Language",
   "@languagePageTitle": {
     "description": "Title for language page"
   },
-  "languagePageFirstChoice":"Arabic",
+  "languagePageFirstChoice": "Arabic",
   "@languagePageFirstChoice": {
     "description": "Choice n°1 for language page"
   },
-  "languagePageSecondChoice":"English",
+  "languagePageSecondChoice": "English",
   "@languagePageSecondChoice": {
     "description": "Choice n°2 for language page"
+  },
+  "ipAddressPageTitle": "Web server",
+  "@ipAddressPageTitle": {
+    "description": "Title for Server page"
+  },
+  "ipAddressBackUp": "Server 1",
+  "@ipAddressBackUp": {
+    "description": "choice of ip address"
+  },
+  "passwordChanging": "Password changing",
+  "@passwordChanging": {
+    "description": "Title for password changing page"
+  },
+  "passwordChangingSubTitle": "Change your password",
+  "@passwordChangingSubTitle": {
+    "description": "Subtitle for password changing page"
+  },
+  "explanatoryTextPasswordChanging": "Change your password by entering your old and new passwords",
+  "@explanatoryTextPasswordChanging": {
+    "description": "explanatory text for password changing page"
+  },
+  "oldPassword": "OldPassword",
+  "@oldPassword": {
+    "description": "Title for password changing page"
+  },
+  "newPassword": "NewPassword",
+  "@newPassword": {
+    "description": "Title for password changing page"
+  },
+  "ipAddressNormal": "ODEP server",
+  "@ipAddressNormal": {
+    "description": "choice of ip address"
   },
   "accountShiftToParameters": "Parameters >>>",
   "@accountShiftToParameters": {
@@ -485,15 +549,15 @@
   },
   "registerLoginTitle": "Welcome",
   "@registerLoginTitle": {
-    "description": "Title in login  page"
+    "description": "Title in login page"
   },
   "registerLoginFirstLabel": "Username",
   "@registerLoginFirstLabel": {
-    "description": "Label 1 in login  page"
+    "description": "Label 1 in login page"
   },
   "registerLoginSecondLabel": "Password",
   "@registerLoginSecondLabel": {
-    "description": "Label 2 in login  page"
+    "description": "Label 2 in login page"
   },
   "registerLoginRedirection": "No account? Sign up here >>",
   "@registerLoginRedirection": {
@@ -501,7 +565,7 @@
   },
   "registerLoginErrorConnexion": "Wrong username or password, try again",
   "@registerLoginErrorConnexion": {
-    "description": "Text error in login page"
+    "description": "Text for error in login page"
   },
   "registerSignUpRedirection": "Already have an account? Sign in here >>",
   "@registerSignUpRedirection": {
@@ -516,7 +580,7 @@
     "description": "Text error in register page"
   },
   "popupFailConnexionTitle": "Connection failure",
-  "@popupFailConnexion": {
+  "@popupFailConnexionTitle": {
     "description": "Title for pop-up if not possible to connect the user"
   },
   "popupFailConnexionTimeout": "Waiting period exceeded, your request cannot be processed",
@@ -537,7 +601,7 @@
   },
   "problemSetOwnerPurchased": "Problems retrieving offers purchased by the owner",
   "@problemSetOwnerPurchased": {
-    "description": "Text for Problems in setting up owner's purchased"
+    "description": "Text for Problems in setting up owner's offers"
   },
   "problemSetUpdateUser": "Problems updating user's data",
   "@problemSetUpdateUser": {
@@ -553,7 +617,7 @@
   },
   "problemAddingNews": "Problems in adding in your favorites the news",
   "@problemAddingNews": {
-    "description": "Text for Problems in adding a news in the favorites"
+    "description": "Text for Problems in adding the news in your favorites"
   },
   "problemDeletingNews": "Problems in deleting news from your favorites",
   "@problemDeletingNews": {
@@ -593,7 +657,7 @@
   },
   "titlePopUpUpdateUser": "Updating user data...",
   "@titlePopUpUpdateUser": {
-    "description": "Text for title pop-up updating user data"
+    "description": "Text for title updating user data"
   },
   "titlePopUpDeletingOffer": "Deleting offer...",
   "@titlePopUpDeletingOffer": {
@@ -657,7 +721,7 @@
   },
   "textPopUpUnblockOffer": "Would you like to unblock this offer?",
   "@textPopUpUnblockOffer": {
-    "description": "Text for body pop-up to unblock an offer"
+    "description": "Text for body pop-up to unlock an offer"
   },
   "textNoBlockedOffer": "No blocked offers",
   "@textNoBlockedOffer": {
@@ -665,19 +729,19 @@
   },
   "textNoOfferPublish": "No offers published",
   "@textNoOfferPublish": {
-    "description": "Text in case of empty list offers published "
+    "description": "Text in case of empty list offers published"
   },
   "textNoOfferPurchase": "No offers purchased",
   "@textNoOfferPurchase": {
-    "description": "Text in case of empty list offers purchased "
+    "description": "Text in case of empty list offers purchased"
   },
   "textNoOffer": "No offers available",
   "@textNoOffer": {
-    "description": "Text in case of empty list offers publish "
+    "description": "Text in case of empty list offers publish"
   },
   "textNoBookmarkedNews": "no bookmarked news",
   "@textNoBookmarkedNews": {
-    "description": "Text in case of empty list bookmarked news "
+    "description": "Text in case of empty list bookmarked news"
   },
   "snackBarContractNotGood": "The current status of the contract is more advanced or is the same as the selected one",
   "@snackBarContractNotGood": {
@@ -693,6 +757,10 @@
   },
   "snackBarBadFilling": "Need to fill at least your email, username, password, lastname and firstname",
   "@snackBarBadFilling": {
+    "description": "Text for snackBar in case of bad filling"
+  },
+  "snackBarPasswordBadLength": "The password must be at least 6 characters long.",
+  "@snackBarPasswordBadLength": {
     "description": "Text for snackBar in case of bad filling"
   },
   "assetTypeFruit": "Fruit",
@@ -713,6 +781,10 @@
   },
   "assetTypeTransport": "Transport",
   "@assetTypeTransport": {
+    "description": "Text for assetType"
+  },
+  "assetTypeLivestock": "Livestock",
+  "@assetTypeLivestock": {
     "description": "Text for assetType"
   },
   "assetTypeInputs": "Inputs",
@@ -758,5 +830,187 @@
   "contractStateDelivered": "Delivered",
   "@contractStateDelivered": {
     "description": "Text for contract state in offer details view"
+  },
+  "activityDomain": "Field Of Activity",
+  "@activityDomain": {
+    "description": "User's type of activity"
+  },
+  "activityDomainCrop": "Crop Production",
+  "@activityDomainCrop": {
+    "description": "One of a user's areas of activity"
+  },
+  "activityDomainAnimal": "Animal Production",
+  "@activityDomainAnimal": {
+    "description": "One of a user's areas of activity"
+  },
+  "activityDomainTraders": "Traders",
+  "@activityDomainTraders": {
+    "description": "One of a user's areas of activity"
+  },
+  "activityDomainSuppliers": "Suppliers",
+  "@activityDomainSuppliers": {
+    "description": "One of a user's areas of activity"
+  },
+  "activityDomainServices": "Services",
+  "@activityDomainServices": {
+    "description": "One of a user's areas of activity"
+  },
+  "activityDomainConsulting": "Consulting & Assistance",
+  "@activityDomainConsulting": {
+    "description": "One of a user's areas of activity"
+  },
+  "activityDomainOther": "Other",
+  "@activityDomainOther": {
+    "description": "One of a user's areas of activity"
+  },
+  "fieldSpecialization": "Field Specialization",
+  "@fieldSpecialization": {
+    "description": "User's specialized activity type"
+  },
+  "fieldSpecializationFieldCrops": "Field crops",
+  "@fieldSpecializationFieldCrops": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationVegetableCrops": "Vegetable crops",
+  "@fieldSpecializationVegetableCrops": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationArboriculture": "Arboriculture",
+  "@fieldSpecializationArboriculture": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationFodder": "Fodder",
+  "@fieldSpecializationFodder": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationCattle": "Cattle",
+  "@fieldSpecializationCattle": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationSheep": "Sheep",
+  "@fieldSpecializationSheep": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationGoats": "Goats",
+  "@fieldSpecializationGoats": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationPoultry": "Backyard poultry",
+  "@fieldSpecializationPoultry": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationBeekeepers": "Beekeepers",
+  "@fieldSpecializationBeekeepers": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationRetailers": "Retailers",
+  "@fieldSpecializationRetailers": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationWholesalers": "Wholesalers",
+  "@fieldSpecializationWholesalers": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationAgriculturalEquipment": "Agricultural equipment",
+  "@fieldSpecializationAgriculturalEquipment": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationIrrigationEquipment": "Irrigation equipment",
+  "@fieldSpecializationIrrigationEquipment": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationPhytosanitary": "Phytosanitary products",
+  "@fieldSpecializationPhytosanitary": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationFertilizers": "Fertilizers",
+  "@fieldSpecializationFertilizers": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationSeeds": "Seeds",
+  "@fieldSpecializationSeeds": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationEquipmentRental": "Equipment rental or installation",
+  "@fieldSpecializationEquipmentRental": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationLabor": "Labor",
+  "@fieldSpecializationLabor": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationVeterinary": "Veterinary services",
+  "@fieldSpecializationVeterinary": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationLogistics": "Logistics",
+  "@fieldSpecializationLogistics": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationPublic": "Public",
+  "@fieldSpecializationPublic": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationPrivate": "Private",
+  "@fieldSpecializationPrivate": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationOther": "Other",
+  "@fieldSpecializationOther": {
+    "description": "One of a user's specialized activity type"
+  },
+  "onboardingTextPng1": "Welcome to Resilink !",
+  "@onboardingTextPng1": {
+    "description": "Subtext for onboarding page 1"
+  },
+  "onboardingButtonNext": "Next",
+  "@onboardingButtonNext": {
+    "description": "Elevated Button for onboarding pages except last one"
+  },
+  "aboutUsFirstTitle": "About Resilink",
+  "@aboutUsFirstTitle": {
+    "description": "One of the titles on the “About us” page"
+  },
+  "aboutUsSecondTitle": "Useful Links",
+  "@aboutUsSecondTitle": {
+    "description": "One of the titles on the “About us” page"
+  },
+  "aboutUsDescription1": "Our application was created to support and facilitate access to the RESILINK platform, a solution designed to simplify the exchange of services between individuals in the agricultural sector. The main objective is to enable users to offer, request, or share services, equipment, or skills quickly, even for those who may have difficulty reading or using mobile apps.",
+  "@aboutUsDescription1": {
+    "description": "One of the paragraphs in the application description"
+  },"aboutUsDescription2": "RESILINK is specifically designed for the Maghreb region and targets farmers and agricultural actors. It aims to promote collaboration, solidarity and efficiency through a strong and accessible service exchange network.",
+  "@aboutUsDescription2": {
+    "description": "One of the paragraphs in the application description"
+  },"aboutUsDescription3": "Whether you are a producer, farmer, breeder, or involved in rural work, this application provides a communication space that encourages mutual support and helps strengthen the agricultural community as a whole.",
+  "@aboutUsDescription3": {
+    "description": "One of the paragraphs in the application description"
+  },
+  "aboutUsFirstLink": "RESILINK Official Website",
+  "@aboutUsFirstLink": {
+    "description": "One of the two link text"
+  },
+  "aboutUsSecondLink": "Privacy Policy",
+  "@aboutUsSecondLink": {
+    "description": "One of the two link text"
+  },
+  "publishLabelAcceptSharing": "Share with all servers",
+  "@publishLabelAcceptSharing": {
+    "description": "Label in the publish page"
+  },
+  "buttonTitleChangePassword": "Change password",
+  "@buttonTitleChangePassword": {
+    "description": "Label in a button"
+  },
+  "serverPageTitle": "Servers",
+  "@serverPageTitle": {
+    "description": "Title for servers page"
+  },
+  "serverPageSubTitle1": "All Servers",
+  "@serverPageSubTitle1": {
+    "description": "Subtitle for servers page"
+  },
+  "serverPageSubTitle2": "Favorites",
+  "@serverPageSubTitle2": {
+    "description": "Subtitle for servers page"
   }
 }

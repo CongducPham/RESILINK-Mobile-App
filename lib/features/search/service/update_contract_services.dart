@@ -12,20 +12,15 @@ class UpdateContractServices {
    * Update a contract
    * An error is returned in the event of a problem
    */
-  Future<void> updateContract (Map<String, dynamic> body, String token, String nature, String transaction, String contractId) async {
+  Future<void> updateContract (Map<String, dynamic> body, String token, String nature, String contractId) async {
     bool exceptionAlreadyThrown = false;
     try {
-      String url = nature == "immaterial" ? "${GlobalVariables.pathAPIContract}immaterialContract/$contractId" : transaction == "rent" ? "${GlobalVariables.pathAPIContract}rentMaterialContract/$contractId" : "${GlobalVariables.pathAPIContract}purchaseMaterialContract/$contractId" ;
+      String url = nature == "measurableByQuantity" ? "${GlobalVariables.pathAPIContract}measurableByQuantityContract/$contractId" : "${GlobalVariables.pathAPIContract}measurableByTimeContract/$contractId" ;
       final headers = <String, String>{
         "accept": "application/json",
         "Authorization": "Bearer $token",
         "Content-Type": "application/json"
       };
-      // Add data needed for ODEP API
-      if (nature == "material" && transaction == "rent") {
-        body['delayPeriod'] = 0;
-        body['deterioration'] = false;
-      }
       info("updateContract - before sending data", data: {"data": body});
       final response = await http.patch(
           Uri.parse(url),

@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:Resilink/features/account/service/rating_services.dart';
+import 'package:resilink_mobile_application/features/account/service/rating_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
 
 import '../../../providers/main_provider.dart';
 

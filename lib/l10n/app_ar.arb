@@ -15,7 +15,7 @@
   "@egypt": {
     "description": "egypt in the country selection page"
   },
-  "splashscreenText": "تعزيز تبادل الموارد المحلية",
+  "splashscreenText": "تعزيز مشاركة الموارد المحلية",
   "@splashscreenText": {
     "description": "Text in the splashscreen page"
   },
@@ -39,7 +39,7 @@
   "@account": {
     "description": "Text for navigation bottom bar and header"
   },
-  "blockedOfferPageTitle":"العروض المحظورة",
+  "blockedOfferPageTitle":"العروض المحجوبة",
   "@blockedOfferPageTitle": {
     "description": "Title for blocked offers page"
   },
@@ -51,11 +51,11 @@
   "@ownerOfferPublished": {
     "description": "Text for navigation bottom bar and header "
   },
-  "homeBookmarkConnected": "حسابات الأخبار المحفوظة",
+  "homeBookmarkConnected": " مصادر الأخبار المفضلة",
   "@homeBookmarkConnected": {
     "description": "Text for home page"
   },
-  "homeBookmark": "آخر حسابات الأخبار",
+  "homeBookmark": "آخر مصادر الأخبار ",
   "@homeBookmark": {
     "description": "Text for home page"
   },
@@ -67,7 +67,7 @@
   "@homeLastOffer": {
     "description": "Text for home page"
   },
-  "searchFirstTitle": "ماذا تبحث عن؟",
+  "searchFirstTitle": "عن ماذا تبحث",
   "@searchFirstTitle": {
     "description": "Text for search page"
   },
@@ -95,11 +95,15 @@
   "@searchSecondSubText": {
     "description": "Text for search page"
   },
+  "searchHinderTextLocalisation": "أين تبحث",
+  "@searchHinderTextLocalisation": {
+    "description": "Hint text for search page "
+  },
   "publishFirstTitle": "لنبدأ....",
   "@publishFirstTitle": {
     "description": "Title in the publish page"
   },
-  "publishFirstText": "انشر عرضك بسرعة في 4 خطوات سهلة",
+  "publishFirstText": "انشر عرضك بسرعة في 5 خطوات سهلة",
   "@publishFirstText": {
     "description": "subtitle in the publish page"
   },
@@ -191,7 +195,7 @@
   "@publishLabelSpecType": {
     "description": "Label in the publish page"
   },
-  "publishLabelSpecVariety": "ما هو تنوع بضائعك",
+  "publishLabelSpecVariety": "ما هي خصائص بضاعتك",
   "@publishLabelSpecVariety": {
     "description": "Label in the publish page"
   },
@@ -243,7 +247,7 @@
   "@publishHinderOfferType": {
     "description": "placeholder for offer type input field in the publish page"
   },
-  "publishHinderOfferVariety": "على سبيل المثال حفل التفاح",
+  "publishHinderOfferVariety": "على سبيل المثال حقل التفاح",
   "@publishHinderOfferVariety": {
     "description": "placeholder for offer variety input field in the publish page"
   },
@@ -263,15 +267,31 @@
   "@newsNotFound": {
     "description": "Title in the news page"
   },
+  "newsAddingTitle": "أنشئ أخبارك الخاصة بك",
+  "@newsAddingTitle": {
+    "description": "Title in the adding news page"
+  },
+  "newsAddingUrl": "URL",
+  "@newsAddingUrl": {
+    "description": "SubTitle in the adding news page"
+  },
+  "newsAddingInstitute": "المعهد",
+  "@newsAddingInstitute": {
+    "description": "SubTitle in the adding news page"
+  },
   "accountProfileTitle": "الملف الشخصي",
   "@accountProfileTitle": {
     "description": "Title in the account page"
+  },
+  "accountLabelPrivateId": "المعرف الخاص",
+  "@accountLabelPrivateId": {
+    "description": "Label in the account page"
   },
   "accountLabelFirstname": "الاسم الأول",
   "@accountLabelFirstname": {
     "description": "Label in the account page"
   },
-  "accountLabelLastname": "الكنية",
+  "accountLabelLastname": " النسب ",
   "@accountLabelLastname": {
     "description": "Label in the account page"
   },
@@ -279,7 +299,7 @@
   "@accountLabelUsername": {
     "description": "Label in the account page"
   },
-  "accountLabelLocation": "الموقع",
+  "accountLabelLocation": "مكان الإقامة",
   "@accountLabelLocation": {
     "description": "Label in the account page"
   },
@@ -315,7 +335,15 @@
   "@accountSubTitleLogOut": {
     "description": "Third parameter in the account page"
   },
-  "accountProfileGpsHintText": "موقعك الافتراضي",
+  "accountSubTitleOnboarding": "مراجعة الدليل",
+  "@accountSubTitleOnboarding": {
+    "description": "Settings subtitle in the account page"
+  },
+  "accountSubTitleAboutUs": "عننا",
+  "@accountSubTitleAboutUs": {
+    "description": "Settings subtitle in the account page"
+  },
+  "accountProfileGpsHintText": "موقعك المعتاد",
   "@accountProfileGpsHintText": {
     "description": "helper text in the account page"
   },
@@ -347,7 +375,7 @@
   "@buttonPurchase": {
     "description": "Label for button"
   },
-  "buttonStart": "لئلا نبدأ",
+  "buttonStart": "لنبدأ",
   "@buttonStart": {
     "description": "Label for button"
   },
@@ -375,7 +403,7 @@
   "@seeMoreText": {
     "description": "Text for TextButton"
   },
-  "allBlockedOfferText": "شاهد جميع العروض المحظورة",
+  "allBlockedOfferText": "شاهد العروض المحجوبة",
   "@allBlockedOfferText": {
     "description": "Text for TextButton"
   },
@@ -411,11 +439,18 @@
   "@offerDetailsBuyer": {
     "description": "Text in offer details page"
   },
+  "offerDetailsTitleDescription": "الوصف : ",
+  "@offerDetailsTitleDescription": {
+    "description": "Text in offer details page"
+  },
+  "offerDetailsBodyDescription": "لا توجد تفاصيل قدمها البائع",
+  "@offerDetailsBodyDescription": {
+    "description": "Text in offer details page"
+  },
   "resultsTitle": "النتائج",
   "@resultsTitle": {
     "description": "Title in result_search page"
   },
-
   "popupTitleExpired": "عرض منتهي الصلاحية",
   "@popupTitleExpired": {
     "description": "Title in the pop-up for expired offer"
@@ -468,6 +503,38 @@
   "@languagePageSecondChoice": {
     "description": "Choice n°2 for language page"
   },
+  "ipAddressPageTitle":"مخدم الإنترنت",
+  "@ipAddressPageTitle": {
+    "description": "Title for Server page"
+  },
+  "ipAddressBackUp":"الخادم 1",
+  "@ipAddressBackUp": {
+    "description": "choice of ip address"
+  },
+  "passwordChanging":"تغيير كلمة المرور",
+  "@passwordChanging": {
+    "description": "Title for password changing page"
+  },
+  "passwordChangingSubTitle":"تغيير كلمة المرور الخاصة بك",
+  "@passwordChangingSubTitle": {
+    "description": "Subtitle for password changing page"
+  },
+  "explanatoryTextPasswordChanging":"تغيير كلمة المرور الخاصة بك عن طريق إدخال كلمتي المرور القديمة والجديدة",
+  "@explanatoryTextPasswordChanging": {
+    "description": "explanatory text for password changing page"
+  },
+  "oldPassword":"كلمة المرور القديمة",
+  "@oldPassword": {
+    "description": "Title for password changing page"
+  },
+  "newPassword":"كلمة مرور جديدة",
+  "@newPassword": {
+    "description": "Title for password changing page"
+  },
+  "ipAddressNormal":"خادم ODEP",
+  "@ipAddressNormal": {
+    "description": "choice of ip address"
+  },
   "accountShiftToParameters": "المعلمات >>>",
   "@accountShiftToParameters": {
     "description": "Text to shift in the page"
@@ -500,11 +567,11 @@
   "@registerLoginErrorConnexion": {
     "description": "Text for error in login page"
   },
-  "registerSignUpRedirection": "هل لديك حساب بالفعل؟ سجّل الدخول هنا >>>",
+  "registerSignUpRedirection": " هل لديك حساب؟ سجّل الدخول هنا >>>",
   "@registerSignUpRedirection": {
     "description": "Text button in register page"
   },
-  "registerSignUpTitle": "النقش",
+  "registerSignUpTitle": "التسجيل ",
   "@registerSignUpTitle": {
     "description": "Title in register page"
   },
@@ -548,11 +615,11 @@
   "@problemRetrievingNews": {
     "description": "Text for Problems in retrieving some news"
   },
-  "problemAddingNews": "مشاكل في إضافة الأخبار في المفضلة لديك",
+  "problemAddingNews": "مشاكل في إضافة الأخبار في التفضيلات",
   "@problemAddingNews": {
     "description": "Text for Problems in adding the news in your favorites"
   },
-  "problemDeletingNews": "مشاكل في حذف الأخبار من المفضلة",
+  "problemDeletingNews": "مشاكل في حذف الأخبار من التفضيلات ",
   "@problemDeletingNews": {
     "description": "Text for Problems in deleting a news from favorites"
   },
@@ -580,7 +647,7 @@
   "@problemRetrievingLastOffers": {
     "description": "Text for Problems in retrieving the last offers"
   },
-  "problemRetrievingAssetType": "مشاكل في استرداد البيانات من الخادم",
+  "problemRetrievingAssetType": "مشاكل في استرداد البيانات ",
   "@problemRetrievingAssetType": {
     "description": "Text for Problems in retrieving assetTypes"
   },
@@ -608,7 +675,7 @@
   "@titlePopUpLoadingSearch": {
     "description": "Text for title pop-up retrieving searched offers"
   },
-  "titlePopUpBuyingOffer": "شراء الخدمة الخدمة الخدمة ...",
+  "titlePopUpBuyingOffer": "شراء الخدمة ...",
   "@titlePopUpBuyingOffer": {
     "description": "Text for title pop-up buying a service"
   },
@@ -688,8 +755,12 @@
   "@snackBarBadKeyboard": {
     "description": "Text for snackBar in case of none roman keyboard"
   },
-  "snackBarBadFilling": "تحتاج إلى ملء بريدك الإلكتروني واسم المستخدم وكلمة المرور والاسم الأخير والاسم الأول على الأقل",
+  "snackBarBadFilling": "يجب عليك ملء بريدك الإلكتروني، اسم المستخدم، كلمة المرور، الاسم و النسب",
   "@snackBarBadFilling": {
+    "description": "Text for snackBar in case of bad filling"
+  },
+  "snackBarPasswordBadLength": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل.",
+  "@snackBarPasswordBadLength": {
     "description": "Text for snackBar in case of bad filling"
   },
   "assetTypeFruit": "الفاكهة",
@@ -712,7 +783,11 @@
   "@assetTypeTransport": {
     "description": "Text for assetType"
   },
-  "assetTypeInputs": "الآلات الزراعية",
+  "assetTypeLivestock": "الماشية",
+  "@assetTypeLivestock": {
+    "description": "Text for assetType"
+  },
+  "assetTypeInputs": "المدخلات الزراعية",
   "@assetTypeInputs": {
     "description": "Text for assetType"
   },
@@ -720,7 +795,7 @@
   "@assetTypeStorage": {
     "description": "Text for assetType"
   },
-  "assetTypeLabor": "العمالة",
+  "assetTypeLabor": "اليد العاملة",
   "@assetTypeLabor": {
     "description": "Text for assetType"
   },
@@ -755,5 +830,187 @@
   "contractStateDelivered": "تم التسليم",
   "@contractStateDelivered": {
     "description": "Text for contract state in offer details view"
+  },
+  "activityDomain": "مجال النشاط",
+  "@activityDomain": {
+    "description": "User's type of activity"
+  },
+  "activityDomainCrop": "الإنتاج النباتي",
+  "@activityDomainCrop": {
+    "description": "One of a user's areas of activity"
+  },
+  "activityDomainAnimal": "الإنتاج الحيواني",
+  "@activityDomainAnimal": {
+    "description": "One of a user's areas of activity"
+  },
+  "activityDomainTraders": "التجار",
+  "@activityDomainTraders": {
+    "description": "One of a user's areas of activity"
+  },
+  "activityDomainSuppliers": "الموردون",
+  "@activityDomainSuppliers": {
+    "description": "One of a user's areas of activity"
+  },
+  "activityDomainServices": "الخدمات",
+  "@activityDomainServices": {
+    "description": "One of a user's areas of activity"
+  },
+  "activityDomainConsulting": "الاستشارة والمساعدة",
+  "@activityDomainConsulting": {
+    "description": "One of a user's areas of activity"
+  },
+  "activityDomainOther": "أخرى",
+  "@activityDomainOther": {
+    "description": "One of a user's areas of activity"
+  },
+  "fieldSpecialization": "تخصص المجال",
+  "@fieldSpecialization": {
+    "description": "User's specialized activity type"
+  },
+  "fieldSpecializationFieldCrops": "المحاصيل الحقلية",
+  "@fieldSpecializationFieldCrops": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationVegetableCrops": "المحاصيل الخضرية",
+  "@fieldSpecializationVegetableCrops": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationArboriculture": "زراعة الأشجار",
+  "@fieldSpecializationArboriculture": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationFodder": "الأعلاف",
+  "@fieldSpecializationFodder": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationCattle": "الأبقار",
+  "@fieldSpecializationCattle": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationSheep": "الأغنام",
+  "@fieldSpecializationSheep": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationGoats": "الماعز",
+  "@fieldSpecializationGoats": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationPoultry": "الطيور المنزلية",
+  "@fieldSpecializationPoultry": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationBeekeepers": "مربي النحل",
+  "@fieldSpecializationBeekeepers": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationRetailers": "تجار التجزئة",
+  "@fieldSpecializationRetailers": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationWholesalers": "تجار الجملة",
+  "@fieldSpecializationWholesalers": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationAgriculturalEquipment": "المعدات الزراعية",
+  "@fieldSpecializationAgriculturalEquipment": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationIrrigationEquipment": "معدات الري",
+  "@fieldSpecializationIrrigationEquipment": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationPhytosanitary": "المنتجات الصحية النباتية",
+  "@fieldSpecializationPhytosanitary": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationFertilizers": "الأسمدة",
+  "@fieldSpecializationFertilizers": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationSeeds": "البذور",
+  "@fieldSpecializationSeeds": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationEquipmentRental": "تأجير أو تركيب المعدات",
+  "@fieldSpecializationEquipmentRental": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationLabor": "اليد العاملة",
+  "@fieldSpecializationLabor": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationVeterinary": "الخدمات البيطرية",
+  "@fieldSpecializationVeterinary": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationLogistics": "الخدمات اللوجستية",
+  "@fieldSpecializationLogistics": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationPublic": "عام",
+  "@fieldSpecializationPublic": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationPrivate": "خاص",
+  "@fieldSpecializationPrivate": {
+    "description": "One of a user's specialized activity type"
+  },
+  "fieldSpecializationOther": "أخرى",
+  "@fieldSpecializationOther": {
+    "description": "One of a user's specialized activity type"
+  },
+  "onboardingTextPng1": "مرحبًا بكم في Resilink!",
+  "@onboardingTextPng1": {
+    "description": "Subtext for onboarding page 1"
+  },
+  "onboardingButtonNext": "التالي",
+  "@onboardingButtonNext": {
+    "description": "Elevated Button for onboarding pages except last one"
+  },
+  "aboutUsFirstTitle": "حول Resilink",
+  "@aboutUsFirstTitle": {
+    "description": "One of the titles on the “About us” page"
+  },
+  "aboutUsSecondTitle": "روابط مفيدة",
+  "@aboutUsSecondTitle": {
+    "description": "One of the titles on the “About us” page"
+  },
+  "aboutUsDescription1": "تم إنشاء تطبيقنا لدعم وتسهيل الوصول إلى منصة RESILINK، وهي حل مصمم لتبسيط تبادل الخدمات بين الأفراد في القطاع الزراعي. الهدف الرئيسي هو تمكين المستخدمين من عرض أو طلب أو مشاركة الخدمات أو المعدات أو المهارات بسرعة، حتى بالنسبة لأولئك الذين قد يواجهون صعوبة في القراءة أو استخدام تطبيقات الهاتف المحمول.",
+  "@aboutUsDescription1": {
+    "description": "One of the paragraphs in the application description"
+  },"aboutUsDescription2": "تم تصميم RESILINK خصيصًا لمنطقة المغرب العربي ويستهدف المزارعين والجهات الفاعلة في القطاع الزراعي. ويهدف إلى تعزيز التعاون والتضامن والكفاءة من خلال شبكة تبادل خدمات قوية وسهلة الوصول.",
+  "@aboutUsDescription2": {
+    "description": "One of the paragraphs in the application description"
+  },"aboutUsDescription3": "سواء كنت منتجًا أو مزارعًا أو مربيًا أو تعمل في مجال الزراعة، يوفر هذا التطبيق مساحة للتواصل تشجع على الدعم المتبادل وتساعد على تقوية المجتمع الزراعي ككل.",
+  "@aboutUsDescription3": {
+    "description": "One of the paragraphs in the application description"
+  },
+  "aboutUsFirstLink": "الموقع الرسمي لـ RESILINK",
+  "@aboutUsFirstLink": {
+    "description": "One of the two link text"
+  },
+  "aboutUsSecondLink": "سياسة الخصوصية",
+  "@aboutUsSecondLink": {
+    "description": "One of the two link text"
+  },
+  "publishLabelAcceptSharing": "مشاركة مع جميع الخوادم",
+  "@publishLabelAcceptSharing": {
+    "description": "Label in the publish page"
+  },
+  "buttonTitleChangePassword": "تغيير كلمة المرور",
+  "@buttonTitleChangePassword": {
+    "description": "Label in a button"
+  },
+  "serverPageTitle": "الخوادم",
+  "@serverPageTitle": {
+    "description": "Title for servers page"
+  },
+  "serverPageSubTitle1": "جميع الخوادم",
+  "@serverPageSubTitle1": {
+    "description": "Subtitle for servers page"
+  },
+  "serverPageSubTitle2": "المفضلة",
+  "@serverPageSubTitle2": {
+    "description": "Subtitle for servers page"
   }
 }

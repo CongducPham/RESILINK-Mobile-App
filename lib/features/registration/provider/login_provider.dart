@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:Resilink/features/home_navigation/provider/home_navigation_provider.dart';
-import 'package:Resilink/providers/main_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/features/home_navigation/provider/home_navigation_provider.dart';
+import 'package:resilink_mobile_application/providers/main_provider.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
 
 
 class LoginProvider with ChangeNotifier {

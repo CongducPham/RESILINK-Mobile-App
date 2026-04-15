@@ -3,14 +3,16 @@ class Prosumer {
   late String id;
   late num sharingAccount;
   late num balance;
-  late String job;
+  late String? activityDomain;
+  late String? specificActivity;
   late String location;
 
   Prosumer({
     required this.id,
     required this.sharingAccount,
     required this.balance,
-    required this.job,
+    required this.activityDomain,
+    required this.specificActivity,
     required this.location
   });
 
@@ -19,7 +21,8 @@ class Prosumer {
         id: json['id'],
         sharingAccount: json['sharingAccount'],
         balance: json['balance'],
-        job: json['job'] ?? "",
+        activityDomain: json['activityDomain'] ?? "",
+        specificActivity: json['specificActivity'] ?? "",
         location: json['location'] ?? ""
     );
   }
@@ -28,7 +31,8 @@ class Prosumer {
     'id': id,
     'sharingAccount': sharingAccount,
     'balance': balance,
-    'job': job,
+    'activityDomain': activityDomain,
+    'specificActivity': specificActivity,
     'location': location,
   };
 

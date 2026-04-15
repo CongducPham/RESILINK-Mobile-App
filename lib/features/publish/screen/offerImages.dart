@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:Resilink/constants/global_variables.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:Resilink/features/publish/widget/popup_choice_img.dart';
+import 'package:resilink_mobile_application/constants/global_variables.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/features/publish/widget/popup_choice_img.dart';
 
 import '../../../providers/main_provider.dart';
 import '../provider/offerImg_provider.dart';
@@ -105,7 +105,7 @@ class OfferImagesState extends State<OfferImages> {
                                   SizedBox(height: 8.0),
                                   Text(
                                     AppLocalizations.of(context)!.publishImagesText,
-                                    style: TextStyle(
+                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                       color: Colors.grey[600],
                                     ),
                                   ),

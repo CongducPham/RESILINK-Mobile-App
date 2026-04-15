@@ -1,4 +1,3 @@
-
 import 'FilterSpecificAttr.dart';
 
 class Filter {
@@ -7,6 +6,7 @@ class Filter {
   String? _endTime;
   String? _validityTime;
   String? _transactionType;
+  String? _country;
   String? _assetType;
   String? _name;
   String? _cityVillage;
@@ -22,6 +22,10 @@ class Filter {
 
   String get assetType => _assetType ?? "";
 
+  void setCountry(String country) {
+    _country = country;
+  }
+
   void setDistanceKilometer(double value) {
     _distanceKilometer = value;
   }
@@ -36,6 +40,10 @@ class Filter {
     if (name != null && name != "") {
       _name = name;
     }
+  }
+
+  void clearName() {
+    _name = null;
   }
 
   void setCityVillage (String cityVillage){
@@ -103,6 +111,7 @@ class Filter {
   Map<String, dynamic> getMapFilter () {
     Map<String, dynamic> Filter = {
       if (_assetType != null) "assetType": _assetType,
+      if (_country != null) "country": _country,
       if (_name != null) "name": _name,
       if (_maxQuantity != null) "maxQuantity": _maxQuantity,
       if (_minQuantity != null) "minQuantity": _minQuantity,

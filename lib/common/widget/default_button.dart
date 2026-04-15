@@ -25,14 +25,16 @@ class DefaultButton extends StatelessWidget {
           function != null ? function!() : futureFunction!();
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: (label == "Delete" || label == "حذف") ? GlobalVariables.tertiaryColor : Colors.transparent,//GlobalVariables.backgroundColor,
+          backgroundColor: (label == "Delete" || label == "حذف" || label == "Change password" || label == "تغيير كلمة المرور") ? GlobalVariables.tertiaryColor : Colors.transparent,//GlobalVariables.backgroundColor,
           elevation: 0, // Disable elevation to keep same background color as scaffold widget
           side: const BorderSide(color: GlobalVariables.tertiaryColor),
         ),
         child: Text(
           label,
-          style: TextStyle(
-              color: label == "Delete" || label == "حذف" ? GlobalVariables.textHeaderColor : GlobalVariables.tertiaryColor
+          style: Theme.of(context).textTheme.labelLarge!.copyWith(
+            color: label == "Delete" || label == "حذف" || label == "Change password" || label == "تغيير كلمة المرور"
+                ? GlobalVariables.textHeaderColor
+                : GlobalVariables.tertiaryColor,
           ),
         )
     );

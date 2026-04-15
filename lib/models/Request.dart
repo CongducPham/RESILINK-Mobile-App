@@ -2,20 +2,26 @@ import 'RequestAssetType.dart';
 
 class Request {
 
-  late String requestor;
+  late String requester;
   late String beginTimeSlot;
   late String? endTimeSlot;
   late String validityLimit;
-  late String transactionType;
+  late String? publicationDate;
+  late String paymentMethod;
+  late num paymentFrequency;
+  late num? requestId;
   late List<int>? offerIds;
   late List<RequestAssetType>? assetTypes;
 
   Request({
-    required this.requestor,
+    required this.requestId,
+    required this.requester,
     required this.beginTimeSlot,
     required this.endTimeSlot,
     required this.validityLimit,
-    required this.transactionType,
+    required this.publicationDate,
+    required this.paymentMethod,
+    required this.paymentFrequency,
     required this.offerIds,
     required this.assetTypes
   });
@@ -28,11 +34,14 @@ class Request {
       });
     }
     return Request(
-        requestor: json['requestor'],
+        requester: json['requester'],
+        requestId: json['requestId'],
         beginTimeSlot: json['beginTimeSlot'],
         endTimeSlot: json['endTimeSlot'],
         validityLimit: json['validityLimit'],
-        transactionType: json['transactionType'],
+        publicationDate: json['publicationDate'],
+        paymentMethod: json['paymentMethod'],
+        paymentFrequency: json['paymentFrequency'],
         offerIds: json['offerIds'],
         assetTypes: assetTypes
     );

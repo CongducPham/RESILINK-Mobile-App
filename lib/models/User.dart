@@ -40,12 +40,12 @@ class User {
       lastName:  json['lastName'],
       role: json['roleOfUser'],
       email: json['email'],
-      provider: json['provider'],
-      account: json['account'],
+      provider: json['provider'] ?? "",
+      account: json['account'] ?? "",
       createdAt:  json['createdAt'],
       updateAt:  json['updatedAt'],
       accessToken: json['accessToken'],
-      password: json['passWord'],
+      password: json['password'],
       phoneNumber: json['phoneNumber'] ?? "",
       gps: json['gps'] ?? ""
     );
@@ -63,7 +63,7 @@ class User {
     'createdAt': createdAt,
     'updatedAt': updateAt,
     'accessToken': accessToken,
-    'passWord': password,
+    'password': password,
     'phoneNumber': phoneNumber ?? "",
     'gps': gps
   };

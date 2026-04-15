@@ -3,10 +3,10 @@ import 'package:location/location.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:Resilink/features/account/service/account_services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:Resilink/features/home_navigation/provider/home_navigation_provider.dart';
-import 'package:Resilink/models/Contract.dart';
+import 'package:resilink_mobile_application/features/account/service/account_services.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/features/home_navigation/provider/home_navigation_provider.dart';
+import 'package:resilink_mobile_application/models/Contract.dart';
 
 import '../../../models/Asset.dart';
 import '../../../models/Offer.dart';
@@ -84,10 +84,8 @@ class AccountProvider with ChangeNotifier {
 
   // Retrieves offers with user assets, displays a popup giving a timeout error if the server doesn't respond or an internal server error.
   Future<void> setLastOfferPublish(BuildContext context) async {
-
     // Set _finishFetchOffer to true to notify the parent calling the function that the function has run
     _finishFetchOffer = true;
-
     /*
      * Calls the fetching user offers and assets function, if an error occurs, displays a popup giving a timeout error if the server doesn't respond or an internal server error.
      * set _loadingFetchOffer to false to notify the parent calling the function that the function has finished
@@ -188,7 +186,7 @@ class AccountProvider with ChangeNotifier {
        * Remove the offer and the asset from their list
        * then close the waiting popup
        */
-      _lastOfferPublish.removeWhere((offer) => offer.offerId == offerId);
+      _lastOfferPublish.removeWhere((offer) => offer.id == offerId);
       _offerAssets.remove(assetId);
       Navigator.of(context).pop();
       Navigator.of(context).pop();

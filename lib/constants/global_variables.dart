@@ -3,24 +3,159 @@ import 'package:flutter/material.dart';
 
 class GlobalVariables {
 
-  //API URL
-  static const String pathAPIAsset = 'https://resilink-api.onrender.com/v1/assets/';
-  static const String pathAPIOffer = 'https://resilink-api.onrender.com/v1/offers/';
-  static const String pathAPIContract = 'https://resilink-api.onrender.com/v1/contracts/';
-  static const String pathAPIRequest = 'https://resilink-api.onrender.com/v1/ODEP/requests/';
-  static const String pathAPIProsumer = 'https://resilink-api.onrender.com/v1/prosumers/';
-  static const String pathAPIAssetType = 'https://resilink-api.onrender.com/v1/assetTypes/';
-  static const String pathAPIUser = 'https://resilink-api.onrender.com/v1/users/';
-  static const String pathAPINews = 'https://resilink-api.onrender.com/v1/news/';
-  static const String pathAPIRating = 'https://resilink-api.onrender.com/v1/rating/';
+  //Link to important website
+  static final String websiteUrl = "https://resilink.eu/";
+  static final String privacyUrl = "https://resilink-dp.org/confidentialite";
 
+  //API IP or domain  name
+  static const Map<String, String> ipAddress = {
+    'ClassicServer': "resilink-dp.org",
+    'LocalResilink': "10.0.13.38:9990"
+  };
+  static String ipDomain = "resilink-dp.org";
+  static String protocol = 'https';
+
+  // API URLs with dynamics getters
+  static String get pathAPIAsset => '$protocol://$ipDomain/v3/assets/';
+  static String get pathAPIOffer => '$protocol://$ipDomain/v3/offers/';
+  static String get pathAPIContract => '$protocol://$ipDomain/v3/contracts/';
+  static String get pathAPIRequest => '$protocol://$ipDomain/v3/ODEP/requests/';
+  static String get pathAPIProsumer => '$protocol://$ipDomain/v3/prosumers/';
+  static String get pathAPIAssetType => '$protocol://$ipDomain/v3/assetTypes/';
+  static String get pathAPIUser => '$protocol://$ipDomain/v3/users/';
+  static String get pathAPINews => '$protocol://$ipDomain/v3/news/';
+  static String get pathAPIRating => '$protocol://$ipDomain/v3/rating/';
+  static String get pathAPIRecommendationStats => '$protocol://$ipDomain/v3/recommendationstats/';
+  static String get pathAPIRegisteredServer => '$protocol://$ipDomain/v3/registeredservers/';
+  static String get pathAPIFavoriteServers=> '$protocol://$ipDomain/v3/favoriteServers/';
+
+  // ThemeData
+  static final TextTheme appTextTheme = TextTheme(
+    displaySmall: TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: 36,        // displaySmall Material 3 standard
+      height: 44 / 36,
+      letterSpacing: 0,
+      fontWeight: FontWeight.normal,
+    ),
+    // Main section title in content pages (e.g. aboutUsFirstTitle)
+    headlineMedium: TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: 28,
+      height: 36 / 28,
+      letterSpacing: 0,
+      fontWeight: FontWeight.normal,
+    ),
+    // Sub-section title (e.g. aboutUsSecondTitle)
+    titleLarge: TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: 22,
+      height: 28 / 22,
+      letterSpacing: 0,
+      fontWeight: FontWeight.normal,
+    ),
+    // Form labels, card titles
+    titleMedium: TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: 16,
+      height: 24 / 16,
+      letterSpacing: 0.15,
+      fontWeight: FontWeight.w500,
+    ),
+    // Main body text
+    bodyLarge: TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: 16,
+      height: 24 / 16,
+      letterSpacing: 0.5,
+      fontWeight: FontWeight.normal,
+    ),
+    // Secondary text, metadata
+    bodyMedium: TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: 14,
+      height: 20 / 14,
+      letterSpacing: 0.25,
+      fontWeight: FontWeight.normal,
+    ),
+    bodySmall: TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: 12,
+      height: 16 / 12,
+      letterSpacing: 0.4,
+      fontWeight: FontWeight.normal,
+    ),
+    // Button text
+    labelLarge: TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: 14,
+      height: 20 / 14,
+      letterSpacing: 0.1,
+      fontWeight: FontWeight.w500,
+    ),
+    labelSmall: TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: 11,
+      height: 16 / 11,
+      letterSpacing: 0.5,
+      fontWeight: FontWeight.normal,
+    ),
+  );
   // COLORS
+  /*
   static const backgroundColor = Colors.white;
-  static const navigationBarColor = Color.fromARGB(255, 254, 247, 255);
+  static Color backgroundTile = Color.fromARGB(255, 254, 247, 255);
+  static Color navigationBarColor = Color.fromARGB(255, 254, 247, 255);
   static const tertiaryColor = Color.fromARGB(255, 103, 80, 164);
   static const unFocusBorderColor = Color.fromARGB(255, 121, 116, 126);
+  static const headerBackgroundColor = Color.fromARGB(255, 254, 247, 255);
   static const textHeaderColor = Color.fromARGB(255, 29, 27, 32);
   static const textDefaultColor = Colors.black;
+  static const unFocusNavigationBarColor = Colors.black54;
+  static const focusNavigationBarColor = Colors.deepPurple;
+  static const primaryColor = Color.fromARGB(255, 121, 116, 126);
+
+   */
+  /*
+  // From figma, sample n°2
+  static const backgroundColor = Colors.white;
+  static const backgroundTile = Color.fromARGB(255, 255, 241, 194);
+  static const navigationBarColor = Color.fromARGB(255, 251, 176, 41);
+  static const tertiaryColor = Color.fromARGB(255, 103, 80, 164);
+  static const unFocusBorderColor = Color.fromARGB(255, 121, 116, 126);
+  static const headerBackgroundColor = Color.fromARGB(255, 251, 176, 41);
+  static const textHeaderColor = Color.fromARGB(255, 29, 27, 32);
+  static const textDefaultColor = Colors.black;
+  static const unFocusNavigationBarColor = Colors.white;
+  static const focusNavigationBarColor = Colors.white;
+  static const primaryColor = Color.fromARGB(255, 251, 176, 41);
+   */
+  // From figma, sample n°3
+  static const backgroundColor = Colors.white;
+  static const backgroundTile = Color.fromARGB(255, 255, 241, 194);
+  static const navigationBarColor = Colors.white;
+  static const tertiaryColor = Color.fromARGB(255, 103, 80, 164);
+  static const unFocusBorderColor = Color.fromARGB(255, 121, 116, 126);
+  static const headerBackgroundColor = Color.fromARGB(255, 251, 176, 41);
+  static const textHeaderColor = Color.fromARGB(255, 29, 27, 32);
+  static const textDefaultColor = Colors.black;
+  static const unFocusNavigationBarColor = Colors.black;
+  static const focusNavigationBarColor = Color.fromARGB(255, 251, 176, 41);
+  static const primaryColor = Color.fromARGB(255, 251, 176, 41);
+
+  //AssetType usable by the application
+  static const List<String> allowedAndOrderedAssetTypes = [
+    "Fruit",
+    "Vegetable",
+    "Crop",
+    "Livestock",
+    "Machinery",
+    "Transport",
+    "Inputs",
+    "Storage",
+    "Labor",
+    "Other services",
+  ];
 
   //AssetTypes images
   static const Map<String, String> assetTypeImages = {
@@ -34,6 +169,7 @@ class GlobalVariables {
     'vegetable': 'assets/images/assetType/Vegetable.png',
     'inputs': 'assets/images/assetType/Inputs.png',
     'transport': 'assets/images/assetType/Transport.png',
+    'livestock': 'assets/images/assetType/Livestock.png',
   };
 
   //SVG icons
@@ -56,6 +192,7 @@ class GlobalVariables {
     'otherservices': 'assets/images/svg/OtherServices.svg',
     'storage': 'assets/images/svg/Storage.svg',
     'vegetable': 'assets/images/svg/Vegetable.svg',
+    'livestock': 'assets/images/svg/Vegetable.svg',
   };
 
   //Default images available to publish an offer

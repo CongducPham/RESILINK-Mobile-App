@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:Resilink/models/AssetType.dart';
+import 'package:resilink_mobile_application/models/AssetType.dart';
 
 import '../../../common/service/logger.dart';
 import '../../../constants/global_variables.dart';

@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:Resilink/features/search/service/update_contract_services.dart';
+import 'package:resilink_mobile_application/features/search/service/update_contract_services.dart';
 
 import '../../../common/service/date_manager.dart';
 import '../../../models/Contract.dart';
@@ -33,10 +33,45 @@ class UpdateContractProvider extends ChangeNotifier {
 
   //Set the initial values for the possible delivery states, the Stepper widget step and his text
   void setInitialValue (Contract contract, String nature, BuildContext context) async {
+    _deliveryState = ["beginDelivery", "endDelivery", "endConsumption"];
+    switch (contract.state) {
+      case "beginDelivery" :
+        {
+          _stepperText = "Your order is yet to be delivered";
+          _currentStep = 1;
+          break;
+        }
+      case "endConsumption" :
+        {
+          _stepperText = "Your order is yet to be delivered";
+          _currentStep = 2;
+          break;
+        }
+      case "endDelivery" :
+        {
+          _stepperText = "Your order has been delivered, thank you to confirm your reception";
+          _currentStep = 3;
+          break;
+        }
+      case "endConsumption" :
+        {
+          _stepperText = "End of your order";
+          _currentStep = 4;
+          break;
+        }
+      default :
+        {
+          _stepperText = "your order is still in process";
+          break;
+        }
+    }
+    _deliveryValue = _deliveryState[0];
+
+    /*
     switch (nature) {
 
       case "immaterial": {
-        _deliveryState = ["beginDelivery", "endDelivery", "endOfConsumption"];
+        _deliveryState = ["beginDelivery", "endOfConsumption", "endDelivery", "endOfConsumption"];
         switch (contract.state) {
           case "beginDelivery" :
             {
@@ -144,7 +179,7 @@ class UpdateContractProvider extends ChangeNotifier {
           }
         }
       }
-    }
+    }*/
   }
 
   /*
@@ -190,7 +225,7 @@ class UpdateContractProvider extends ChangeNotifier {
        */
       try {
         _mapJson['state'] = _deliveryValue;
-        await _updateContractServices.updateContract(_mapJson, context.read<MainProvider>().actualUser!.accessToken, nature, contract.transactionType, contract.idContract.toString());
+        await _updateContractServices.updateContract(_mapJson, context.read<MainProvider>().actualUser!.accessToken, nature, contract.idContract.toString());
         Navigator.of(context).pop();
         homeNavigationProvider.setIndexAndUpdateHeader(4);
 

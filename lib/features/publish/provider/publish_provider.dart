@@ -2,13 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:Resilink/providers/locale_provider.dart';
+import 'package:resilink_mobile_application/constants/global_variables.dart';
+import 'package:resilink_mobile_application/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:Resilink/features/home_navigation/provider/home_navigation_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:Resilink/features/publish/services/publish_services.dart';
+import 'package:resilink_mobile_application/features/home_navigation/provider/home_navigation_provider.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/features/publish/services/publish_services.dart';
 import 'package:location/location.dart';
 
 import '../../../common/service/date_manager.dart';
@@ -25,14 +26,15 @@ class PublishProvider extends ChangeNotifier {
    * If it's for creating a new offer (i.e., both are null), variables are simply initialized with defaults.
    */
   PublishProvider({this.offerToUpdate, this.assetToUpdate, required List<String> offerTransactionTypeList, required BuildContext context}) {
-    _assetType = assetToUpdate?.assetType ?? "";
+    _assetType = assetToUpdate != null ? _publishServices.getCorrectAssetTypeRegex(assetToUpdate!.assetType) : "";
     _selected = assetToUpdate != null ? true : false;
     _offerName = TextEditingController(text: assetToUpdate?.name ?? "");
     _offerTransactionTypeList.addAll(offerTransactionTypeList);
-    _offerTransactionType = assetToUpdate?.transactionType ?? _offerTransactionTypeList[0];
+    _offerTransactionType = offerToUpdate?.transactionType ?? _offerTransactionTypeList[0];
     if (offerToUpdate != null && assetToUpdate != null) {
+      _acceptSharing = offerToUpdate!.acceptSharing;
       _assetTypeList.addAll(getListAssetTypeResilink(context.read<HomeNavigationProvider>().allAssetType.keys.toList()));
-      _specificAttributes.addAll(context.read<HomeNavigationProvider>().allAssetType[_assetType]!.specificAttrModel!.toList());
+      _specificAttributes.addAll(context.read<HomeNavigationProvider>().allAssetType[_assetType]!.assetDataModel!.toList());
       for (var attr in _specificAttributes) {
         _specificAttributeValue[attr.name] = TextEditingController(text: "");
       }
@@ -50,7 +52,13 @@ class PublishProvider extends ChangeNotifier {
       _isFormValid = true;
     } else {
       _assetTypeList.addAll(getListAssetTypeResilink(context.read<HomeNavigationProvider>().allAssetType.keys.toList()));
-      _offerLocalisation = TextEditingController(text: "");
+      if (context.read<MainProvider>().actualUser!.gps != null && context.read<MainProvider>().actualUser!.gps != "") {
+        _offerLocalisation = TextEditingController(text: context.read<MainProvider>().actualUser!.gps);
+        _offerCityVillage = TextEditingController(text: "");
+      } else {
+        _offerLocalisation = TextEditingController(text: "");
+        _offerCityVillage = TextEditingController(text: context.read<MainProvider>().actualProsumer?.location ?? "");
+      }
     }
     _offerPrice = TextEditingController(text: offerToUpdate?.price.toString() ?? "0");
     _offerDescription = TextEditingController(text: assetToUpdate?.description ?? "");
@@ -79,6 +87,14 @@ class PublishProvider extends ChangeNotifier {
   bool _optionActive = false;
   bool _isFormValid = false;
   bool _addDuration = false;
+  bool _acceptSharing = true;
+
+  Map<String, String> _transationTypeMap = {
+    "sale/purchase": "sale/purchase",
+    "rent": "rent",
+    "بيع/شراء": "sale/purchase",
+    "إيجار": "rent",
+  };
 
   List<SpecificAttrModel> _specificAttributes = [];
   Map<String, dynamic> _specificAttributeValue = {};
@@ -111,8 +127,11 @@ class PublishProvider extends ChangeNotifier {
     _offerDescription.dispose();
     _offerPrice.dispose();
     _offerDuration.dispose();
+    _specificAttributeValue.clear();
     _specificAttributeValue.forEach((key, controller) {
-      controller.dispose();
+      if (controller is TextEditingController) {
+        controller.dispose();
+      }
     });
     super.dispose();
   }
@@ -132,6 +151,7 @@ class PublishProvider extends ChangeNotifier {
   bool get optionActive => _optionActive;
   bool get isFormValid => _isFormValid;
   bool get addDuration => _addDuration;
+  bool get acceptSharing => _acceptSharing;
 
   TextEditingController get contactName => _contactName;
   TextEditingController get contactFarm => _contactFarm;
@@ -147,54 +167,23 @@ class PublishProvider extends ChangeNotifier {
   List<SpecificAttrModel> get specificAttributes => _specificAttributes;
   Map<String, dynamic> get specificAttributeValue=> _specificAttributeValue;
 
-  // Get a translated version of assetType to display it
-  String getTradAssetType(String assetType, BuildContext context) {
 
-    String tradAssetType = "";
-
-    switch (assetType) {
-      case "Fruit" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeFruit;
-        break;
-      case "Vegetable" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeVegetable;
-        break;
-      case "Crop" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeCrop;
-        break;
-      case "Machinery" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeMachinery;
-        break;
-      case "Inputs" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeInputs;
-        break;
-      case "Labor" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeLabor;
-        break;
-      case "Other services" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeOtherServices;
-        break;
-      case "Storage" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeStorage;
-        break;
-      case "Transport" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeTransport;
-        break;
-    }
-    return tradAssetType;
-  }
 
   // Takes a list to eliminate duplicates (assetTypes), then returns a list
   List<String> getListAssetTypeResilink(List<String> listAssetType) {
-    List<String> result = [];
-
+    final Set<String> result = {};
     for (String assetType in listAssetType) {
-      String input = _publishServices.getCorrectAssetTypeRegex(assetType);
-      result.add(input);
+      String cleanType = _publishServices.getCorrectAssetTypeRegex(assetType);
+
+      // Vérifie si l’assetType nettoyé est dans la liste autorisée
+      if (GlobalVariables.allowedAndOrderedAssetTypes.contains(cleanType)) {
+        result.add(cleanType);
+      }
     }
 
-    return result.toSet().toList();
+    return result.toList();
   }
+
 
   // Setters
   void setContactInfoActive(bool value) {
@@ -208,9 +197,8 @@ class PublishProvider extends ChangeNotifier {
    */
   void setOptionActive(bool value, HomeNavigationProvider homeNavigationProvider, BuildContext context) {
     _optionActive = value;
-    print(specificAttributes);
     if (value && specificAttributes.isEmpty) {
-      _specificAttributes.addAll(context.read<HomeNavigationProvider>().allAssetType[_assetType]?.specificAttrModel ?? []);
+      _specificAttributes.addAll(context.read<HomeNavigationProvider>().allAssetType[_assetType]?.assetDataModel ?? []);
       for (var attr in _specificAttributes) {
         _specificAttributeValue[attr.name] = TextEditingController(text: attr.name == "Condition"? "fair" : "");
       }
@@ -239,8 +227,13 @@ class PublishProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setAcceptSharing(bool value) {
+    _acceptSharing = value;
+    notifyListeners();
+  }
+
   void setSpecificAttributes(dynamic value, String name) {
-    _specificAttributeValue[name] = value;
+    _specificAttributeValue[name].text = value;
   }
 
   // Ask for permissions to get GPS coord.
@@ -269,7 +262,6 @@ class PublishProvider extends ChangeNotifier {
       _optionActive = false;
       _specificAttributes = [];
       _specificAttributeValue = {};
-      print(_specificAttributes);
     }
     notifyListeners();
   }
@@ -317,34 +309,40 @@ class PublishProvider extends ChangeNotifier {
     try {
       // Set in maps the offer and asset data
       Map<String, dynamic> offer = {
-        "offerer": context.read<MainProvider>().actualUser!.username,
         "assetId": 0,
+        "transactionType": _transationTypeMap[_offerTransactionType],
         "beginTimeSlot": dateToGMTPlus1(),
+        "endTimeSlot": DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(addDurationToDate(int.parse(_offerDuration.text), _offerDurationRange, DateTime.now())),
         "validityLimit": DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(addDurationToDate(int.parse(_offerDuration.text), _offerDurationRange, DateTime.now())),
+        "offeredQuantity": 1,
         "price": int.parse(_offerPrice.text),
         "deposit": 0,
+        "paymentMethod": "total",
+        "paymentFrequency": 0,
         "cancellationFee": 0,
+        "country": context.read<MainProvider>().country,
+        "rentInformation": {
+          "delayMargin": 0,
+          "lateRestitutionPenalty": 0,
+          "deteriorationPenalty": 0,
+          "nonRestitutionPenalty": 0
+        }
       };
       Map<String, dynamic> asset = {
         "name": _offerName.text,
         "description": _offerDescription.text,
         "assetType": _assetType,
+        "multiAccess": true,
         "unit": "",
-        "owner": context.read<MainProvider>().actualUser!.username,
-        "transactionType": context.read<LocaleProvider>().valueLocale == "en" ? _offerTransactionType
-            : _offerTransactionType == "بيع/شراء" ? "sale/purchase" : "rent",
-        "regulatedId": "",
-        "regulator": "false",
+        "totalQuantity": 1,
         "images": _imageList,
       };
-      print("0");
       asset['specificAttributes'] = [];
       _specificAttributeValue.forEach((key, value) {
         if (key != "GPS" && key != "City/Village") {
           asset['specificAttributes'].add({'attributeName': key, 'value': value.text ?? ""});
         }
       });
-      print("a");
       if (_offerCityVillage.text != null && _offerCityVillage.text.isNotEmpty) {
         asset['specificAttributes'].add({'attributeName': "City/Village", 'value': _offerCityVillage.text});
         asset['specificAttributes'].add({'attributeName': "GPS", 'value': ""});
@@ -352,21 +350,10 @@ class PublishProvider extends ChangeNotifier {
         asset['specificAttributes'].add({'attributeName': "GPS", 'value': _offerLocalisation.text});
         asset['specificAttributes'].add({'attributeName': "City/Village", 'value': ""});
       }
-      print("b");
-      print(_assetType);
-      print(homeNavigationProvider.allAssetType[_assetType]!.nature);
-      if (homeNavigationProvider.allAssetType[_assetType]!.nature == 'immaterial') {
-        asset["totalQuantity"] = 1; // + 1 if it doesnt work, since ODEP is bugged
-        offer['endTimeSlot'] = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(addDurationToDate(int.parse(_offerDuration.text), _offerDurationRange, DateTime.now()));
-        offer['offeredQuantity'] = 1;
-        offer['remainingQuantity'] = 1;
-      } else if (homeNavigationProvider.allAssetType[_assetType]!.nature == 'material' && offerTransactionType == "rent") {
-        offer['endTimeSlot'] = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(addDurationToDate(int.parse(_offerDuration.text), _offerDurationRange, DateTime.now()));
-      }
-      print("c");
+
       await _publishServices.publishOffer({'offer': offer, 'asset': asset}, context.read<MainProvider>().actualUser!.accessToken);
       // A new assetType has been created so need to retrieves the assetTypes
-      await homeNavigationProvider.setAssetTypesAndGetUser(context);
+      // await homeNavigationProvider.setAssetTypesAndGetUser(context);
       Navigator.of(context).pop();
       homeNavigationProvider.setIndexAndUpdateHeader(0);
     } catch (e) {
@@ -428,24 +415,31 @@ class PublishProvider extends ChangeNotifier {
       }
 
       Map<String, dynamic> offer = {
-        "offerer": context.read<MainProvider>().actualUser!.username,
         "assetId": context.read<MainProvider>().assetDetails!.id,
         "beginTimeSlot": context.read<MainProvider>().offerDetails!.beginTimeSlot,
+        "endTimeSlot": _addDuration ? DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(addDurationToDate(int.parse(_offerDuration.text), _offerDurationRange, DateTime.now())) : context.read<MainProvider>().offerDetails!.validityLimit,
         "validityLimit": _addDuration ? DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(addDurationToDate(int.parse(_offerDuration.text), _offerDurationRange, DateTime.now())) : context.read<MainProvider>().offerDetails!.validityLimit,
         "price": int.parse(_offerPrice.text),
         "deposit": 0,
         "cancellationFee": 0,
+        "offeredQuantity": 1,
+        "paymentMethod": "total",
+        "paymentFrequency": 0,
+        "rentInformation": {
+          "delayMargin": 0,
+          "lateRestitutionPenalty": 0,
+          "deteriorationPenalty": 0,
+          "nonRestitutionPenalty": 0
+        }
       };
+
       Map<String, dynamic> asset = {
         "name": _offerName.text,
         "description": _offerDescription.text,
         "assetType": _assetType,
         "unit": context.read<MainProvider>().assetDetails!.unit,
-        "owner": context.read<MainProvider>().actualUser!.username,
-        "transactionType": _offerTransactionType,
+        "multiAccess": true,
         "totalQuantity": 1,
-        "regulatedId": "",
-        "regulator": "false",
         "images": _imageToUpdate,
       };
 
@@ -458,22 +452,7 @@ class PublishProvider extends ChangeNotifier {
       });
       asset['specificAttributes'].add({'attributeName': "City/Village", 'value': _offerCityVillage.text});
 
-      if (offerTransactionType != "rent"){
-        asset["totalQuantity"] = 1; // Need + 1 to if ODEP is still bugged
-      }
-
-      // Depending of the assetType nature (immaterial/material, adding/deleting some information
-      if (homeNavigationProvider.allAssetType[_assetType]!.nature == 'immaterial') {
-        offer['endTimeSlot'] = offer['validityLimit'];
-        offer['offeredQuantity'] = 1;
-      } else if (homeNavigationProvider.allAssetType[_assetType]!.nature == 'material') {
-        asset.remove("totalQuantity");
-        if (offerTransactionType == "rent"){
-          offer['endTimeSlot'] = offer['validityLimit'];
-        }
-      }
-
-      await _publishServices.updateOfferAsset(context.read<MainProvider>().actualUser!.accessToken, {'asset': asset, 'offer': offer}, context.read<MainProvider>().offerDetails!.offerId!);
+      await _publishServices.updateOfferAsset(context.read<MainProvider>().actualUser!.accessToken, {'asset': asset, 'offer': offer}, context.read<MainProvider>().offerDetails!.id!);
       Navigator.of(context).pop();
       context.read<MainProvider>().clearOfferAssetContractViewDetails();
       homeNavigationProvider.setIndexAndUpdateHeader(4);

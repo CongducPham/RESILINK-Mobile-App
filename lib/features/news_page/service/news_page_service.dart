@@ -21,14 +21,16 @@ class NewsPageService {
         /*
         child: fetchdata.convertBase64ToImg(news.img),
           TODO to change to new function of common/service
+          UPDATE To simplify development, there is no need to manage multiple news platforms
+
          */
       );
        */
       // for the moment, compulsory image set-up
-      img = Image(image: AssetImage('assets/images/img/${news.platform}.png'), fit: BoxFit.fill);
+      img = Image(image: AssetImage('assets/images/img/web.png'), fit: BoxFit.fill);
     } else {
       // image per default
-      img = Image(image: AssetImage('assets/images/img/${news.platform}.png'), fit: BoxFit.fill);
+      img = Image(image: AssetImage('assets/images/img/web.png'), fit: BoxFit.fill);
     }
     return img;
   }
@@ -55,7 +57,9 @@ class NewsPageService {
         final jsonMap = jsonDecode(response.body);
         jsonMap["NewsList"].forEach((data) =>
         {
-          listNews.add(News.fromJson(data)),
+          if (data['public'] == "true") {
+            listNews.add(News.fromJson(data)),
+          }
         });
       } else {
         // response code != 200 => error, writes to logs the answer and returns an exception
@@ -127,7 +131,8 @@ class NewsPageService {
         "Authorization": "Bearer $token",
         "Content-Type": "application/json"
       };
-      final response = await http.patch(
+      late http.Response response;
+      response = await http.put(
         Uri.parse(url),
         headers: headers,
         body: body,
@@ -186,6 +191,41 @@ class NewsPageService {
       // If a problem hasn't already occurred, write an error in the logs
       if(!exceptionAlreadyThrown) {
         error("deleteNewsBookmarkedList - Cannot connect to Resilink server", data: {"error": e});
+      }
+      exceptionAlreadyThrown = false;
+      rethrow;
+    }
+  }
+
+  /*
+   * Crate a news
+   * An error is returned in the event of a problem
+   */
+  Future<void> createNewsFromUser(String userName, Map<String, String> map, String token) async {
+    bool exceptionAlreadyThrown = false;
+    try {
+      String url = "${GlobalVariables.pathAPINews}$userName";
+      final headers = <String, String>{
+        "accept": "application/json",
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json"
+      };
+      final body = json.encode(map);
+      final response = await http.post(
+          Uri.parse(url),
+          headers: headers,
+          body: body,
+        ).timeout(const Duration(seconds: 10), onTimeout: () {
+          exceptionAlreadyThrown = true;
+          throw TimeoutException('La requête a dépassé le délai de 10 secondes');
+        });
+      if (response.statusCode == 200) {
+        info("createNewsFromUser - success creating a news");
+      }
+    } catch (e) {
+      // If a problem hasn't already occurred, write an error in the logs
+      if(!exceptionAlreadyThrown) {
+        error("createNewsFromUser - Cannot connect to Resilink server", data: {"error": e});
       }
       exceptionAlreadyThrown = false;
       rethrow;

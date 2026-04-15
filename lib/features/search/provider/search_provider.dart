@@ -1,32 +1,29 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
-import 'package:Resilink/features/home_navigation/provider/home_navigation_provider.dart';
-import 'package:Resilink/features/publish/services/publish_services.dart';
-import 'package:Resilink/features/search/service/search_services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/features/home_navigation/provider/home_navigation_provider.dart';
+import 'package:resilink_mobile_application/features/search/service/search_services.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
 
 import '../../../common/service/date_manager.dart';
 import '../../../models/Asset.dart';
 import '../../../models/Filter.dart';
 import '../../../models/Offer.dart';
-import '../../../models/SpecificRent.dart';
 import '../../../providers/main_provider.dart';
 
 class SearchProvider extends ChangeNotifier {
 
   // Constructor
-  SearchProvider(HomeNavigationProvider provider, MainProvider mainProvider)
+  SearchProvider(HomeNavigationProvider provider, MainProvider mainProvider, BuildContext context)
       : _localisationController = TextEditingController(text: ""),
         _searchController = TextEditingController(text: ""),
         _cityVillageController = TextEditingController(text: ""),
-        _assetTypeNames = provider.allAssetType.keys.toList(),
+        _countryController = TextEditingController(text: mainProvider.country),
         _searchControllerFocusNode = FocusNode() {
+    _assetTypeNames = getListAssetTypeResilink(provider.allAssetType.keys.toList(), context);
     _allSuggestion = List.from(_assetTypeNames);
-
     _searchController.addListener(() {
       _allSuggestion = _assetTypeNames
           .where((item) =>
@@ -36,24 +33,23 @@ class SearchProvider extends ChangeNotifier {
     });
   }
 
-  // Variables and their initialization
+  // Variables
   List<String> _allSuggestion = [];
-  List<String> _assetTypeNames;
-
+  List<String> _assetTypeNames = [];
   bool _selected = false;
   bool _isFormValid = false;
   bool _isSearchDone = false;
   double _distance = 10;
   TextEditingController _localisationController;
+  TextEditingController _countryController;
   TextEditingController _searchController;
   TextEditingController _cityVillageController;
   final FocusNode _searchControllerFocusNode;
-
   SearchServices _searchServices = SearchServices();
   Filter _filter = Filter();
 
   List<Offer> _searchedOffer = [];
-  Map<int, Asset> _offerAssets = {};
+  Map<String, Asset> _offerAssets = {}; // clé : "serverUrl|assetId"
 
   // Getters
   List<String> get allSugestion => _allSuggestion;
@@ -62,91 +58,39 @@ class SearchProvider extends ChangeNotifier {
   bool get isSearchDone => _isSearchDone;
   double get distance => _distance;
   TextEditingController get localisationController => _localisationController;
+  TextEditingController get countryController => _countryController;
   TextEditingController get cityVillageController => _cityVillageController;
   TextEditingController get searchController => _searchController;
   FocusNode get searchControllerFocusNode => _searchControllerFocusNode;
   Filter get filter => _filter;
   List<Offer> get searchedOffer => _searchedOffer;
   List<String> get assetTypeNames => _assetTypeNames;
-  Map<int, Asset> get offerAssets => _offerAssets;
-
-  // Gets the translated asset type name
-  String getTradAssetType(String assetType, BuildContext context) {
-
-    String tradAssetType = "";
-
-    switch (assetType) {
-      case "Fruit" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeFruit;
-        break;
-      case "Vegetable" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeVegetable;
-        break;
-      case "Crop" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeCrop;
-        break;
-      case "Machinery" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeMachinery;
-        break;
-      case "Inputs" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeInputs;
-        break;
-      case "Labor" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeLabor;
-        break;
-      case "Other services" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeOtherServices;
-        break;
-      case "Storage" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeStorage;
-        break;
-      case "Transport" :
-        tradAssetType = AppLocalizations.of(context)!.assetTypeTransport;
-        break;
-    }
-    return tradAssetType;
-  }
+  Map<String, Asset> get offerAssets => _offerAssets; // clé : "serverUrl|assetId"
 
   // Gets a unique list of asset types after conversion
   List<String> getListAssetTypeResilink(List<String> listAssetType, BuildContext context) {
     List<String> result = [];
-
-    PublishServices publishServices = PublishServices();
-
     for (String assetType in listAssetType) {
-      String input = publishServices.getCorrectAssetTypeRegex(assetType);
+      String input = _searchServices.getCorrectAssetTypeRegex(assetType);
       result.add(input);
     }
-
-    return result.toSet().toList(); // Convertir en ensemble pour éliminer les doublons, puis revenir à la liste
+    return result.toSet().toList();
   }
 
   // Checks if the form is valid
   void checkFormValidity() {
-    _isFormValid = (_searchController.text.isNotEmpty || _filter.assetType.isNotEmpty ) && _localisationController.text.isNotEmpty;
+    _isFormValid = (_searchController.text.isNotEmpty || _filter.assetType.isNotEmpty) && _localisationController.text.isNotEmpty;
     notifyListeners();
   }
 
-  // Setters
-  // Sets selection and checks form validity
   void setSelected(bool newValue) {
     _selected = newValue;
     checkFormValidity();
   }
 
-  // Updates search controller text and selection status
   void setSearchControllerAndSelected(String newValue, bool selected) {
     newValue.isNotEmpty ? _searchController.text = newValue : _searchController.clear();
     setSelected(selected);
-  }
-
-  void setSearchDone(bool value) {
-    _isSearchDone = value;
-    if (!value) {
-      _searchedOffer = [];
-      _offerAssets = {};
-    }
-    notifyListeners();
   }
 
   void setDistance(double value) {
@@ -154,7 +98,6 @@ class SearchProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Retrieves the user's location
   Future<void> setLocalisationByGPS() async {
     Location location = Location();
     PermissionStatus permissionGranted = await location.hasPermission();
@@ -184,10 +127,16 @@ class SearchProvider extends ChangeNotifier {
     filter.setCityVillage(cityVillage);
   }
 
-  // Performs a filtered offer search and updates results
-  Future<void> setOfferFiltered(BuildContext context) async {
+  void setSearchDone(bool value) {
+    _isSearchDone = value;
+    if (!value) {
+      _searchedOffer = [];
+      _offerAssets = {};
+    }
+    notifyListeners();
+  }
 
-    // Set a popup to wait for fetching offers
+  Future<void> setOfferFiltered(BuildContext context) async {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -209,21 +158,24 @@ class SearchProvider extends ChangeNotifier {
     );
 
     try {
-
       filter.setDistanceKilometer(_distance);
-      // Fetch list of filtered offers and all assets
-      await _searchServices.fetchOfferFiltered(_searchedOffer, _filter.getMapFilter(), context.read<MainProvider>().actualUser!.accessToken);
-      if (_searchedOffer.isNotEmpty) {
-        await _searchServices.fetchAsset(_offerAssets, context
-            .read<MainProvider>()
-            .actualUser!
-            .accessToken);
-      }
+      filter.setCountry(_countryController.text);
+
+      _searchedOffer.clear();
+      _offerAssets.clear();
+
+      await _searchServices.fetchOfferFilteredWithAssets(
+        _searchedOffer,
+        _offerAssets,
+        _filter.getMapFilter(),
+        context.read<MainProvider>().actualUser!.accessToken,
+      );
+
       Navigator.of(context).pop();
       context.read<HomeNavigationProvider>().setHasResultSearch(true);
       setSearchDone(true);
     } catch (e) {
-
+      Navigator.of(context).pop();
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -243,10 +195,7 @@ class SearchProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Handles the purchase of services by creating a request and a contract
   Future<void> buyingServices(BuildContext context, Asset asset, Offer offer, HomeNavigationProvider homeNavigationProvider) async {
-
-    // Set a popup to wait for fetching offers
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -269,21 +218,23 @@ class SearchProvider extends ChangeNotifier {
 
     try {
       int requestId = await _searchServices.createRequestWithId(
-          {
-            'requestor': context.read<MainProvider>().actualUser!.username,
-            'beginTimeSlot': dateToGMTPlus1(),
-            'endTimeSlot': (asset.transactionType == "rent" && homeNavigationProvider.allAssetType[asset.assetType]!.nature == "material" ) && context.read<HomeNavigationProvider>().allAssetType[asset.assetType]!.nature != "immaterial" ? offer.endTimeSlot : offer.validityLimit,
-            'validityLimit': offer.validityLimit,
-            'transactionType': asset.transactionType,
-            'offerIds': [offer.offerId],
-          },
-          context.read<MainProvider>().actualUser!.accessToken
+        {
+          'requestor': context.read<MainProvider>().actualUser!.username,
+          'beginTimeSlot': dateToGMTPlus1(),
+          'endTimeSlot': (offer.transactionType == "rent" && homeNavigationProvider.allAssetType[asset.assetType]!.nature == "material") &&
+              context.read<HomeNavigationProvider>().allAssetType[asset.assetType]!.nature != "immaterial"
+              ? offer.endTimeSlot
+              : offer.validityLimit,
+          'validityLimit': offer.validityLimit,
+          'transactionType': offer.transactionType,
+          'offerIds': [offer.id],
+        },
+        context.read<MainProvider>().actualUser!.accessToken,
       );
-      await _searchServices.createContract(offer.offerId!, requestId, context.read<MainProvider>().actualUser!.accessToken);
+      await _searchServices.createContract(offer.id!, requestId, context.read<MainProvider>().actualUser!.accessToken);
       Navigator.of(context).pop();
       homeNavigationProvider.setIndexAndUpdateHeader(4);
     } catch (e) {
-
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -302,10 +253,7 @@ class SearchProvider extends ChangeNotifier {
     }
   }
 
-  // Call function to add an offer id in the prosumer blockedOffers list
-  Future<void> addBlockedOffer (BuildContext context, Offer offer, HomeNavigationProvider homeNavigationProvider) async {
-
-    // Set a popup to wait for blocking an offer
+  Future<void> addBlockedOffer(BuildContext context, Offer offer, HomeNavigationProvider homeNavigationProvider) async {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -327,12 +275,15 @@ class SearchProvider extends ChangeNotifier {
     );
 
     try {
-      await _searchServices.setOfferInBlockedOfferList(offer.offerId!, context.read<MainProvider>().actualUser!.username, context.read<MainProvider>().actualUser!.accessToken);
+      await _searchServices.setOfferInBlockedOfferList(
+        offer.id!,
+        context.read<MainProvider>().actualUser!.username,
+        context.read<MainProvider>().actualUser!.accessToken,
+        offer.serverUrl,
+      );
       Navigator.of(context).pop();
-      homeNavigationProvider.setIndexAndUpdateHeader(0);
     } catch (e) {
       Navigator.of(context).pop();
-
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -351,4 +302,11 @@ class SearchProvider extends ChangeNotifier {
     }
   }
 
+  /// Removes a blocked offer and its asset from the search results list.
+  /// [assetKey] must be the composite key "serverUrl|assetId".
+  void removeBlockedOffer(Offer offer, String assetKey) {
+    _searchedOffer.remove(offer);
+    _offerAssets.remove(assetKey);
+    notifyListeners();
+  }
 }

@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/constants/global_variables.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:Resilink/features/home_navigation/service/home_navigation_services.dart';
+import 'package:resilink_mobile_application/features/home_navigation/service/home_navigation_services.dart';
 
 import '../../../models/AssetType.dart';
 import '../../../providers/main_provider.dart';
+import '../../home/screen/home_screen.dart';
 
 class HomeNavigationProvider with ChangeNotifier {
 
@@ -18,6 +20,7 @@ class HomeNavigationProvider with ChangeNotifier {
   PageController _pageController = PageController(initialPage: 0);
   HomeNavigationServices _homeNavigationServices = HomeNavigationServices();
   bool _settingAssetTypes = false;
+  Key _homeKey = UniqueKey();
 
   bool _hasResultSearch = false;
   Map<String, AssetType> _allAssetType = {};
@@ -28,6 +31,7 @@ class HomeNavigationProvider with ChangeNotifier {
   PageController get pageController => _pageController;
   Map<String, AssetType> get allAssetType => _allAssetType;
   bool get settingAssetTypes => _settingAssetTypes;
+  Key get homeKey => _homeKey;
 
   // Setters
   void setHasResultSearch(bool value) {
@@ -40,8 +44,17 @@ class HomeNavigationProvider with ChangeNotifier {
 
   // Set a new value for _selectedIndex and call the function to change the focused page on screen
   void setIndexAndUpdateHeader(int index) {
+    if (index == 0 && _selectedIndex == 0 ) {
+      _homeKey = UniqueKey(); // Change la clé pour recréer HomeScreen
+    }
     _selectedIndex = index;
     _pageController.jumpToPage(index);
+    notifyListeners();
+  }
+
+  // Set new HomeKay (refresh widget)
+  void setHomeKey() {
+    _homeKey = UniqueKey();
     notifyListeners();
   }
 
@@ -58,6 +71,13 @@ class HomeNavigationProvider with ChangeNotifier {
      */
     try {
       await _homeNavigationServices.fetchAllAssetTypes(_allAssetType, context.read<MainProvider>().actualUser!.accessToken);
+      final Map<String, AssetType> sorted = {};
+      for (final key in GlobalVariables.allowedAndOrderedAssetTypes) {
+        if (_allAssetType.containsKey(key)) {
+          sorted[key] = _allAssetType[key]!;
+        }
+      }
+      _allAssetType..clear()..addAll(sorted);
       context.read<HomeNavigationProvider>().setHasResultSearch(true);
     } catch (e) {
 

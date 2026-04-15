@@ -1,118 +1,155 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:Resilink/features/select_country/widget/FlagTouch.dart';
+import 'package:provider/provider.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/constants/global_variables.dart';
+import '../../../common/widget/default_button.dart';
+import '../../../providers/main_provider.dart';
+import '../../home_navigation/screen/home_navigation_screen.dart';
 
-import '../../../constants/global_variables.dart';
+class SelectCountryScreen extends StatefulWidget {
+  const SelectCountryScreen({super.key, this.fromParameters = false});
+  final bool fromParameters;
 
-// This widget displays the application's logo and a list of country options that the user can choose from.
-class SelectCountryScreen extends StatelessWidget {
-  SelectCountryScreen({super.key, this.fromParameters = false});
+  @override
+  State<SelectCountryScreen> createState() => _SelectCountryScreenState();
+}
 
-  bool fromParameters;
-
-  // Instance of FlagTouch used to handle flag selection actions
-  FlagTouch selectCountryService = FlagTouch();
+class _SelectCountryScreenState extends State<SelectCountryScreen> {
+  String? selectedCountry;
+  final List<String> countryKeys = ['algeria', 'egypt', 'morocco'];
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return SafeArea(
-        child: Scaffold(
-          appBar: fromParameters ? AppBar( // Same AppBar as the main navigation page
-            centerTitle: true,
-            backgroundColor: GlobalVariables.navigationBarColor,
-            title: Center(
-                child: Text(
-                    AppLocalizations.of(context)!.accountSubTitleLocalization,
-                    style: const TextStyle(
-                        color: GlobalVariables.textHeaderColor
-                    )
-                )
+      child: Scaffold(
+        appBar: widget.fromParameters
+            ? PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: Material(
+            color: GlobalVariables.headerBackgroundColor,
+            elevation: 4,
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20),
             ),
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.black54),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+              child: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                centerTitle: true,
+                title: Text(
+                  AppLocalizations.of(context)!.accountSubTitleLocalization,
+                  style: const TextStyle(color: GlobalVariables.textHeaderColor),
+                ),
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back, color: Colors.black54),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
             ),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.notifications_none_outlined, color: Colors.transparent),
-                onPressed: () {
-                },
-              ),
-            ],
-          ) : null,
-          body: Column(
-            children: [
-              // First expanded section is empty to create space at the top
-              Expanded(
-                  flex: 1,
-                  child: Container()
-              ),
-
-              // Second expanded section displays the logo of the application
-              Expanded(
-                  flex: 1,
-                  child: Image(
-                      fit: BoxFit.fitWidth,
-                      width: MediaQuery.sizeOf(context).width * 0.6,
-                      image: AssetImage(GlobalVariables.othersImage['resilinkLogo']!)
-                  )
-              ),
-
-              // Third expanded section is empty to create more space between the logo and the country selection
-              Expanded(
-                flex: 2,
-                child: Container(),
-              ),
-
-              // Fourth expanded section contains the country selection interface
-              Expanded(
-                  flex: 13,
-                  child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        return SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                  height: constraints.maxHeight * 0.07,
-                                  child: Text(
-                                    AppLocalizations.of(context)!.chooseCountry,
-                                    style: const TextStyle(
-                                        fontSize: 20
-                                    ),
-                                  )
-                              ),
-
-                              Container(
-                                margin: EdgeInsets.only(left: constraints.maxWidth * 0.1, right: constraints.maxWidth * 0.1),
-                                height: constraints.maxHeight * 0.9,
-                                width: constraints.maxWidth * 0.27,
-                                child: Column(
-                                  children: [
-                                    SizedBox(height: constraints.maxHeight * 0.05),
-
-                                    // Buttons for selecting Algeria, Egypt, and Morocco
-                                    selectCountryService.flagTouchNavigator(AppLocalizations.of(context)!.algeria, 'apple', constraints.maxWidth, constraints.maxHeight, context, "Algeria", fromParameters),
-                                    SizedBox(height: constraints.maxHeight * 0.05),
-                                    selectCountryService.flagTouchNavigator(AppLocalizations.of(context)!.egypt, 'eggplant', constraints.maxWidth, constraints.maxHeight, context, "Egypt", fromParameters),
-                                    SizedBox(height: constraints.maxHeight * 0.05),
-                                    selectCountryService.flagTouchNavigator(AppLocalizations.of(context)!.morocco, 'tomato', constraints.maxWidth, constraints.maxHeight, context, "Morocco", fromParameters),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                  )
-              ),
-
-              SizedBox(height: MediaQuery.sizeOf(context).width * 0.05)
-            ],
           ),
         )
+            : null,
+        body: Stack(
+          children: [
+            Positioned(
+              top: 24,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Image(
+                  fit: BoxFit.fitWidth,
+                  width: MediaQuery.sizeOf(context).width * 0.6,
+                  image: AssetImage(GlobalVariables.othersImage['resilinkLogo']!),
+                ),
+              ),
+            ),
+            Center(
+              child: FractionallySizedBox(
+                widthFactor: 0.7,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Page title — headlineMedium for a prominent centered heading
+                    Text(
+                      loc.chooseCountry,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    DropdownButtonFormField<String>(
+                      value: selectedCountry,
+                      isExpanded: true,
+                      decoration: InputDecoration(
+                        labelText: loc.chooseCountry,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                        prefixIcon: const Icon(Icons.flag_circle_outlined),
+                      ),
+                      items: countryKeys.map((key) {
+                        return DropdownMenuItem(
+                          value: key,
+                          child: Text(_getLocalizedCountryName(key, loc)),
+                        );
+                      }).toList(),
+                      onChanged: (val) => setState(() => selectedCountry = val),
+                    ),
+                    const SizedBox(height: 30),
+                    Opacity(
+                      opacity: selectedCountry == null ? 0.3 : 1,
+                      child: IgnorePointer(
+                        ignoring: selectedCountry == null,
+                        child: DefaultButton(
+                          label: loc.buttonConfirm,
+                          parentContext: context,
+                          function: null,
+                          futureFunction: () async {
+                            await context.read<MainProvider>().setCountry(selectedCountry!);
+                            if (widget.fromParameters) {
+                              Navigator.pop(context);
+                            } else {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => HomeNavigation()),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
+  }
+
+  String _getLocalizedCountryName(String key, AppLocalizations loc) {
+    switch (key) {
+      case 'algeria':
+        return loc.algeria;
+      case 'egypt':
+        return loc.egypt;
+      case 'morocco':
+        return loc.morocco;
+      default:
+        return key;
+    }
   }
 }

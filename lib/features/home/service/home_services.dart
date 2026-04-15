@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:Resilink/constants/global_variables.dart';
+import 'package:resilink_mobile_application/constants/global_variables.dart';
 
 import '../../../common/service/logger.dart';
 import '../../../models/Asset.dart';
@@ -11,13 +11,14 @@ import '../../../models/Offer.dart';
 class HomeServices {
 
   /*
-   * Retrieves the last 3 published offers, as well as the assets linked to the offers.
+   * Retrieves the last published offers (paginated), as well as the assets linked to the offers.
+   * New multi-server structure: map of serverUrl -> {offers, assets}
    * An error is returned in the event of a problem
    */
-  Future<void> fetchLastThreeOfferAsset(List<Offer> listOffer, Map<int, Asset> mapAsset, String token) async {
+  Future<void> fetchLimitedOfferAsset(List<Offer> listOffer, Map<String, Asset> mapAsset, int iteration, String token) async {
     bool exceptionAlreadyThrown = false;
     try {
-      const String url = "${GlobalVariables.pathAPIOffer}lastThree/";
+      String url = "${GlobalVariables.pathAPIOffer}LimitedOffer?offerNbr=3&iteration=$iteration&federated=true";
       final headers = <String, String>{
         "accept": "application/json",
         "Authorization": "Bearer $token"
@@ -27,40 +28,48 @@ class HomeServices {
         throw TimeoutException('La requête a dépassé le délai de 10 secondes');
       });
       if (response.statusCode == 200) {
-        info("fetchLastThreeOfferAsset - success fetching data", data: {"data": jsonDecode(response.body)});
-        // Convert the json response into List<Map<dynamic, dynamic>> and from these lists, put in a new List and Map the corresponding Objects.
-        final jsonMap = jsonDecode(response.body);
-        jsonMap['offers'].forEach((data) =>
-        {
-          listOffer.add(Offer.fromJson(data)),
+        info("fetchLimitedOfferAsset - success fetching data", data: {"data": jsonDecode(response.body)});
+        final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
+
+        List<Offer> tampListOffer = [];
+        jsonMap.forEach((serverUrl, serverData) {
+          // Assets indexés par clé composite "serverUrl|assetId"
+          final Map<String, dynamic> assetsJson = serverData['assets'] ?? {};
+          assetsJson.forEach((_, assetJson) {
+            final asset = Asset.fromJson(assetJson);
+            mapAsset["$serverUrl|${asset.id}"] = asset;
+          });
+
+          // Offres avec serverUrl injecté
+          final List<dynamic> offersJson = serverData['offers'] ?? [];
+          for (final data in offersJson) {
+            tampListOffer.add(Offer.fromJson(data, serverUrl, serverData['serverName']));
+          }
         });
-        jsonMap['assets'].forEach((key, data) =>
-        {
-          mapAsset[int.parse(key)] = Asset.fromJson(data),
-        });
+
+        listOffer.insertAll(0, tampListOffer.reversed);
       } else {
-        // response code != 200 => error, writes to logs the answer and returns an exception
-        error("fetchLastThreeOfferAsset - error fetching data", data: {"data": jsonDecode(response.body)});
+        error("fetchLimitedOfferAsset - error fetching data", data: {"data": jsonDecode(response.body)});
         exceptionAlreadyThrown = true;
         throw Exception("Error fetching from API to get all offers");
       }
     } catch (e) {
-      // If a problem hasn't already occurred, write an error in the logs
-      if(!exceptionAlreadyThrown) {
-        error("fetchLastThreeOfferAsset - Cannot connect to Resilink server", data: {"error": e});
+      if (!exceptionAlreadyThrown) {
+        error("fetchLimitedOfferAsset - Cannot connect to Resilink server", data: {"error": e});
       }
       rethrow;
     }
   }
 
   /*
-   * Retrieves the last 3 published offers, as well as the assets linked to the offers.
+   * Retrieves suggested offers, as well as the assets linked to the offers.
+   * New multi-server structure: map of serverUrl -> {offers, assets}
    * An error is returned in the event of a problem
    */
-  Future<void> fetchSuggestedOfferAsset(List<Offer> listOffer, Map<int, Asset> mapAsset, String owner, String token) async {
+  Future<void> fetchSuggestedOfferAsset(List<Offer> listOffer, Map<String, Asset> mapAsset, String owner, String token) async {
     bool exceptionAlreadyThrown = false;
     try {
-      String url = "${GlobalVariables.pathAPIOffer}suggested/$owner";
+      String url = "${GlobalVariables.pathAPIOffer}suggested/?offerNbr=3&iteration=0";
       final headers = <String, String>{
         "accept": "application/json",
         "Authorization": "Bearer $token"
@@ -71,25 +80,30 @@ class HomeServices {
       });
       if (response.statusCode == 200) {
         info("fetchSuggestedOfferAsset - success fetching data", data: {"data": jsonDecode(response.body)});
-        // Convert the json response into List<Map<dynamic, dynamic>> and from these lists, put in a new List and Map the corresponding Objects.
-        final jsonMap = jsonDecode(response.body);
-        jsonMap['offers'].forEach((data) =>
-        {
-          listOffer.add(Offer.fromJson(data)),
+        final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
+
+        jsonMap.forEach((serverUrl, serverData) {
+          // Assets indexés par clé composite "serverUrl|assetId"
+          final Map<String, dynamic> assetsJson = serverData['assets'] ?? {};
+          assetsJson.forEach((_, assetJson) {
+            final asset = Asset.fromJson(assetJson);
+            mapAsset["$serverUrl|${asset.id}"] = asset;
+          });
+
+          // Offres avec serverUrl injecté
+          final List<dynamic> offersJson = serverData['offers'] ?? [];
+          for (final data in offersJson) {
+            listOffer.add(Offer.fromJson(data, serverUrl, serverData['serverName']));
+          }
         });
-        jsonMap['assets'].forEach((key, data) =>
-        {
-          mapAsset[int.parse(key)] = Asset.fromJson(data),
-        });
+
       } else {
-        // response code != 200 => error, writes to logs the answer and returns an exception
         error("fetchSuggestedOfferAsset - error fetching data", data: {"data": jsonDecode(response.body)});
         exceptionAlreadyThrown = true;
         throw Exception("Error fetching from API to get all offers");
       }
     } catch (e) {
-      // If a problem hasn't already occurred, write an error in the logs
-      if(!exceptionAlreadyThrown) {
+      if (!exceptionAlreadyThrown) {
         error("fetchSuggestedOfferAsset - Cannot connect to Resilink server", data: {"error": e});
       }
       rethrow;
@@ -140,10 +154,10 @@ class HomeServices {
    * Retrieves the blocked offers, as well as the assets linked to the offers.
    * An error is returned in the event of a problem
    */
-  Future<void> fetchBlockedOffer(List<Offer> listOffer, Map<int, Asset> mapAsset, String owner, String token) async {
+  Future<void> fetchBlockedOffer(List<Offer> listOffer, Map<String, Asset> mapAsset, String owner, String token) async {
     bool exceptionAlreadyThrown = false;
     try {
-      String url = "${GlobalVariables.pathAPIOffer}owner/blockedOffer/$owner";
+      String url = "${GlobalVariables.pathAPIOffer}owner/blockedOffer/federated?includeAssets=true";
       final headers = <String, String>{
         "accept": "application/json",
         "Authorization": "Bearer $token"
@@ -153,17 +167,23 @@ class HomeServices {
         throw TimeoutException('La requête a dépassé le délai de 10 secondes');
       });
       if (response.statusCode == 200) {
-        info("fetchSuggestedOfferAsset - success fetching data", data: {"data": jsonDecode(response.body)});
+        info("fetchBlockedOffer - success fetching data", data: {"data": jsonDecode(response.body)});
         // Convert the json response into List<Map<dynamic, dynamic>> and from these lists, put in a new List and Map the corresponding Objects.
-        final jsonMap = jsonDecode(response.body);
-        jsonMap['offers'].forEach((data) =>
-        {
-          listOffer.add(Offer.fromJson(data)),
-        });
-        jsonMap['assets'].forEach((key, data) =>
-        {
-          mapAsset[int.parse(key)] = Asset.fromJson(data),
-          print(mapAsset),
+        final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
+
+        jsonMap.forEach((serverUrl, serverData) {
+          // Assets indexés par clé composite "serverUrl|assetId"
+          final Map<String, dynamic> assetsJson = serverData['assets'] ?? {};
+          assetsJson.forEach((_, assetJson) {
+            final asset = Asset.fromJson(assetJson);
+            mapAsset["$serverUrl|${asset.id}"] = asset;
+          });
+
+          // Offres avec serverUrl injecté
+          final List<dynamic> offersJson = serverData['offers'] ?? [];
+          for (final data in offersJson) {
+            listOffer.add(Offer.fromJson(data, serverUrl, serverData['serverName']));
+          }
         });
       } else {
         // response code != 200 => error, writes to logs the answer and returns an exception
@@ -180,21 +200,17 @@ class HomeServices {
     }
   }
 
-  Future<void> deleteOfferBlockedOfferList (int offerId, String username, String token) async {
+  Future<void> deleteOfferBlockedOfferList (int offerId, String username, String serverUrl, String token) async {
     bool exceptionAlreadyThrown = false;
     try {
-      String url = "${GlobalVariables.pathAPIProsumer}delBlockedOffer/id?id=$offerId&owner=$username";
-      final data = json.encode(<String, dynamic>{'offerId': offerId.toString()});
+      String url = "${GlobalVariables.pathAPIProsumer}$username/blocked-offers/server/$offerId?serverName=$serverUrl";
       final headers = <String, String>{
         "accept": "application/json",
         "Authorization": "Bearer $token",
-        "Content-Type": "application/json"
       };
-      info("deleteOfferBlockedOfferList - before sending data", data: {"data": data});
       final response = await http.delete(
           Uri.parse(url),
           headers: headers,
-          body: data
       ).timeout(const Duration(seconds: 15), onTimeout: () {
         exceptionAlreadyThrown = true;
         throw TimeoutException('The request has exceeded the 15-second time limit for retrieving offers.');

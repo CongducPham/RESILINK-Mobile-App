@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:Resilink/common/widget/default_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:Resilink/constants/global_variables.dart';
+import 'package:resilink_mobile_application/common/widget/default_button.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/constants/global_variables.dart';
 
 /*
  * A utility class that displays a customizable popup dialog.
@@ -20,7 +20,12 @@ class DefaultPopUp {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Center(child: Text(AppLocalizations.of(context)!.popupTitleConfirm)),
+          title: Center(
+            child: Text(
+              AppLocalizations.of(context)!.popupTitleConfirm,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ),
           actions: [
             DefaultButton(
               label: AppLocalizations.of(context)!.buttonConfirm,
@@ -44,9 +49,14 @@ class DefaultPopUp {
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog without any action
+                Navigator.of(context).pop();
               },
-              child: Text(AppLocalizations.of(context)!.buttonClose),
+              child: Text(
+                AppLocalizations.of(context)!.buttonClose,
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                  color: GlobalVariables.tertiaryColor,
+                ),
+              ),
             ),
           ],
         );

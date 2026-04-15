@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:Resilink/common/widget/textfield_info.dart';
-import 'package:Resilink/constants/global_variables.dart';
-import 'package:Resilink/features/home_navigation/provider/home_navigation_provider.dart';
-import 'package:Resilink/features/publish/provider/publish_provider.dart';
-import 'package:Resilink/features/publish/screen/offerImages.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:Resilink/providers/main_provider.dart';
+import 'package:resilink_mobile_application/common/widget/textfield_info.dart';
+import 'package:resilink_mobile_application/constants/global_variables.dart';
+import 'package:resilink_mobile_application/features/home_navigation/provider/home_navigation_provider.dart';
+import 'package:resilink_mobile_application/features/publish/provider/publish_provider.dart';
+import 'package:resilink_mobile_application/features/publish/screen/offerImages.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/providers/main_provider.dart';
 
 import '../widget/specific_attributes_asset.dart';
 
@@ -34,9 +34,7 @@ class OfferOptionState extends State<OfferOption> {
         SizedBox(height: 10),
         Text(
           AppLocalizations.of(context)!.publishLabelDuration,
-          style: TextStyle(
-              fontSize: 15
-          ),
+          style: Theme.of(context).textTheme.bodyLarge
         ),
         SizedBox(height: 15),
         Row(
@@ -53,7 +51,7 @@ class OfferOptionState extends State<OfferOption> {
                   maxLength: 3,
                   textAlign: TextAlign.center,
                   textAlignVertical: TextAlignVertical.top,
-                  style: TextStyle(fontSize: 13, overflow: TextOverflow.ellipsis,),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(overflow: TextOverflow.ellipsis),
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
@@ -103,15 +101,15 @@ class OfferOptionState extends State<OfferOption> {
                   items: [
                     DropdownMenuItem(
                       value: 'week',
-                      child: Text(AppLocalizations.of(context)!.secondTypeDuration, style: const TextStyle(fontSize: 12)),
+                      child: Text(AppLocalizations.of(context)!.secondTypeDuration, style: Theme.of(context).textTheme.bodySmall),
                     ),
                     DropdownMenuItem(
                       value: 'day',
-                      child: Text(AppLocalizations.of(context)!.firstTypeDuration, style: TextStyle(fontSize: 12)),
+                      child: Text(AppLocalizations.of(context)!.firstTypeDuration, style: Theme.of(context).textTheme.bodySmall),
                     ),
                     DropdownMenuItem(
                       value: 'month',
-                      child: Text(AppLocalizations.of(context)!.thirdTypeDuration, style: TextStyle(fontSize: 12)),
+                      child: Text(AppLocalizations.of(context)!.thirdTypeDuration, style: Theme.of(context).textTheme.bodySmall),
                     ),
                   ],
                 ),
@@ -151,7 +149,7 @@ class OfferOptionState extends State<OfferOption> {
             children: [
               Text(
                 AppLocalizations.of(context)!.publishLabelDetails,
-                style: TextStyle(
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   fontSize: 18,
                 ),
               ),
@@ -159,9 +157,8 @@ class OfferOptionState extends State<OfferOption> {
               TextField(
                 controller: widget.publishProvider.offerDescription,
                 focusNode: widget.publishProvider.focusNodeDescription,
-                style: TextStyle(
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   overflow: TextOverflow.ellipsis,
-                  fontSize: 14
                 ),
                 decoration: InputDecoration(
                   hintText: AppLocalizations.of(context)!.publishHinderDetails,
@@ -177,9 +174,7 @@ class OfferOptionState extends State<OfferOption> {
         SizedBox(height: 15,),
         Text(
           AppLocalizations.of(context)!.publishLabelImages,
-          style: TextStyle(
-              fontSize: 15
-          ),
+          style: Theme.of(context).textTheme.bodyLarge
         ),
         SizedBox(height: 15),
         // Widget to display/update offer images

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:Resilink/features/account/provider/account_provider.dart';
+import 'package:resilink_mobile_application/features/account/provider/account_provider.dart';
 
 import '../../constants/global_variables.dart';
 import '../../models/Asset.dart';
@@ -13,7 +13,7 @@ import '../../models/Offer.dart';
 class DefaultTouchHeadband extends StatelessWidget {
   DefaultTouchHeadband({super.key, required this.offer, required this.asset, required this.accountProvider});
 
-  // inherited variables
+  // Inherited variables
   Offer offer;
   Asset asset;
   AccountProvider accountProvider;
@@ -29,36 +29,32 @@ class DefaultTouchHeadband extends StatelessWidget {
       ),
       child: Row(
         children: [
-           Expanded(
-              flex: 2,
-              child: Center(
-                child: expired ? const Icon(
-                  Icons.warning_amber,
-                  color: Colors.red,
-                ) : Container(),
-              )
+          Expanded(
+            flex: 2,
+            child: Center(
+              child: expired ? const Icon(
+                Icons.warning_amber,
+                color: Colors.red,
+              ) : Container(),
+            ),
           ),
           Expanded(
-              flex: expired ? 8 : 9,
-              child: Container(
-                child: Text(
-                  asset.name,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              )
+            flex: expired ? 8 : 9,
+            child: Text(
+              asset.name,
+              overflow: TextOverflow.ellipsis,
+              // Asset name in a list row — titleMedium fits a compact label
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
           Expanded(
-              flex: 2,
-              child: Center(
-                child: Icon(
-                  Icons.mode_edit_outlined
-                ),
-              )
+            flex: 2,
+            child: Center(
+              child: Icon(Icons.mode_edit_outlined),
+            ),
           ),
         ],
       ),
     );
   }
-
-
 }

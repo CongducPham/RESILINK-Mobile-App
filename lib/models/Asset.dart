@@ -7,12 +7,11 @@ class Asset {
   late String description;
   late String assetType;
   late String owner;
-  late String transactionType;
   late double? totalQuantity;
   late String unit;
-  late double availableQuantity;
+  late double remainingQuantity;
   late String? regulatedId;
-  late String? regulator;
+  late bool multiAccess;
   late List? images;
   late List<SpecificAttrAsset>? specificAttributes;
 
@@ -22,19 +21,18 @@ class Asset {
     required this.description,
     required this.assetType,
     required this.owner,
-    required this.transactionType,
     required this.totalQuantity,
     required this.unit,
-    required this.availableQuantity,
+    required this.remainingQuantity,
     required this.regulatedId,
-    required this.regulator,
+    required this.multiAccess,
     required this.images,
     required this.specificAttributes
   });
 
   factory Asset.fromJson(Map<String, dynamic> json){
     List<SpecificAttrAsset>? spec = [];
-    if (json["specificAttributes"] != null){
+      if (json["specificAttributes"] != null){
       json['specificAttributes'].forEach((element) {
         spec.add(SpecificAttrAsset.fromJson(element));
       });
@@ -45,12 +43,11 @@ class Asset {
       description: json['description'],
       assetType: json['assetType'],
       owner: json['owner'],
-      transactionType: json['transactionType'],
       unit: json['unit'] ?? "",
       totalQuantity: json['totalQuantity'].toDouble(),
-      availableQuantity: json['availableQuantity'].toDouble(),
+      remainingQuantity: json['remainingQuantity'].toDouble(),
       regulatedId: json['regulatedId'],
-      regulator: json['regulator'],
+      multiAccess: json['multiAccess'],
       images: json['images'] ?? [],
       specificAttributes: spec
     );

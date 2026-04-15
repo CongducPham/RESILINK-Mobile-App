@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:Resilink/features/publish/provider/publish_provider.dart';
-import 'package:Resilink/features/search/provider/search_provider.dart';
-import 'package:Resilink/providers/main_provider.dart';
+import 'package:resilink_mobile_application/constants/global_variables.dart';
+import 'package:resilink_mobile_application/features/publish/provider/publish_provider.dart';
+import 'package:resilink_mobile_application/features/search/provider/search_provider.dart';
+import 'package:resilink_mobile_application/providers/main_provider.dart';
 
 // A card widget displaying an asset type with an icon and label.
 class AssetTypeCard extends StatelessWidget {
@@ -52,12 +53,12 @@ class AssetTypeCard extends StatelessWidget {
             } : () {
               provider.filter.setAssetType(provider.filter.assetType.isEmpty ? label : "");
               provider.setSelected(!provider.selected);
-              print(provider.filter.assetType);
             },
             child: Container(
               margin: EdgeInsets.all(4.0),
               decoration: BoxDecoration(
-                border: Border.all(width: 1),
+                border: Border.all(width: 1, color: (provider.selected && (provider.runtimeType == PublishProvider ? provider.assetType == label : provider.filter.assetType == label))
+                    ? GlobalVariables.primaryColor : GlobalVariables.textDefaultColor),
               ),
               child: Center(
                 child: Column(
@@ -67,11 +68,14 @@ class AssetTypeCard extends StatelessWidget {
                       icon,
                       fit: BoxFit.fill,
                       height: constraints.maxHeight * 0.3,
+                      color: (provider.selected && (provider.runtimeType == PublishProvider ? provider.assetType == label : provider.filter.assetType == label))
+                          ? GlobalVariables.primaryColor : GlobalVariables.textDefaultColor,
                     ),
                     SizedBox(height: constraints.maxHeight * 0.08),
                     Text(
-                      publishProvider!.getTradAssetType(label, parentContext),
-                      style: TextStyle(fontSize: 11),
+                      parentContext.read<MainProvider>().getTradAssetType(label, parentContext),
+                      style: Theme.of(context).textTheme.labelSmall!.copyWith(color: (provider.selected && (provider.runtimeType == PublishProvider ? provider.assetType == label : provider.filter.assetType == label))
+                          ? GlobalVariables.primaryColor : GlobalVariables.textDefaultColor),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
