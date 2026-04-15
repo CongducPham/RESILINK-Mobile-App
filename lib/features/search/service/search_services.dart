@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:Resilink/constants/global_variables.dart';
+import 'package:resilink_mobile_application/constants/global_variables.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -10,14 +10,21 @@ import '../../../models/Offer.dart';
 
 class SearchServices {
 
-  /*
-   * Get the list of filtered offers
-   * An error is returned in the event of a problem
-   */
-  Future<void> fetchOfferFiltered (List<Offer> searchOffer, Map<String, dynamic> filter, String token) async {
+  // Return the asset type with all numeric characters removed.
+  String getCorrectAssetTypeRegex (String assetType) {
+    String input = assetType.replaceAll(RegExp(r'\d+'), '');
+    return input;
+  }
+
+  Future<void> fetchOfferFilteredWithAssets(
+      List<Offer> searchedOffers,
+      Map<String, Asset> offerAssets, // clé : "serverUrl|assetId"
+      Map<String, dynamic> filter,
+      String token,
+      ) async {
     bool exceptionAlreadyThrown = false;
     try {
-      String url = "${GlobalVariables.pathAPIOffer}all/resilink/filtered/";
+      String url = "${GlobalVariables.pathAPIOffer}federated/all/filtered/";
       final headers = <String, String>{
         "accept": "application/json",
         "Authorization": "Bearer $token",
@@ -25,76 +32,42 @@ class SearchServices {
       };
       info("offerFilter - before sending data", data: {"data": filter});
       final response = await http.post(
-          Uri.parse(url),
-          headers: headers,
-          body: json.encode(filter)
-      ).timeout(const Duration(seconds: 10), onTimeout: () {
+        Uri.parse(url),
+        headers: headers,
+        body: json.encode(filter),
+      ).timeout(const Duration(seconds: 15), onTimeout: () {
         exceptionAlreadyThrown = true;
-        throw TimeoutException('La requête a dépassé le délai de 10 secondes pur récupérer les offres');
+        throw TimeoutException('La requête a dépassé le délai de 10 secondes pour récupérer les offres');
       });
+
       if (response.statusCode == 200) {
-        final jsonMap = jsonDecode(response.body);
-        info("offerFilter - success fetching offers", data: {"data": jsonMap});
-        // Convert the json response into List<Map<dynamic, dynamic>> and from these lists, put in a new List the corresponding Objects.
-        jsonMap.forEach((item) =>
-        {
-          searchOffer.add(Offer.fromJson(item))
+        final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
+        info("offerFilter - success fetching offers+assets", data: {"data": jsonMap});
+
+        jsonMap.forEach((serverUrl, serverData) {
+          final List<dynamic> offersJson = serverData['offers'] ?? [];
+          final Map<String, dynamic> assetsJson = serverData['assets'] ?? {};
+
+          // Clé composite "serverUrl|assetId" pour éviter toute collision inter-serveurs
+          assetsJson.forEach((_, assetJson) {
+            final asset = Asset.fromJson(assetJson);
+            offerAssets["$serverUrl|${asset.id}"] = asset;
+          });
+
+          // Offres avec serverUrl injecté directement dans l'objet
+          for (final item in offersJson) {
+            final offer = Offer.fromJson(item, serverUrl, serverData['serverName']);
+            searchedOffers.add(offer);
+          }
         });
-      }
-      else {
-        // response code != 200 => error, writes to logs the answer and returns an exception
+      } else {
         error("offerFilter - error fetching offers", data: {"data": jsonDecode(response.body)});
         exceptionAlreadyThrown = true;
-        throw Exception("Failed to connect to the contract purchaseMaterial API");
+        throw Exception("Failed to fetch filtered offers with assets");
       }
     } catch (e) {
-      // If a problem hasn't already occurred, write an error in the logs
-      if(!exceptionAlreadyThrown) {
+      if (!exceptionAlreadyThrown) {
         error("offerFilter - Cannot connect to Resilink server", data: {"error": e});
-      }
-      rethrow;
-    }
-  }
-
-  //TODO a supprimer plus tard je mélangerai les assets avec les offres dans une meme fonction
-  /*
-   * Get all asset
-   * An error is returned in the event of a problem
-   */
-  Future<void> fetchAsset (Map<int, Asset> asset, String token) async {
-    bool exceptionAlreadyThrown = false;
-    try {
-      String url = "${GlobalVariables.pathAPIAsset}all";
-      final headers = <String, String>{
-        "accept": "application/json",
-        "Authorization": "Bearer $token",
-      };
-      final response = await http.get(
-          Uri.parse(url),
-          headers: headers,
-      ).timeout(const Duration(seconds: 10), onTimeout: () {
-        exceptionAlreadyThrown = true;
-        throw TimeoutException('La requête a dépassé le délai de 10 secondes pur récupérer les offres');
-      });
-      if (response.statusCode == 200) {
-        final jsonMap = jsonDecode(response.body);
-        info("fetchAsset - success fetching assets", data: {"data": jsonMap});
-        // Convert the json response into List<Map<dynamic, dynamic>> and from these lists, put in a new Map the corresponding Objects.
-        jsonMap.forEach((item) =>
-        {
-          asset[item['id']] = Asset.fromJson(item)
-        });
-      }
-      else {
-        // response code != 200 => error, writes to logs the answer and returns an exception
-        error("fetchAsset - error fetching assets", data: {"data": jsonDecode(response.body)});
-        exceptionAlreadyThrown = true;
-        throw Exception("Failed to fetch all assets");
-      }
-    } catch (e) {
-      // If a problem hasn't already occurred, write an error in the logs
-      if(!exceptionAlreadyThrown) {
-        error("fetchAsset - Cannot connect to Resilink server", data: {"error": e});
       }
       rethrow;
     }
@@ -108,7 +81,6 @@ class SearchServices {
     bool exceptionAlreadyThrown = false;
     try {
       String url = GlobalVariables.pathAPIRequest;
-      print("tentative création request, url: ${GlobalVariables.pathAPIRequest}");
       final headers = <String, String>{
         "accept": "application/json",
         "Authorization": "Bearer $token",
@@ -188,21 +160,22 @@ class SearchServices {
   }
 
   /*
-   * Create a contract from offerId and RequestId
+   * Add an offerId in blockedOffer map by server of a prosumer
    * An error is returned in the event of a problem
    */
-  Future<void> setOfferInBlockedOfferList (int offerId, String username, String token) async {
+  Future<void> setOfferInBlockedOfferList (int offerId, String username, String token, String? serverUrl ) async {
     bool exceptionAlreadyThrown = false;
     try {
-      String url = "${GlobalVariables.pathAPIProsumer}$username/addBlockedOffer";
-      final data = json.encode(<String, dynamic>{'offerId': offerId.toString()});
+      String url = "${GlobalVariables.pathAPIProsumer}$username/blocked-offers/server";
+      final data = json.encode(<String, String>{'serverName': serverUrl ?? "https://resilink-dp.org", 'offerId': offerId.toString()});
       final headers = <String, String>{
         "accept": "application/json",
         "Authorization": "Bearer $token",
         "Content-Type": "application/json"
       };
       info("setOfferInBlockedOfferList - before sending data", data: {"data": data});
-      final response = await http.patch(
+      late http.Response response;
+      response = await http.post(
           Uri.parse(url),
           headers: headers,
           body: data
@@ -210,6 +183,7 @@ class SearchServices {
         exceptionAlreadyThrown = true;
         throw TimeoutException('The request has exceeded the 15-second time limit for retrieving offers.');
       });
+
       if (response.statusCode == 200) {
         final jsonMap = jsonDecode(response.body);
         info("setOfferInBlockedOfferList - success creating contract", data: {"data": jsonMap});

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:Resilink/common/widget/default_button.dart';
-import 'package:Resilink/common/widget/textfield_info.dart';
-import 'package:Resilink/features/home_navigation/provider/home_navigation_provider.dart';
-import 'package:Resilink/features/registration/provider/login_provider.dart';
-import 'package:Resilink/features/registration/screen/sign_up_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:Resilink/providers/main_provider.dart';
+import 'package:resilink_mobile_application/common/widget/default_button.dart';
+import 'package:resilink_mobile_application/common/widget/textfield_info.dart';
+import 'package:resilink_mobile_application/features/home_navigation/provider/home_navigation_provider.dart';
+import 'package:resilink_mobile_application/features/registration/provider/login_provider.dart';
+import 'package:resilink_mobile_application/features/registration/screen/sign_up_screen.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/providers/main_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -47,24 +47,24 @@ class LoginScreenState extends State<LoginScreen> {
                       margin: const EdgeInsets.only(top: 10),
                       child: Text(
                           AppLocalizations.of(context)!.registerLoginTitle,
-                          style: TextStyle(fontSize: 40)
+                          style: Theme.of(context).textTheme.displaySmall
                       ),
                     ),
                     const SizedBox(height: 30),
                     Column(
                       children: [
                         TextFieldInfo(textController: loginProvider.username, label: AppLocalizations.of(context)!.registerLoginFirstLabel, parentContext: context, isNumeric: false,),
-                        TextFieldInfo(textController: loginProvider.password, label: AppLocalizations.of(context)!.registerLoginSecondLabel, parentContext: context, isNumeric: false,)
+                        TextFieldInfo(textController: loginProvider.password, label: AppLocalizations.of(context)!.registerLoginSecondLabel, parentContext: context, isNumeric: false, obscureText: true)
                       ],
                     ),
 
                     // If something has gone wrong, a warning is displayed
                     if (loginProvider.error)
                       Container(
-                        margin: const EdgeInsets.only(top: 15),
+                        margin: const EdgeInsets.only(top: 5),
                         child: Text(
                           AppLocalizations.of(context)!.registerLoginErrorConnexion,
-                          style: const TextStyle(
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Colors.red
                           ),
                         ),
@@ -88,10 +88,10 @@ class LoginScreenState extends State<LoginScreen> {
                         },
                         child: Container(
                           alignment: Alignment.bottomRight,
-                          margin: const EdgeInsets.only(top: 20),
+                          margin: const EdgeInsets.only(top: 10),
                           child: Text(
                               AppLocalizations.of(context)!.registerLoginRedirection,
-                              style: const TextStyle(fontSize: 13, color: Colors.lightBlueAccent)
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.lightBlueAccent)
                           ),
                         )
                     ),

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:Resilink/common/widget/default_button.dart';
-import 'package:Resilink/constants/global_variables.dart';
-import 'package:Resilink/features/publish/provider/publish_provider.dart';
-import 'package:Resilink/features/publish/screen/contact_info.dart';
-import 'package:Resilink/features/publish/screen/offer_option.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:Resilink/providers/main_provider.dart';
+import 'package:resilink_mobile_application/common/widget/default_button.dart';
+import 'package:resilink_mobile_application/constants/global_variables.dart';
+import 'package:resilink_mobile_application/features/publish/provider/publish_provider.dart';
+import 'package:resilink_mobile_application/features/publish/screen/contact_info.dart';
+import 'package:resilink_mobile_application/features/publish/screen/offer_option.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/providers/main_provider.dart';
 
 import '../../../common/widget/textfield_info.dart';
 import '../../home_navigation/provider/home_navigation_provider.dart';
@@ -46,9 +46,8 @@ class PublishScreenState extends State<PublishScreen> {
                       SizedBox(height: (MediaQuery.of(context).size.height * 0.02)),
                       Text(
                         AppLocalizations.of(context)!.publishFirstTitle,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 19
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(height: 15),
@@ -57,16 +56,14 @@ class PublishScreenState extends State<PublishScreen> {
                           children: [
                             TextSpan(
                               text: AppLocalizations.of(context)!.publishFirstText,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black
+                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                color: Colors.black,
                               ),
                             ),
                             TextSpan(
                               text: " *",
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.red
+                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                color: Colors.red,
                               ),
                             ),
                           ]
@@ -101,13 +98,14 @@ class PublishScreenState extends State<PublishScreen> {
                               onChanged: (newValue) {
                                 publishProvider.setOfferTransaction(newValue!);
                               },
-                              style: TextStyle(fontSize: 13, color: Colors.black),
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: Colors.black,
+                              ),
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
                                 labelText: "${AppLocalizations.of(context)!.publishLabelChooseTransaction} *",
-                                labelStyle: const TextStyle(
+                                labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                   color: GlobalVariables.tertiaryColor,
-                                  fontSize: 16.0,
                                 ),
                                 floatingLabelBehavior: FloatingLabelBehavior.always,
                                 border: OutlineInputBorder(
@@ -143,18 +141,15 @@ class PublishScreenState extends State<PublishScreen> {
                               onChanged: (value) {
                                 publishProvider.checkFormValidity();
                               },
-                              style: TextStyle(
-                                  fontSize: 13
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium,
                               maxLines: 1,
                               textInputAction: TextInputAction.done,
                               decoration: InputDecoration(
                                 isDense: true,
                                 hintText: AppLocalizations.of(context)!.publishHinderLabelTitle,
                                 labelText: "${AppLocalizations.of(context)!.publishLabelTitle} *",
-                                labelStyle: const TextStyle(
+                                labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                   color: GlobalVariables.tertiaryColor,
-                                  fontSize: 16.0,
                                 ),
                                 floatingLabelBehavior: FloatingLabelBehavior.always,
                                 border: OutlineInputBorder(
@@ -191,9 +186,7 @@ class PublishScreenState extends State<PublishScreen> {
                                     await publishProvider.setLocalisationOnGPS();
                                     publishProvider.checkFormValidity();
                                   } : null,
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                  ),
+                                  style: Theme.of(context).textTheme.bodyMedium,
                                   decoration: InputDecoration(
                                     isDense: true,
                                     hintText: AppLocalizations.of(context)!.hinderTextLocalisation,
@@ -210,9 +203,8 @@ class PublishScreenState extends State<PublishScreen> {
                                       },
                                     ) : null,
                                     labelText: "${AppLocalizations.of(context)!.publishLabelLocalisation} *",
-                                    labelStyle: const TextStyle(
+                                    labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       color: GlobalVariables.tertiaryColor,
-                                      fontSize: 16.0,
                                     ),
                                     floatingLabelBehavior: FloatingLabelBehavior.always,
                                     border: OutlineInputBorder(
@@ -243,8 +235,7 @@ class PublishScreenState extends State<PublishScreen> {
                                 },
                                 child: Text(
                                   AppLocalizations.of(context)!.publishTextButtonLocalization,
-                                  style: const TextStyle(
-                                    fontSize: 12,
+                                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                     color: GlobalVariables.tertiaryColor,
                                     fontWeight: FontWeight.bold
                                   ),
@@ -271,18 +262,15 @@ class PublishScreenState extends State<PublishScreen> {
                                   onChanged: (value) {
                                     publishProvider.checkFormValidity();
                                   },
-                                  style: TextStyle(
-                                      fontSize: 13
-                                  ),
+                                  style: Theme.of(context).textTheme.bodyMedium,
                                   maxLines: 1,
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
                                     isDense: true,
                                     hintText: AppLocalizations.of(context)!.publishHinterFarmCity,
                                     labelText: "${AppLocalizations.of(context)!.publishLabelSpecLocalization} *",
-                                    labelStyle: const TextStyle(
+                                    labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       color: GlobalVariables.tertiaryColor,
-                                      fontSize: 16.0,
                                     ),
                                     floatingLabelBehavior: FloatingLabelBehavior.always,
                                     border: OutlineInputBorder(
@@ -299,6 +287,19 @@ class PublishScreenState extends State<PublishScreen> {
                             ),
                           ),
                         ),
+                      ),
+                      SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.publishLabelAcceptSharing,
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              color: Colors.black),
+                          ),
+                          Checkbox(value: publishProvider.acceptSharing, onChanged: (bool? newValue) {
+                            publishProvider.setAcceptSharing(newValue!);
+                          }),
+                        ],
                       ),
                       SizedBox(height: 20),
                       // Clickable text to display the widget to manage all user information

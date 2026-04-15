@@ -1,5 +1,6 @@
 arb-dir: lib/l10n
 template-arb-file: app_en.arb
-output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+nullable-getter: false
 # Removes the comment in the line below if words have not been correctly translated between language files.
-# untranslated-messages-file: untranslated_messages.txt
+untranslated-messages-file: untranslated_messages.txt

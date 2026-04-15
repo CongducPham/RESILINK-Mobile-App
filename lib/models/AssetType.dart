@@ -7,26 +7,26 @@ class AssetType {
   late String? description;
   late String nature;
   late String? unit;
-  late bool regulated;
   late String? regulator;
+  late bool subjectOfQuantity;
   late bool sharingIncentive;
-  late List<SpecificAttrModel>? specificAttrModel;
+  late List<SpecificAttrModel>? assetDataModel;
 
   AssetType ({
     required this.name,
     required this.description,
     required this.nature,
     required this.unit,
-    required this.regulated,
     required this.regulator,
+    required this.subjectOfQuantity,
     required this.sharingIncentive,
-    required this.specificAttrModel,
+    required this.assetDataModel,
   });
 
   factory AssetType.fromJson(Map<String, dynamic> json) {
     List<SpecificAttrModel>? spec = [];
-    if (json['specificAttributesModel'] != null) {
-      json['specificAttributesModel'].forEach((element) {
+    if (json['assetDataModel'] != null) {
+      json['assetDataModel'].forEach((element) {
         spec.add(SpecificAttrModel.fromJson(element));
       });
     }
@@ -35,10 +35,10 @@ class AssetType {
       description: json['description'],
       nature: json['nature'],
       unit:  json['unit'],
-      regulated: json['regulated'],
       regulator: json['regulator'],
+      subjectOfQuantity: json['subjectOfQuantity'],
       sharingIncentive: json['sharingIncentive'],
-      specificAttrModel: spec,
+      assetDataModel: spec,
     );
   }
   

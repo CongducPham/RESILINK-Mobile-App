@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:Resilink/common/widget/textfield_info.dart';
-import 'package:Resilink/features/publish/provider/publish_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/common/widget/textfield_info.dart';
+import 'package:resilink_mobile_application/features/publish/provider/publish_provider.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
 
 // Widget to display user information when creating/updating an offer
 class ContactInfo extends StatelessWidget {

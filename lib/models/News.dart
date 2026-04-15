@@ -6,6 +6,7 @@ class News {
   late String link;
   late String img;
   late String platform;
+  late String public;
 
   News ({
     required this.id,
@@ -13,7 +14,8 @@ class News {
     required this.institute,
     required this.link,
     required this.img,
-    required this.platform
+    required this.platform,
+    required this.public
   });
 
   factory News.fromJson(Map<String, dynamic> json){
@@ -23,7 +25,8 @@ class News {
       institute: json['institute'],
       link: json['url'],
       img: json['img'],
-      platform: json['platform']
+      platform: json['platform'],
+      public: json['public']
     );
   }
 

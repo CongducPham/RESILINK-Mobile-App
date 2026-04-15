@@ -17,16 +17,6 @@ DateTime addDurationToDate(int value, String unit, DateTime date) {
 }
 
 /*
-  Function to transform a date string in the format "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-  into a date string in the format "dd/MM/yyyy at HH:mm".
- */
-String formatDateToFullDate(String dateString) {
-  DateTime dateObject = DateTime.parse(dateString);
-  String formattedDate = "${DateFormat("dd/MM/yyyy").format(dateObject)} at ${DateFormat("HH:mm a").format(dateObject)}";
-  return formattedDate;
-}
-
-/*
    Function to check that one minute has passed between the start of the parameter date
    and the current date in GMT+1
  */

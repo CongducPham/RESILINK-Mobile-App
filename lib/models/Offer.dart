@@ -2,9 +2,10 @@ import 'SpecificRent.dart';
 
 class Offer {
 
-  late int? offerId;
+  late int? id;
   late String offerer;
   late int? assetId;
+  late String transactionType;
   late String beginTimeSlot;
   late String? endTimeSlot;
   late String validityLimit;
@@ -15,12 +16,19 @@ class Offer {
   late num price;
   late num deposit;
   late num cancellationFee;
+  late String paymentMethod;
+  late num paymentFrequency;
+  late String? country;
+  late String? serverUrl;
+  late String? serverName;
+  late bool acceptSharing;
   late SpecificRent? rentInformation;
 
   Offer({
-    required this.offerId,
+    required this.id,
     required this.offerer,
     required this.assetId,
+    required this.transactionType,
     required this.beginTimeSlot,
     required this.endTimeSlot,
     required this.validityLimit,
@@ -31,18 +39,25 @@ class Offer {
     required this.price,
     required this.deposit,
     required this.cancellationFee,
+    required this.paymentMethod,
+    required this.paymentFrequency,
+    required this.country,
+    required this.serverUrl,
+    required this.serverName,
+    required this.acceptSharing,
     required this.rentInformation
   });
 
-  factory Offer.fromJson(Map<String, dynamic> json) {
+  factory Offer.fromJson(Map<String, dynamic> json, String? serverUrl, String? serverName) {
     SpecificRent? rent;
     if (json['rentInformation'] != null) {
       rent = SpecificRent.fromJson(json['rentInformation']);
     }
     return Offer(
-      offerId: json['offerId'],
+      id: json['id'],
       offerer: json['offerer'],
       assetId: json['assetId'],
+      transactionType: json['transactionType'],
       beginTimeSlot: json['beginTimeSlot'],
       endTimeSlot: json['endTimeSlot'],
       validityLimit: json['validityLimit'],
@@ -53,6 +68,12 @@ class Offer {
       price: json['price'],
       deposit: json['deposit'],
       cancellationFee: json['cancellationFee'],
+      paymentMethod: json['paymentMethod'],
+      paymentFrequency: json['paymentFrequency'],
+      country: json['country'] ?? "",
+      serverUrl: serverUrl ?? "",
+      serverName: serverName ?? "",
+      acceptSharing: json['acceptSharing'],
       rentInformation: rent
     );
   }

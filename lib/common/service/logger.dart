@@ -1,29 +1,49 @@
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
-// Initialize a Logger instance with a pretty printer for formatted output.
-// Configured with no method count, 5 error method count, line length of 80, and no colors, emojis, or timestamps.
-final Logger logger = Logger(
-    printer: PrettyPrinter(
-        methodCount: 0,
-        errorMethodCount: 5,
-        lineLength: 80,
-        colors: false,
-        printEmojis: false,
-        printTime: false
-    )
+// Initialize the logger instance with a PrettyPrinter for better formatting.
+final Logger _logger = Logger(
+  printer: PrettyPrinter(
+    methodCount: 0,          // Do not print method calls in stack trace.
+    errorMethodCount: 5,     // Number of error stack trace lines.
+    lineLength: 80,          // Maximum line length.
+    colors: false,           // Disable colors.
+    printEmojis: false,      // Disable emojis.
+    printTime: false,        // Do not print timestamps (we handle it ourselves).
+  ),
 );
 
-// Logs an informational message with optional data, including a timestamp.
+// Send log to a remote server (in production mode only).
+// This function should be implemented to use HTTP or any other networking client.
+void _logToServer(String level, String message, Map<String, dynamic> data) {
+  // Example: Send log via POST request to your server
+  // This is just a placeholder for your real implementation
+}
+
+// Log an informational message.
 void info(String message, {Map<String, dynamic> data = const {}}) {
-  logger.i("Info - ${DateTime.timestamp()} - $message - $data");
+  _log("Info", message, data);
 }
 
-// Logs a warning message with optional data, including a timestamp.
+// Log a warning message.
 void warning(String message, {Map<String, dynamic> data = const {}}) {
-  logger.i("Warning - ${DateTime.timestamp()} - $message - $data");
+  _log("Warning", message, data);
 }
 
-// Logs an error message with optional data, including a timestamp.
+// Log an error message.
 void error(String message, {Map<String, dynamic> data = const {}}) {
-  logger.i("Error - ${DateTime.timestamp()} - $message - $data");
+  _log("Error", message, data);
+}
+
+// Internal log function that decides whether to log to console (debug) or send to server (production).
+void _log(String level, String message, Map<String, dynamic> data) {
+  final logMessage = "$level - ${DateTime.now()} - $message - $data";
+
+  if (kDebugMode) {
+    // In debug mode, print logs to console.
+    _logger.i(logMessage);
+  } else {
+    // In production mode (when running from APK), send logs to server.
+    _logToServer(level, message, data);
+  }
 }

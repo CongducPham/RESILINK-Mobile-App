@@ -17,9 +17,9 @@ class SpecificRent {
   factory SpecificRent.fromJson(Map<String, dynamic> json) {
     return SpecificRent(
         delayMargin: json['delayMargin']!,
-        lateRestitutionPenality: json['lateRestitutionPenality']!,
-        deteriorationPenality: json['deteriorationPenality']!,
-        nonRestitutionPenality: json['nonRestitutionPenality']!
+        lateRestitutionPenality: json['lateRestitutionPenalty']!,
+        deteriorationPenality: json['deteriorationPenalty']!,
+        nonRestitutionPenality: json['nonRestitutionPenalty']!
     );
   }
 }

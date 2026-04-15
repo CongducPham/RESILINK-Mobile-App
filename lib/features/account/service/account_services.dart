@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:Resilink/models/Contract.dart';
+import 'package:resilink_mobile_application/models/Contract.dart';
 
 import '../../../common/service/logger.dart';
 import '../../../constants/global_variables.dart';
@@ -20,8 +20,8 @@ class AccountServices {
   Future<void> fetchOfferOwnerWithAssets(List<Offer> listOffer, Map<int, Asset> mapAsset, String token, String owner) async {
     bool exceptionAlreadyThrown = false;
     try {
-      String urlOffer = "${GlobalVariables.pathAPIOffer}owner/$owner";
-      String urlAsset = "${GlobalVariables.pathAPIAsset}owner?idOwner=$owner";
+      String urlOffer = "${GlobalVariables.pathAPIOffer}owner";
+      String urlAsset = "${GlobalVariables.pathAPIAsset}owner";
       final headers = <String, String>{
         "accept": "application/json",
         "Authorization": "Bearer $token"
@@ -36,6 +36,7 @@ class AccountServices {
         exceptionAlreadyThrown = true;
         throw TimeoutException('La requête a dépassé le délai de 10 secondes pour récupérer les assets');
       });
+
       if (responseOffer.statusCode == 200 && responseAsset.statusCode == 200) {
         info("fetchOfferOwnerWithAssets - success fetching data", data: {"offer": jsonDecode(responseOffer.body), "asset": jsonDecode(responseAsset.body)});
         // Convert the json responses into List<Map<dynamic, dynamic>> and from these lists, put in a new List and Map the corresponding Objects.
@@ -43,7 +44,7 @@ class AccountServices {
         final jsonListAsset = jsonDecode(responseAsset.body);
         jsonMapOffer.forEach((key, data) =>
         {
-          listOffer.insert(0, Offer.fromJson(data)),
+          listOffer.insert(0, Offer.fromJson(data, null, "")),
         });
         jsonListAsset.forEach((data) =>
         {
@@ -88,7 +89,7 @@ class AccountServices {
         final jsonList = jsonDecode(response.body)['contracts'];
         jsonListOffer.forEach((data) =>
         {
-          listOffer[data['offerId']] = Offer.fromJson(data),
+          listOffer[data['offerId']] = Offer.fromJson(data, null, ""),
         });
         jsonListAsset.forEach((data) =>
         {
@@ -160,7 +161,7 @@ class AccountServices {
         Uri.parse(url),
         headers: <String, String>{
           'accept': 'application/json',
-          'Authorization': 'Bearer ${token}',
+          'Authorization': 'Bearer $token',
         },
       ).timeout(const Duration(seconds: 10), onTimeout: () {
         exceptionAlreadyThrown = true;

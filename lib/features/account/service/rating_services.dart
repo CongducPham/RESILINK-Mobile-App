@@ -29,7 +29,7 @@ class RatingServices {
         info("fetchUserRating - success fetching data", data: {"body": jsonDecode(responseRating.body)});
         // Convert the json responses into List<Map<dynamic, dynamic>> and from these lists, put in a new List and Map the corresponding Objects.
         final jsonMapRatingUser = jsonDecode(responseRating.body);
-        return jsonMapRatingUser['rating'].toDouble();
+        return jsonMapRatingUser['rating'] != null ? jsonMapRatingUser['rating']: null;
       } else {
         // response code != 200 => error, writes to logs the answer and returns an exception
         error("fetchUserRating - error fetching data", data: {"body": jsonDecode(responseRating.body)});

@@ -1,8 +1,8 @@
-import 'package:Resilink/common/widget/default_button.dart';
-import 'package:Resilink/features/account/provider/rating_provider.dart';
+import 'package:resilink_mobile_application/common/widget/default_button.dart';
+import 'package:resilink_mobile_application/features/account/provider/rating_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../../constants/global_variables.dart';
@@ -20,37 +20,43 @@ class _RatingScreenState extends State<RatingScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          appBar: AppBar( // Same AppBar as the main navigation page
-            centerTitle: true,
-            backgroundColor: GlobalVariables.navigationBarColor,
-            title: Center(
-                child: Text(
-                    AppLocalizations.of(context)!.accountTitleRating,
-                    style: const TextStyle(
-                        color: GlobalVariables.textHeaderColor
-                    )
-                )
-            ),
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.black54),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.notifications_none_outlined,
-                    color: Colors.transparent),
-                onPressed: () {},
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kToolbarHeight),
+            child: Material(
+              color: GlobalVariables.headerBackgroundColor,
+              elevation: 4,
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
               ),
-            ],
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+                child: AppBar(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  centerTitle: true,
+                  title: Text(
+                    AppLocalizations.of(context)!.accountTitleRating,
+                    style: const TextStyle(color: GlobalVariables.textHeaderColor),
+                  ),
+                  leading: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.black54),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ),
+            ),
           ),
           body: ChangeNotifierProvider(
             // Creating the Account provider in the tree structure
               create: (_) => RatingProvider(),
               builder: (context, child) {
-                return Consumer<
-                    RatingProvider>( // Listening to Account, HomeNavigation and Main providers to access their data
+                return Consumer<RatingProvider>( // Listening to Account, HomeNavigation and Main providers to access their data
                     builder: (context, ratingProvider, child) {
 
                       if (!ratingProvider.finishFetchRating && ratingProvider.loadingFetchRating) {

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:Resilink/constants/global_variables.dart';
+import 'package:resilink_mobile_application/constants/global_variables.dart';
 
 class OfferImgProvider extends ChangeNotifier {
 
@@ -72,7 +72,6 @@ class OfferImgProvider extends ChangeNotifier {
     if (_pathDefaultImg.contains("img/")) {
       imageBytes = await _imgBundleToByte(_pathDefaultImg);
     } else {
-      print(_fileImg);
       imageBytes = _fileImg!.readAsBytesSync();
     }
     return (base64Encode(imageBytes));

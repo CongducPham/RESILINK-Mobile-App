@@ -31,6 +31,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+untranslated_messages.txt
 
 # Symbolication related
 app.*.symbols
@@ -42,3 +43,10 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Android build artifacts
+android/build/
+
+# Firebase — contains API keys, do not commit
+android/app/google-services.json
+lib/firebase_options.dart

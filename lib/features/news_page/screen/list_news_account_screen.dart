@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:Resilink/features/news_page/provider/news_page_provider.dart';
+import 'package:resilink_mobile_application/features/news_page/provider/news_page_provider.dart';
 
 import '../../../models/News.dart';
 import '../widget/news_account_tile.dart';

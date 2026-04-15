@@ -1,59 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
 
 import '../../constants/global_variables.dart';
 
-class TextFieldInfo extends StatelessWidget {
-  TextFieldInfo({super.key, required this.textController, required this.label, required this.parentContext, required this.isNumeric, this.testHint});
+class TextFieldInfo extends StatefulWidget {
+  TextFieldInfo({
+    super.key,
+    required this.textController,
+    required this.label,
+    required this.parentContext,
+    required this.isNumeric,
+    this.testHint,
+    this.obscureText = false,
+  });
 
-  // inherited variables
-  TextEditingController textController;
-  String label;
-  String? testHint;
-  BuildContext parentContext;
-  bool isNumeric;
+  // Inherited variables
+  final TextEditingController textController;
+  final String label;
+  final String? testHint;
+  final BuildContext parentContext;
+  final bool isNumeric;
+  final bool obscureText;
 
-  // local variables
+  @override
+  State<TextFieldInfo> createState() => _TextFieldInfoState();
+}
+
+class _TextFieldInfoState extends State<TextFieldInfo> {
   String _previousText = "";
+  bool _isObscured = false; // Local variable to manage obscured text display
+
+  @override
+  void initState() {
+    super.initState();
+    _isObscured = widget.obscureText;
+  }
 
   @override
   Widget build(BuildContext context) {
-    
     return Column(
-      children : [
+      children: [
         const SizedBox(height: 10),
         LayoutBuilder(
           builder: (context, constraints) {
             return ClipRect(
               child: Align(
                 alignment: Alignment.center,
-                heightFactor: 1.1, // Contrôle verticalement la zone visible
+                heightFactor: 1.1,
                 child: SizedBox(
-                  height: MediaQuery.of(parentContext).size.height * 0.070,
+                  height: MediaQuery.of(widget.parentContext).size.height * 0.070,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 3.0),
                     child: Container(
                       constraints: BoxConstraints(maxWidth: constraints.maxWidth),
                       child: TextFormField(
                         clipBehavior: Clip.none,
-                        controller: textController,
-                        textAlignVertical: testHint != null ? TextAlignVertical.bottom : TextAlignVertical.top, // With an hinder, text in Textfield is not in normal position
-                        style: TextStyle(
-                            fontSize: 13,
-                        ),
+                        controller: widget.textController,
+                        obscureText: _isObscured, // Manages obscured text display
+                        textAlignVertical: widget.testHint != null
+                            ? TextAlignVertical.bottom
+                            : TextAlignVertical.top,
+                        // Input text style — bodyMedium for compact form fields
+                        style: Theme.of(context).textTheme.bodyMedium,
                         inputFormatters: [
-                          if (label == "email")
+                          if (widget.label == "email")
                             FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\s]')),
                         ],
                         onChanged: (String value) {
-
-                          // regex to detect text not in roman script
                           final RegExp arabicRegExp = RegExp(r'[\u0600-\u06FF]');
 
-                          // Checks whether the text respects the regex and whether the current text size is larger than its previous value.
-                          // If so, displays a warning SnackBar.
-                          if (arabicRegExp.hasMatch(textController.text) && _previousText.length < value.length) {
+                          if (arabicRegExp.hasMatch(widget.textController.text) &&
+                              _previousText.length < value.length) {
                             ScaffoldMessenger.of(context).clearSnackBars();
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -65,34 +83,49 @@ class TextFieldInfo extends StatelessWidget {
                           _previousText = value;
                         },
                         decoration: InputDecoration(
-                          hintText: testHint,
+                          hintText: widget.testHint,
                           isDense: true,
-                          labelText: label,
-                          labelStyle: const TextStyle(
+                          labelText: widget.label,
+                          // labelStyle kept as-is: functional floating label style,
+                          // not a content typography role
+                          labelStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
                             color: GlobalVariables.tertiaryColor,
-                            fontSize: 16.0,
                           ),
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(4.0),
-                            borderSide: const BorderSide(color: GlobalVariables.unFocusBorderColor, width: 2.0),
+                            borderSide: const BorderSide(
+                                color: GlobalVariables.unFocusBorderColor, width: 2.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(4.0),
-                            borderSide: const BorderSide(color: GlobalVariables.tertiaryColor, width: 2.0),
+                            borderSide: const BorderSide(
+                                color: GlobalVariables.tertiaryColor, width: 2.0),
                           ),
+                          suffixIcon: widget.obscureText
+                              ? IconButton(
+                            icon: Icon(
+                              _isObscured ? Icons.visibility : Icons.visibility_off,
+                              color: GlobalVariables.tertiaryColor,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isObscured = !_isObscured;
+                              });
+                            },
+                          )
+                              : null,
                         ),
-                        keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
+                        keyboardType: widget.isNumeric ? TextInputType.number : TextInputType.text,
                       ),
                     ),
                   ),
                 ),
               ),
             );
-          }
+          },
         ),
-      ]
+      ],
     );
   }
-
 }

@@ -7,11 +7,11 @@ class Contract {
   late String Request;
   late String asset;
   late String state;
+  late String assetType;
   late num? quantityToDeliver;
   late num? deliveredQuantity;
   late num? consumedQuantity;
   late String creationDate;
-  late String transactionType;
   late String offerer;
   late String requester;
   late num price;
@@ -29,11 +29,11 @@ class Contract {
     required this.Request,
     required this.asset,
     required this.state,
+    required this.assetType,
     required this.quantityToDeliver,
     required this.deliveredQuantity,
     required this.consumedQuantity,
     required this.creationDate,
-    required this.transactionType,
     required this.offerer,
     required this.requester,
     required this.price,
@@ -57,11 +57,11 @@ class Contract {
         Request: json['Request'],
         asset: json['asset'],
         state: json['state'],
+        assetType: json['assetType'],
         quantityToDeliver: json['quantityToDeliver'],
         deliveredQuantity: json['deliveredQuantity'],
         consumedQuantity: json['consumedQuantity'],
         creationDate: json['creationDate'],
-        transactionType: json['transactionType'],
         offerer: json['offerer'],
         requester: json['requester'],
         price: json['price'],

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:Resilink/common/widget/default_button.dart';
-import 'package:Resilink/common/widget/textfield_info.dart';
-import 'package:Resilink/features/home_navigation/provider/home_navigation_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/common/widget/default_button.dart';
+import 'package:resilink_mobile_application/common/widget/textfield_info.dart';
+import 'package:resilink_mobile_application/features/home_navigation/provider/home_navigation_provider.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
 
 import '../../../constants/global_variables.dart';
 import '../../../providers/main_provider.dart';
@@ -30,44 +30,50 @@ class SignUpScreenState extends State<SignUpScreen> {
 
     return SafeArea(
         child: Scaffold(
-          /*
-           * AppBar with 3 elements :
-           * - Language-dependent title change (see file in lib/features/l10n)
-           * - A navigation arrow to return to the login page
-           * - A bell for notifications TODO notifications to be implemented or removed if necessary
-           */
-          appBar: AppBar(
-              title: Center(
-                  child: Text(
-                      AppLocalizations.of(context)!.registerSignUpTitle,
-                      style: const TextStyle(
-                          color: GlobalVariables.textHeaderColor
-                      )
-                  )
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kToolbarHeight),
+            child: Material(
+              color: GlobalVariables.headerBackgroundColor,
+              elevation: 4,
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
               ),
-              backgroundColor: Colors.transparent,
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.black54),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+                child: AppBar(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  centerTitle: true,
+                  title: Text(
+                    AppLocalizations.of(context)!.registerSignUpTitle,
+                    style: const TextStyle(color: GlobalVariables.textHeaderColor),
+                  ),
+                  leading: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.black54),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
               ),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.notifications_none_outlined, color: Colors.transparent),
-                onPressed: () {
-                  //TODO to complete if notification page/features is implemented
-                },
-              ),
-            ],
+            ),
           ),
             body: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: ChangeNotifierProvider(
-                create: (_) => SignUpProvider(),
+                create: (_) => SignUpProvider(context),
                 builder: (context, child) {
                   return Consumer2<SignUpProvider, MainProvider>( // Listening to SignUp and Main providers to access their data
                     builder: (context, signUpProvider, mainProvider, child) {
+
+                      if (signUpProvider.activityDomain.isEmpty) {
+                        signUpProvider.setActivityDomain(context);
+                        signUpProvider.setFieldSpecialization(context, signUpProvider.activityDomain);
+                      }
 
                       return Container(
                         margin: const EdgeInsets.only(left: 20, top: 15, right: 20, bottom: 15),
@@ -106,20 +112,120 @@ class SignUpScreenState extends State<SignUpScreen> {
                                     child: TextFieldInfo(textController: signUpProvider.phoneNumber, label: "${AppLocalizations.of(context)!.labelPhoneNumber} *", parentContext: context, isNumeric: true,))
                               ],
                             ),
-                            Container(
-                                margin: const EdgeInsets.only(bottom: 15),
-                                child: TextFieldInfo(textController: signUpProvider.job, label: AppLocalizations.of(context)!.accountLabelJob, parentContext: context, isNumeric: false,)),
-                            Container(
+                            Row(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(top: 15, bottom: 15),
+                                  width: MediaQuery.of(context).size.width * 0.35,
+                                  child: DropdownButtonFormField<String>(
+                                    value: signUpProvider.activityDomain,
+                                    isExpanded: true,
+                                    decoration: InputDecoration(
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                                      labelText: AppLocalizations.of(context)!.activityDomain,
+                                      labelStyle: const TextStyle(
+                                        color: GlobalVariables.tertiaryColor,
+                                        fontSize: 16.0,
+                                      ),
+                                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(4.0),
+                                        borderSide: const BorderSide(
+                                          color: GlobalVariables.unFocusBorderColor,
+                                          width: 2.0,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(4.0),
+                                        borderSide: const BorderSide(
+                                          color: GlobalVariables.tertiaryColor,
+                                          width: 2.0,
+                                        ),
+                                      ),
+                                    ),
+                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                      color: Colors.black,
+                                    ),
+                                    items: signUpProvider.activityDomainCodes.map((code) {
+                                      return DropdownMenuItem(
+                                        value: code,
+                                        child: Text(
+                                            signUpProvider.translateDomain(context, code),
+                                            style: Theme.of(context).textTheme.bodyMedium,
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (code) {
+                                      signUpProvider.setFieldSpecialization(context, code!);
+                                    },
+                                  )
+                                ),
+                                Flexible(flex: 1, child: Container()),
+                                Container(
+                                  margin: const EdgeInsets.only(top: 15, bottom: 15),
+                                  width: MediaQuery.of(context).size.width * 0.35,
+                                  child: DropdownButtonFormField<String>(
+                                    value: signUpProvider.activityProfession,
+                                    isExpanded: true,
+                                    decoration: InputDecoration(
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                                      labelText: AppLocalizations.of(context)!.fieldSpecialization,
+                                      labelStyle: const TextStyle(
+                                        color: GlobalVariables.tertiaryColor,
+                                        fontSize: 16.0,
+                                      ),
+                                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(4.0),
+                                        borderSide: const BorderSide(
+                                          color: GlobalVariables.unFocusBorderColor,
+                                          width: 2.0,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(4.0),
+                                        borderSide: const BorderSide(
+                                          color: GlobalVariables.tertiaryColor,
+                                          width: 2.0,
+                                        ),
+                                      ),
+                                    ),
+                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                      color: Colors.black,
+                                    ),
+                                    items: signUpProvider.activityProfessionCodes[signUpProvider.activityDomain]!.map((code) {
+                                      return DropdownMenuItem(
+                                        value: code,
+                                        child: Text(
+                                          signUpProvider.translateProfession(context, code),
+                                          style: Theme.of(context).textTheme.bodyMedium,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: true,
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (code) {
+                                      signUpProvider.setActivityProfession(code!);
+                                    },
+                                  )
+                                ),
+                              ],
+                            ),
+                           Container(
                                 margin: const EdgeInsets.only(bottom: 15),
                                 child: TextFieldInfo(textController: signUpProvider.email, label: "${AppLocalizations.of(context)!.labelEmail} *", parentContext: context, isNumeric: false,)),
-                            TextFieldInfo(textController: signUpProvider.password, label: "${AppLocalizations.of(context)!.registerLoginSecondLabel} *", parentContext: context, isNumeric: false,),
+                            TextFieldInfo(textController: signUpProvider.password, label: "${AppLocalizations.of(context)!.registerLoginSecondLabel} *", parentContext: context, isNumeric: false, obscureText: true),
 
                             if (context.watch<SignUpProvider>().error && signUpProvider.password.text.length < 6)
                               Container(
                                   margin: const EdgeInsets.only(top: 10, bottom: 10),
                                   child: Center(
                                     child: Text(AppLocalizations.of(context)!.registerSignUpErrorPassword,
-                                        style: const TextStyle(
+                                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                             color: Colors.red
                                         )),
                                   )
@@ -143,8 +249,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                                 },
                                 child: Text(
                                     AppLocalizations.of(context)!.registerSignUpRedirection,
-                                    style: const TextStyle(
-                                        fontSize: 13,
+                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                         color: Colors.lightBlueAccent
                                     )
                                 )

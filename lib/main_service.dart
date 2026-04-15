@@ -1,27 +1,52 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ui' as ui;
-import 'package:Resilink/models/Prosumer.dart';
+import 'package:flutter/widgets.dart';
+import 'package:resilink_mobile_application/models/Prosumer.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:Resilink/constants/global_variables.dart';
+import 'package:resilink_mobile_application/constants/global_variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 import 'common/service/logger.dart';
 import 'models/User.dart';
 
 class MainService {
 
+  static const int _currentDataVersion = 2;
+
   // Initializes and sets the locale based on stored preferences or the system locale if not set.
   Future<ui.Locale> setInitialLocale() async {
-    var prefs = await SharedPreferences.getInstance();
-    String? languageCode = prefs.getString('languageCode');
-    if (languageCode != null) {
-      prefs.setString('languageCode', languageCode);
-      return ui.Locale(languageCode, "");
-    } else {
-      prefs.setString('languageCode', ui.window.locale.languageCode);
-      return ui.window.locale;
+    final prefs = await SharedPreferences.getInstance();
+
+    // On regarde si une langue a déjà été sauvegardée
+    String? storedLanguage = prefs.getString('languageCode');
+
+    if (storedLanguage != null && storedLanguage.isNotEmpty) {
+      return ui.Locale(storedLanguage);
+    }
+
+    // Sinon, on récupère la langue de l'appareil
+    String systemLang = WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+    // Si pas ar ou en → fallback à en
+    if (systemLang != "ar" && systemLang != "en") {
+      systemLang = "en";
+    }
+
+    await prefs.setString('languageCode', systemLang);
+
+    return ui.Locale(systemLang);
+  }
+
+  Future<void> checkAndMigrateLocalData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedVersion = prefs.getInt('data_version') ?? 1;
+
+    if (storedVersion < _currentDataVersion) {
+      await prefs.remove('LocaleUser');
+      await prefs.remove('LocaleProsumer');
+      await prefs.setInt('data_version', _currentDataVersion);
     }
   }
 
@@ -55,6 +80,16 @@ class MainService {
   Future<void> setCountry(String selectedCountry) async {
     var prefs = await SharedPreferences.getInstance();
     prefs.setString('LocalizeUser', selectedCountry);
+  }
+
+  Future<String> getIpAddress() async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.containsKey('ipAddress') ? prefs.getString('ipAddress')! : "";
+  }
+
+  Future<void> setIpAddress(String domain) async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setString('ipAddress', domain);
   }
 
   // Retrieves the stored user data from preferences.
@@ -100,6 +135,34 @@ class MainService {
     prefs.remove('LocaleProsumer');
   }
 
+  // Checks in the shared files whether the user has already seen the onboarding (opening the application for the first time or not)
+  Future<bool> hasCompletedOnboarding() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool("onboarding_done") ?? false;
+  }
+
+  // Records that the user has just viewed/completed the onboarding process.
+  Future<void> setOnboardingCompleted() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("onboarding_done", true);
+  }
+
+  String formatFriendlyDate(String isoDate, String locale) {
+    DateTime dateTime = DateTime.parse(isoDate);
+
+    String weekday = DateFormat('EEEE', locale).format(dateTime); // Nom du jour (ex: Lundi)
+    String day = DateFormat('d', locale).format(dateTime); // Numéro du jour (ex: 12)
+    String month = DateFormat('MMMM', locale).format(dateTime); // Nom du mois (ex: Mars)
+    String hourMinute = DateFormat('HH:mm', locale).format(dateTime); // Heure et minute (ex: 14:30)
+
+    // Extraction du fuseau horaire à partir de l'offset UTC
+    String timeZone = dateTime.timeZoneOffset.inHours == 0
+        ? "UTC"
+        : "UTC${dateTime.timeZoneOffset.isNegative ? '' : '+'}${dateTime.timeZoneOffset.inHours}";
+
+    return "$weekday $day $month $hourMinute $timeZone";
+  }
+
   /*
    * Fetches user data and authentication token from the server.
    * An error is returned in the event of a problem
@@ -111,14 +174,13 @@ class MainService {
       'accept': 'application/json'
     };
     final body = json.encode({'userName': username, 'password': password});
-    var response = await http.post(url, headers: headers, body: body).timeout(const Duration(seconds: 10), onTimeout: () {
+    var response = await http.post(url, headers: headers, body: body).timeout(const Duration(seconds: 60), onTimeout: () {
       throw TimeoutException('The request timed out after 10 seconds');
     });
     if (response.statusCode == 200) {
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       info("fetchDataODEPconnection - success fetching data", data: responseBody);
       final User user = User.fromJson(responseBody);
-      user.password = password;
       var prefs = await SharedPreferences.getInstance();
       prefs.setString('LocaleUser', jsonEncode(user.toJson()));
       return user;
@@ -139,7 +201,7 @@ class MainService {
       var url = Uri.parse("${GlobalVariables.pathAPIProsumer}new");
       final headers = {
         'Content-Type': 'application/json',
-        "Authorization": "",
+        "Authorization": "Bearer $token",
         'accept': 'application/json'
       };
       final body = json.encode(map);
@@ -191,6 +253,33 @@ class MainService {
         return prosumer;
       } else {
         // response code != 200 => error, writes to logs the answer and returns an exception
+        error("fetchProsumerData - error user prosumer data", data: jsonDecode(response.body));
+        exceptionAlreadyThrown = true;
+        throw Exception(jsonDecode(response.body)['message']);
+      }
+    } catch (e) {
+      if(!exceptionAlreadyThrown) {
+        error("fetchProsumerData - Cannot connect to Resilink server", data: {"error": e});
+      }
+      rethrow;
+    }
+  }
+
+  Future<void> incrementCountInterestForAssetType(String token, String id, String assetType) async {
+    bool exceptionAlreadyThrown = false;
+    try {
+      var url = Uri.parse("${GlobalVariables.pathAPIRecommendationStats}$id/increment/$assetType");
+      final headers = {
+        "Authorization": "Bearer $token",
+        'accept': 'application/json'
+      };
+      var response = await http.patch(url, headers: headers).timeout(const Duration(seconds: 10), onTimeout: () {
+        throw TimeoutException('The request timed out after 10 seconds');
+      });
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseBody = jsonDecode(response.body);
+        info("fetchProsumerData - success fetching data", data: responseBody);
+      } else {
         error("fetchProsumerData - error user prosumer data", data: jsonDecode(response.body));
         exceptionAlreadyThrown = true;
         throw Exception(jsonDecode(response.body)['message']);

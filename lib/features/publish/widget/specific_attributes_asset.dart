@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:Resilink/features/publish/provider/publish_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/features/publish/provider/publish_provider.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
 
 import '../../../common/widget/textfield_info.dart';
 import '../../../constants/global_variables.dart';
@@ -123,14 +123,13 @@ class SpecificAttributesAsset extends StatelessWidget {
                         onChanged: (newValue) {
                           publishProvider.setSpecificAttributes(newValue, attr.name);
                         },
-                        style: const TextStyle(fontSize: 13, color: Colors.black),
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.black),
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 12.0),
                           labelText: AppLocalizations.of(context)!.publishLabelSpecCondition,
-                          labelStyle: const TextStyle(
+                          labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             color: GlobalVariables.tertiaryColor,
-                            fontSize: 16.0,
                           ),
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           border: OutlineInputBorder(

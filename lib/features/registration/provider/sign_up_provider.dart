@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:Resilink/features/home_navigation/provider/home_navigation_provider.dart';
+import 'package:resilink_mobile_application/l10n/app_localizations.dart';
+import 'package:resilink_mobile_application/features/home_navigation/provider/home_navigation_provider.dart';
 
 import '../../../providers/main_provider.dart';
 
@@ -16,8 +16,31 @@ class SignUpProvider with ChangeNotifier {
   TextEditingController _email = TextEditingController(text: "");
   TextEditingController _job = TextEditingController(text: "");
   TextEditingController _phoneNumber = TextEditingController(text: "");
+  List<String> _activityDomainList = [];
+  String _activityDomain = "Other";
+  List<String> _activityProfessionList  = [];
+  String _activityProfession = "Other";
   bool _showKeyboardChangeMessage = false;
   bool _error = false;
+
+  // Constructor
+  SignUpProvider(BuildContext context) {
+    setActivityDomain(context);
+    setFieldSpecialization(context, _activityDomain);
+  }
+
+  final List<String> activityDomainCodes = [
+    "Crop Production", "Animal Production", "Traders", "Services", "Suppliers", "Consulting & Assistance", "Other"
+  ];
+  final Map<String, List<String>> activityProfessionCodes = {
+    "Crop Production": ["Field crops", "Vegetable crops", "Arboriculture", "Fodder"],
+    "Animal Production": ["Cattle", "Sheep", "Goats", "Backyard poultry", "Beekeepers"],
+    "Traders": ["Retailers", "Wholesalers"],
+    "Services": ["Agricultural equipment", "Irrigation equipment", "Phytosanitary products", "Fertilizers", "Seeds"],
+    "Suppliers": ["Equipment rental or installation", "Labor", "Veterinary services", "Logistics"],
+    "Consulting & Assistance": ["Public", "Private"],
+    "Other": ["Other"],
+  };
 
   // Getters
   TextEditingController get username => _username;
@@ -27,6 +50,10 @@ class SignUpProvider with ChangeNotifier {
   TextEditingController get email => _email;
   TextEditingController get job => _job;
   TextEditingController get phoneNumber => _phoneNumber;
+  List<String> get activityDomainList => _activityDomainList;
+  String get activityDomain => _activityDomain;
+  List<String> get activityProfessionList => _activityProfessionList;
+  String get activityProfession => _activityProfession;
   bool get showKeyboardChangeMessage => _showKeyboardChangeMessage;
   bool get error => _error;
 
@@ -38,10 +65,135 @@ class SignUpProvider with ChangeNotifier {
     });
   }
 
+  String translateDomain(BuildContext context, String code) {
+    final loc = AppLocalizations.of(context)!;
+
+    switch (code) {
+      case "Crop Production":
+        return loc.activityDomainCrop; // Production végétale / إلخ
+      case "Animal Production":
+        return loc.activityDomainAnimal;
+      case "Traders":
+        return loc.activityDomainTraders;
+      case "Services":
+        return loc.activityDomainServices;
+      case "Suppliers":
+        return loc.activityDomainSuppliers;
+      case "Consulting & Assistance":
+        return loc.activityDomainConsulting;
+      case "Other":
+        return loc.fieldSpecializationOther;
+      default:
+        return loc.activityDomainOther;
+    }
+  }
+
+  String translateProfession(BuildContext context, String code) {
+    final loc = AppLocalizations.of(context)!;
+
+    switch (code) {
+    // Crop Production
+      case "Field crops":
+        return loc.fieldSpecializationFieldCrops;
+      case "Vegetable crops":
+        return loc.fieldSpecializationVegetableCrops;
+      case "Arboriculture":
+        return loc.fieldSpecializationArboriculture;
+      case "Fodder":
+        return loc.fieldSpecializationFodder;
+
+    // Animal Production
+      case "Cattle":
+        return loc.fieldSpecializationCattle;
+      case "Sheep":
+        return loc.fieldSpecializationSheep;
+      case "Goats":
+        return loc.fieldSpecializationGoats;
+      case "Backyard poultry":
+        return loc.fieldSpecializationPoultry;
+      case "Beekeepers":
+        return loc.fieldSpecializationBeekeepers;
+
+    // Traders
+      case "Retailers":
+        return loc.fieldSpecializationRetailers;
+      case "Wholesalers":
+        return loc.fieldSpecializationWholesalers;
+
+    // Services
+      case "Agricultural equipment":
+        return loc.fieldSpecializationAgriculturalEquipment;
+      case "Irrigation equipment":
+        return loc.fieldSpecializationIrrigationEquipment;
+      case "Phytosanitary products":
+        return loc.fieldSpecializationPhytosanitary;
+      case "Fertilizers":
+        return loc.fieldSpecializationFertilizers;
+      case "Seeds":
+        return loc.fieldSpecializationSeeds;
+
+    // Suppliers
+      case "Equipment rental or installation":
+        return loc.fieldSpecializationEquipmentRental;
+      case "Labor":
+        return loc.fieldSpecializationLabor;
+      case "Veterinary services":
+        return loc.fieldSpecializationVeterinary;
+      case "Logistics":
+        return loc.fieldSpecializationLogistics;
+
+    // Consulting & Assistance
+      case "Public":
+        return loc.fieldSpecializationPublic;
+      case "Private":
+        return loc.fieldSpecializationPrivate;
+
+    // Default case
+      case "Other":
+        return loc.fieldSpecializationOther;
+
+      default:
+        return loc.fieldSpecializationOther;
+    }
+  }
+
+  void setActivityDomain (BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    _activityDomainList = activityDomainCodes.map((code) {
+      switch (code) {
+        case "Crop Production": return loc.activityDomainCrop;
+        case "Animal Production": return loc.activityDomainAnimal;
+        case "Traders": return loc.activityDomainTraders;
+        case "Services": return loc.activityDomainServices;
+        case "Suppliers": return loc.activityDomainSuppliers;
+        case "Consulting & Assistance": return loc.activityDomainConsulting;
+        case "Other": return loc.activityDomainOther;
+        default: return loc.activityDomainOther;
+      }
+    }).toList();
+    if (_activityDomain.isEmpty) {
+      _activityDomain = AppLocalizations.of(context)!.activityDomainCrop;
+    }
+  }
+
+  void setFieldSpecialization(BuildContext context, String domainCode) {
+    _activityDomain = domainCode;
+    final professionCodes = activityProfessionCodes[domainCode]!;
+    // si profession actuelle non valide => on prend la première
+    if (!professionCodes.contains(_activityProfession)) {
+      _activityProfession = professionCodes.first;
+    }
+
+    notifyListeners();
+  }
+
   void setShowKeyboardChangeMessage(bool newValue) {
     _showKeyboardChangeMessage = newValue;
   }
 
+  void setActivityProfession(String newProfession) {
+    _activityProfession = newProfession;
+  }
 
   // User registration function.
   Future<void> signUp(BuildContext context, MainProvider userProvider, HomeNavigationProvider homeNavigationProvider) async {
@@ -87,7 +239,8 @@ class SignUpProvider with ChangeNotifier {
           "email": _email.text,
           "password": _password.text,
           "phoneNumber": _phoneNumber.text,
-          "job": _job.text,
+          "activityDomain": _activityDomain,
+          "specificActivity": _activityProfession,
           "location": ""
         });
 
