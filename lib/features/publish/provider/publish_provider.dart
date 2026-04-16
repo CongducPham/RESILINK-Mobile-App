@@ -175,7 +175,7 @@ class PublishProvider extends ChangeNotifier {
     for (String assetType in listAssetType) {
       String cleanType = _publishServices.getCorrectAssetTypeRegex(assetType);
 
-      // Vérifie si l’assetType nettoyé est dans la liste autorisée
+      // Check if the cleaned assetType is in the allowed list
       if (GlobalVariables.allowedAndOrderedAssetTypes.contains(cleanType)) {
         result.add(cleanType);
       }

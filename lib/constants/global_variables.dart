@@ -7,11 +7,8 @@ class GlobalVariables {
   static final String websiteUrl = "https://resilink.eu/";
   static final String privacyUrl = "https://resilink-dp.org/confidentialite";
 
-  //API IP or domain  name
-  static const Map<String, String> ipAddress = {
-    'ClassicServer': "resilink-dp.org",
-    'LocalResilink': "10.0.13.38:9990"
-  };
+  //API IP or domain  name + protocol http/https
+  static const String ipAddressMasterServer = "resilink-dp.org";
   static String ipDomain = "resilink-dp.org";
   static String protocol = 'https';
 

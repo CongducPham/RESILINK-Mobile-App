@@ -18,7 +18,7 @@ class SearchServices {
 
   Future<void> fetchOfferFilteredWithAssets(
       List<Offer> searchedOffers,
-      Map<String, Asset> offerAssets, // clé : "serverUrl|assetId"
+      Map<String, Asset> offerAssets, // key: "serverUrl|assetId"
       Map<String, dynamic> filter,
       String token,
       ) async {
@@ -48,13 +48,13 @@ class SearchServices {
           final List<dynamic> offersJson = serverData['offers'] ?? [];
           final Map<String, dynamic> assetsJson = serverData['assets'] ?? {};
 
-          // Clé composite "serverUrl|assetId" pour éviter toute collision inter-serveurs
+          // Composite key "serverUrl|assetId" to avoid any cross-server collision
           assetsJson.forEach((_, assetJson) {
             final asset = Asset.fromJson(assetJson);
             offerAssets["$serverUrl|${asset.id}"] = asset;
           });
 
-          // Offres avec serverUrl injecté directement dans l'objet
+          // Offers with serverUrl injected directly into the object
           for (final item in offersJson) {
             final offer = Offer.fromJson(item, serverUrl, serverData['serverName']);
             searchedOffers.add(offer);

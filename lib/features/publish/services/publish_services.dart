@@ -111,7 +111,7 @@ class PublishServices {
     if (response.statusCode == 200) {
 
       // Conversion en Base64
-      Uint8List bytes = response.bodyBytes; // Récupérer les bytes de l'image
+      Uint8List bytes = response.bodyBytes; // Retrieve the image bytes
       String base64String = base64Encode(bytes); // Encoder en Base64
 
       return base64String;

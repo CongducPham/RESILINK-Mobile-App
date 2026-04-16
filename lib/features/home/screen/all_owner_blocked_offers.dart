@@ -90,7 +90,7 @@ class AllOwnerBlockedOffersState extends State<AllOwnerBlockedOffers> {
                   child: AnimatedList(
                     key: homeProvider.listKey,
                     initialItemCount: homeProvider.blockedOffer.length,
-                    itemBuilder: (listContext, index, animation) { // CORRECTIF : renommé en listContext
+                    itemBuilder: (listContext, index, animation) { // FIX: renamed to listContext
                       final offer = homeProvider.blockedOffer[index];
                       return SizeTransition(
                         sizeFactor: animation,
@@ -148,13 +148,13 @@ class AllOwnerBlockedOffersState extends State<AllOwnerBlockedOffers> {
                                                     parentContext: dialogContext,
                                                     function: null,
                                                     futureFunction: () async {
-                                                      // CORRECTIF : capture toutes les données nécessaires
-                                                      // AVANT le Navigator.pop pour ne plus dépendre
-                                                      // du dialogContext qui sera détruit
+                                                      // FIX: capture all necessary data
+                                                      // BEFORE Navigator.pop to no longer depend
+                                                      // on the dialogContext which will be destroyed
                                                       final int capturedIndex = index;
                                                       final Offer deletedOffer = homeProvider.blockedOffer[capturedIndex];
                                                       final Asset? deletedAsset = homeProvider.blockedOfferAssets["${deletedOffer.serverUrl}|${deletedOffer.assetId}"];
-                                                      // Capture la taille de l'écran via listContext (toujours vivant)
+                                                      // Capture screen size via listContext (still alive)
                                                       final double screenWidth = MediaQuery.of(listContext).size.width;
                                                       final double screenHeight = MediaQuery.of(listContext).size.height;
 
@@ -168,7 +168,7 @@ class AllOwnerBlockedOffersState extends State<AllOwnerBlockedOffers> {
                                                             (_, animation) => SizeTransition(
                                                           axis: Axis.vertical,
                                                           sizeFactor: animation,
-                                                          // Utilise les dimensions capturées plutôt que MediaQuery.of(context)
+                                                          // Use captured dimensions instead of MediaQuery.of(context)
                                                           child: deletedAsset != null
                                                               ? SizedBox(
                                                             width: screenWidth,

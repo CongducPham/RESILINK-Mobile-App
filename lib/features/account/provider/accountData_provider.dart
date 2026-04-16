@@ -98,7 +98,7 @@ class AccountDataProvider with ChangeNotifier {
 
     switch (code) {
       case "Crop Production":
-        return loc.activityDomainCrop; // Production végétale / إلخ
+        return loc.activityDomainCrop; // Crop production / etc.
       case "Animal Production":
         return loc.activityDomainAnimal;
       case "Traders":
@@ -207,7 +207,7 @@ class AccountDataProvider with ChangeNotifier {
   void setFieldSpecialization(BuildContext context, String domainCode) {
     _activityDomain = domainCode;
     final professionCodes = activityProfessionCodes[domainCode]!;
-    // si profession actuelle non valide => on prend la première
+    // if current profession is invalid => take the first one
     if (!professionCodes.contains(_activityProfession)) {
       _activityProfession = professionCodes.first;
     }

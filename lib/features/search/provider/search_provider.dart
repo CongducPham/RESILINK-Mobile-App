@@ -49,7 +49,7 @@ class SearchProvider extends ChangeNotifier {
   Filter _filter = Filter();
 
   List<Offer> _searchedOffer = [];
-  Map<String, Asset> _offerAssets = {}; // clé : "serverUrl|assetId"
+  Map<String, Asset> _offerAssets = {}; // key: "serverUrl|assetId"
 
   // Getters
   List<String> get allSugestion => _allSuggestion;
@@ -65,7 +65,7 @@ class SearchProvider extends ChangeNotifier {
   Filter get filter => _filter;
   List<Offer> get searchedOffer => _searchedOffer;
   List<String> get assetTypeNames => _assetTypeNames;
-  Map<String, Asset> get offerAssets => _offerAssets; // clé : "serverUrl|assetId"
+  Map<String, Asset> get offerAssets => _offerAssets; // key: "serverUrl|assetId"
 
   // Gets a unique list of asset types after conversion
   List<String> getListAssetTypeResilink(List<String> listAssetType, BuildContext context) {

@@ -93,11 +93,11 @@ class NewsScreenState extends State<NewsScreen> {
                   ],
                 ),
 
-                // FloatingActionButton centré horizontalement en bas
+                // FloatingActionButton centered horizontally at the bottom
                 if ( context.watch<MainProvider>().connected == true )
                   Positioned(
-                    bottom: 10, // Distance depuis le bas
-                    left: MediaQuery.of(context).size.width / 2 - 44, // Centrage horizontal
+                    bottom: 10, // Distance from the bottom
+                    left: MediaQuery.of(context).size.width / 2 - 44, // Horizontal centering
                     child: FloatingActionButton(
                       onPressed: () {
                         Navigator.push(
