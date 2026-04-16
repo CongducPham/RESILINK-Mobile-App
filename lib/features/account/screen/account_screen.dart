@@ -347,7 +347,7 @@ class _ParameterItem extends StatelessWidget {
           const SizedBox(width: 20),
           Text(
             label,
-            // titleLarge (22) pour les items de navigation de paramètres
+            // titleLarge (22) for settings navigation items
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ],

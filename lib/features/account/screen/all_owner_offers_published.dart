@@ -24,7 +24,7 @@ class AllOwnerOfferPublishedState extends State<AllOwnerOfferPublished> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // AppBar title → rien à changer ✅
+        // AppBar title → nothing to change ✅
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: GlobalVariables.navigationBarColor,

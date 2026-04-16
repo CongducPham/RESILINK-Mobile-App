@@ -86,8 +86,8 @@ class MainProvider extends ChangeNotifier {
   }
 
   void clearOfferDetails() {
-    // remet offerDetails et assetDetails à null
-    // adapte les noms exacts selon ton MainProvider
+    // Reset offerDetails and assetDetails to null
+    // Adjust the exact names according to your MainProvider
     _offerDetails = null;
     _assetDetails = null;
     notifyListeners();
@@ -245,7 +245,7 @@ class MainProvider extends ChangeNotifier {
 
   Future<void> changeIpAddress(String ipAddress) async {
     GlobalVariables.ipDomain = ipAddress;
-    GlobalVariables.protocol = ipAddress == GlobalVariables.ipAddress["LocalResilink"] ? "http": "https" ;
+    GlobalVariables.protocol = ipAddress == GlobalVariables.ipAddressMasterServer ? "https": "http" ;
     await _mainService.setIpAddress(ipAddress);
   }
 

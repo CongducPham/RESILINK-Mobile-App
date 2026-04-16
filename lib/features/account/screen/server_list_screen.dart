@@ -67,7 +67,7 @@ class _ServerListViewState extends State<_ServerListView> with SingleTickerProvi
                   backgroundColor: Colors.transparent,
                   elevation: 0,
                   centerTitle: true,
-                  // AppBar title → rien à changer ✅
+                  // AppBar title → nothing to change ✅
                   title: Text(
                     AppLocalizations.of(context).serverPageTitle,
                     style: TextStyle(color: GlobalVariables.textHeaderColor),
@@ -77,7 +77,7 @@ class _ServerListViewState extends State<_ServerListView> with SingleTickerProvi
                     onPressed: () => Navigator.pop(context),
                   ),
                 ),
-                // TabBar labels → style géré par Flutter/TabBarTheme → rien à changer ✅
+                // TabBar labels → style managed by Flutter/TabBarTheme → nothing to change ✅
                 TabBar(
                   controller: _tabController,
                   indicatorColor: GlobalVariables.textHeaderColor,
@@ -309,7 +309,7 @@ class _EmptyState extends StatelessWidget {
           Text(
             message,
             textAlign: TextAlign.center,
-            // bodyLarge (16) pour un message d'état vide lisible
+            // bodyLarge (16) for a readable empty state message
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
               color: const Color(0xFFAAAAAA),
               height: 1.6,

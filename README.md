@@ -99,6 +99,51 @@ This repository does **not** include Firebase configuration files as they contai
 
 Without these two files the app will not compile.
 
+### Android release signing (required for release builds)
+
+The repository excludes both the keystore file and the `key.properties` file (both are listed in `android/.gitignore`). You must provide them manually before building a release APK.
+
+**1. Generate the keystore**
+
+Run this command from the root of the project:
+
+```bash
+keytool -genkey -v \
+  -keystore android/RESILINK.jks \
+  -alias upload \
+  -keyalg RSA \
+  -keysize 2048 \
+  -validity 10000
+```
+
+You will be prompted for a store password, a key password, and identity information (name, organization, etc.). Keep these values safe — you will need them in the next step.
+
+**2. Create `android/key.properties`**
+
+Create the file `android/key.properties` with the following content, replacing the passwords with the ones you chose:
+
+```
+storePassword=<your_store_password>
+keyPassword=<your_key_password>
+keyAlias=upload
+storeFile=./RESILINK.jks
+```
+
+> `storeFile` is relative to the `android/` directory, so `./RESILINK.jks` points to `android/RESILINK.jks`.
+
+**3. Never commit these files**
+
+`android/.gitignore` already excludes both files:
+
+```
+key.properties
+**/*.jks
+```
+
+Do **not** override or remove these entries.
+
+---
+
 ### Install dependencies
 
 ```bash

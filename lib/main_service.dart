@@ -20,16 +20,16 @@ class MainService {
   Future<ui.Locale> setInitialLocale() async {
     final prefs = await SharedPreferences.getInstance();
 
-    // On regarde si une langue a déjà été sauvegardée
+    // Check if a language has already been saved
     String? storedLanguage = prefs.getString('languageCode');
 
     if (storedLanguage != null && storedLanguage.isNotEmpty) {
       return ui.Locale(storedLanguage);
     }
 
-    // Sinon, on récupère la langue de l'appareil
+    // Otherwise, retrieve the device language
     String systemLang = WidgetsBinding.instance.platformDispatcher.locale.languageCode;
-    // Si pas ar ou en → fallback à en
+    // If not ar or en → fallback to en
     if (systemLang != "ar" && systemLang != "en") {
       systemLang = "en";
     }
@@ -150,12 +150,12 @@ class MainService {
   String formatFriendlyDate(String isoDate, String locale) {
     DateTime dateTime = DateTime.parse(isoDate);
 
-    String weekday = DateFormat('EEEE', locale).format(dateTime); // Nom du jour (ex: Lundi)
-    String day = DateFormat('d', locale).format(dateTime); // Numéro du jour (ex: 12)
-    String month = DateFormat('MMMM', locale).format(dateTime); // Nom du mois (ex: Mars)
-    String hourMinute = DateFormat('HH:mm', locale).format(dateTime); // Heure et minute (ex: 14:30)
+    String weekday = DateFormat('EEEE', locale).format(dateTime); // Day name (e.g.: Monday)
+    String day = DateFormat('d', locale).format(dateTime); // Day number (e.g.: 12)
+    String month = DateFormat('MMMM', locale).format(dateTime); // Month name (e.g.: March)
+    String hourMinute = DateFormat('HH:mm', locale).format(dateTime); // Hour and minute (e.g.: 14:30)
 
-    // Extraction du fuseau horaire à partir de l'offset UTC
+    // Time zone extraction from the UTC offset
     String timeZone = dateTime.timeZoneOffset.inHours == 0
         ? "UTC"
         : "UTC${dateTime.timeZoneOffset.isNegative ? '' : '+'}${dateTime.timeZoneOffset.inHours}";

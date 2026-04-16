@@ -33,14 +33,14 @@ class HomeServices {
 
         List<Offer> tampListOffer = [];
         jsonMap.forEach((serverUrl, serverData) {
-          // Assets indexés par clé composite "serverUrl|assetId"
+          // Assets indexed by composite key "serverUrl|assetId"
           final Map<String, dynamic> assetsJson = serverData['assets'] ?? {};
           assetsJson.forEach((_, assetJson) {
             final asset = Asset.fromJson(assetJson);
             mapAsset["$serverUrl|${asset.id}"] = asset;
           });
 
-          // Offres avec serverUrl injecté
+          // Offers with serverUrl injected
           final List<dynamic> offersJson = serverData['offers'] ?? [];
           for (final data in offersJson) {
             tampListOffer.add(Offer.fromJson(data, serverUrl, serverData['serverName']));
@@ -83,14 +83,14 @@ class HomeServices {
         final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
 
         jsonMap.forEach((serverUrl, serverData) {
-          // Assets indexés par clé composite "serverUrl|assetId"
+          // Assets indexed by composite key "serverUrl|assetId"
           final Map<String, dynamic> assetsJson = serverData['assets'] ?? {};
           assetsJson.forEach((_, assetJson) {
             final asset = Asset.fromJson(assetJson);
             mapAsset["$serverUrl|${asset.id}"] = asset;
           });
 
-          // Offres avec serverUrl injecté
+          // Offers with serverUrl injected
           final List<dynamic> offersJson = serverData['offers'] ?? [];
           for (final data in offersJson) {
             listOffer.add(Offer.fromJson(data, serverUrl, serverData['serverName']));
@@ -172,14 +172,14 @@ class HomeServices {
         final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
 
         jsonMap.forEach((serverUrl, serverData) {
-          // Assets indexés par clé composite "serverUrl|assetId"
+          // Assets indexed by composite key "serverUrl|assetId"
           final Map<String, dynamic> assetsJson = serverData['assets'] ?? {};
           assetsJson.forEach((_, assetJson) {
             final asset = Asset.fromJson(assetJson);
             mapAsset["$serverUrl|${asset.id}"] = asset;
           });
 
-          // Offres avec serverUrl injecté
+          // Offers with serverUrl injected
           final List<dynamic> offersJson = serverData['offers'] ?? [];
           for (final data in offersJson) {
             listOffer.add(Offer.fromJson(data, serverUrl, serverData['serverName']));

@@ -45,7 +45,7 @@ class HomeNavigationProvider with ChangeNotifier {
   // Set a new value for _selectedIndex and call the function to change the focused page on screen
   void setIndexAndUpdateHeader(int index) {
     if (index == 0 && _selectedIndex == 0 ) {
-      _homeKey = UniqueKey(); // Change la clé pour recréer HomeScreen
+      _homeKey = UniqueKey(); // Change the key to recreate HomeScreen
     }
     _selectedIndex = index;
     _pageController.jumpToPage(index);
