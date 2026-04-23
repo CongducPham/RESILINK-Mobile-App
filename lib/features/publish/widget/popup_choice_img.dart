@@ -20,7 +20,7 @@ class PopupChoiceImg extends StatefulWidget {
 
 class _PopupChoiceImgState extends State<PopupChoiceImg> {
 
-  // ✅ Capture the navigator BEFORE the async operation to avoid
+  // Capture the navigator BEFORE the async operation to avoid
   // invalid context when returning from camera/gallery (SDK 35 / Android 15)
   Future<void> _pickFromCamera() async {
     final navigator = Navigator.of(context);
@@ -53,7 +53,7 @@ class _PopupChoiceImgState extends State<PopupChoiceImg> {
   }
 
   Future<void> _pickFromAssets(String assetKey) async {
-    // ✅ Capture both navigators (nested dialog + parent dialog)
+    // Capture both navigators (nested dialog + parent dialog)
     final innerNavigator = Navigator.of(context);
     widget.offerImgProvider.setImgWithDefaultImg(
       GlobalVariables.othersImage[assetKey]!,
@@ -122,7 +122,7 @@ class _PopupChoiceImgState extends State<PopupChoiceImg> {
 
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop(); // ✅ missing parentheses fixed
+                Navigator.of(context).pop();
                 _showAssetsDialog();
               },
               child: Text(
