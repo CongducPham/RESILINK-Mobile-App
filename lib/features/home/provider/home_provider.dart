@@ -52,8 +52,7 @@ class HomeProvider extends ChangeNotifier {
   bool get loadingAddingOfferToList => _loadingAddingOfferToList;
   GlobalKey<AnimatedListState> get listKey => _listKey;
 
-  // NEW: removes an offer from last offers + its asset in a single operation
-  // before notifying → avoids rebuild with an inconsistent list
+  // Removes an offer from last offers + its asset in a single operation
   void removeLastOffer(Offer offer) {
     final assetKey = "${offer.serverUrl}|${offer.assetId}";
     _lastOfferPublish.remove(offer);

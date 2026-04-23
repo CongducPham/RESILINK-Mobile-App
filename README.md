@@ -1,8 +1,18 @@
 # Resilink Mobile Application
 
+RESILINK (2022-2026) is a project funded by the PRIMA Programme supported by the European Union. The project web site is https://resilink.eu/
+
 A Flutter mobile application built as a functional POC for the **RESILINK platform** — a service exchange network designed for the agricultural sector in the Maghreb region (Morocco, Algeria, Egypt).
 
 The app enables farmers, producers, breeders, and rural workers to **offer, request, or share services, equipment, and skills** quickly and accessibly, even for users with limited literacy or limited familiarity with mobile apps.
+
+You can find all screenshots of the latest version of the RESILINK Mobile App here: https://resilink.eu/screenshots-of-the-resilink-mobile-app
+
+<p align="center">
+  <img src="assets/readme/screenshot_home.png" width="45%" />
+  &nbsp;&nbsp;
+  <img src="assets/readme/screenshot_publish.png" width="45%" />
+</p>
 
 ---
 

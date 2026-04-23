@@ -77,11 +77,6 @@ class AccountProvider with ChangeNotifier {
     homeNavigationProvider.setIndexAndUpdateHeader(2);
   }
 
-  // Checks whether an offer exists in the list of offers purchased with its id
-  bool checkOfferIsPurchased(int offerId) {
-    return _offerPurchased[offerId] != null;
-  }
-
   // Retrieves offers with user assets, displays a popup giving a timeout error if the server doesn't respond or an internal server error.
   Future<void> setLastOfferPublish(BuildContext context) async {
     // Set _finishFetchOffer to true to notify the parent calling the function that the function has run
@@ -100,41 +95,6 @@ class AccountProvider with ChangeNotifier {
         context: context,
         builder: (context) => AlertDialog(
           title: Text(AppLocalizations.of(context)!.problemSetOwnerOffer),
-          content: Text(e is TimeoutException
-              ? AppLocalizations.of(context)!.popupFailConnexionTimeout
-              : AppLocalizations.of(context)!.popupFailConnexionNoServer),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(AppLocalizations.of(context)!.textOk),
-            ),
-          ],
-        ),
-      );
-    }
-    notifyListeners();
-  }
-
-  // Retrieves purchased user offers with assets and contract, displays a popup giving a timeout error if the server doesn't respond or an internal server error.
-  Future<void> setOfferPurchased(BuildContext context) async {
-
-    // Set _finishFetchOffer to true to notify the parent calling the function that the function has run
-    _finishFetchPurchase = true;
-
-    /*
-     * Calls the fetching purchased user offers with assets and contract function, if an error occurs, displays a popup giving a timeout error if the server doesn't respond or an internal server error.
-     * set _loadingFetchPurchase to false to notify the parent calling the function that the function has finished
-     */
-    try {
-      await _accountServices.fetchOfferPurchasedWithAssetsContracts(_contractPurchased, _offerPurchased, _assetPurchased, context.read<MainProvider>().actualUser!.accessToken, context.read<MainProvider>().actualUser!.username);
-      // Set _loadingFetchPurchase to false to notify the parent calling the function that the function has finished
-      _loadingFetchPurchase = false;
-    } catch (e) {
-      _loadingFetchPurchase = false;
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(AppLocalizations.of(context)!.problemSetOwnerPurchased),
           content: Text(e is TimeoutException
               ? AppLocalizations.of(context)!.popupFailConnexionTimeout
               : AppLocalizations.of(context)!.popupFailConnexionNoServer),

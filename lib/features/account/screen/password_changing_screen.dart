@@ -41,7 +41,6 @@ class PasswordChangingState extends State<PasswordChanging> {
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 centerTitle: true,
-                // AppBar title → nothing to change ✅
                 title: Text(
                   AppLocalizations.of(context)!.passwordChanging,
                   style: const TextStyle(color: GlobalVariables.textHeaderColor),

@@ -193,7 +193,7 @@ class NewsPageProvider with ChangeNotifier {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("At least one field is empty"),
-          duration: Duration(seconds: 2), // Disappears after 2 seconds
+          duration: Duration(seconds: 2),
         ),
       );
     } else {

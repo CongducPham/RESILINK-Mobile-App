@@ -148,9 +148,6 @@ class AllOwnerBlockedOffersState extends State<AllOwnerBlockedOffers> {
                                                     parentContext: dialogContext,
                                                     function: null,
                                                     futureFunction: () async {
-                                                      // FIX: capture all necessary data
-                                                      // BEFORE Navigator.pop to no longer depend
-                                                      // on the dialogContext which will be destroyed
                                                       final int capturedIndex = index;
                                                       final Offer deletedOffer = homeProvider.blockedOffer[capturedIndex];
                                                       final Asset? deletedAsset = homeProvider.blockedOfferAssets["${deletedOffer.serverUrl}|${deletedOffer.assetId}"];

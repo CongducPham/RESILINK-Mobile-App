@@ -104,7 +104,6 @@ class OfferDetails extends StatelessWidget {
                               children: [
                                 Text(
                                   asset.name,
-                                  // titleMedium (16, w500) + override to w600 and color
                                   style: textTheme.titleMedium!.copyWith(
                                     fontWeight: FontWeight.w600,
                                     color: Colors.black87,
@@ -315,7 +314,6 @@ class OfferDetails extends StatelessWidget {
                                         children: [
                                           TextSpan(
                                             text: '${attr.attributeName}  ',
-                                            // bodyMedium (14) with override to 11
                                             style: textTheme.labelSmall!.copyWith(
                                               color: Colors.grey.shade500,
                                             ),
